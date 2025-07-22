@@ -19,6 +19,7 @@ ohos_cj_library("ohos.base") {
     "async_error.cj",
     "business_exception.cj",
     "callback_invoke.cj",
+    "cj_concurrency.cj",
     "collection.cj",
     "color.cj",
     "common_types.cj",
@@ -27,17 +28,18 @@ ohos_cj_library("ohos.base") {
     "main_context.cj",
     "resource.cj",
     "sync_callback.cj",
-    "cj_concurrency.cj",
   ]
 
   cj_external_deps = [
+    "cangjie_api:ohos.encoding.json",
     "cangjie_api:ohos.ffi",
     "cangjie_api:ohos.labels",
-    "cangjie_api:ohos.encoding.json",
     "hiviewdfx_cangjie_api:ohos.hilog",
   ]
 
   external_deps = [ "ace_engine:cj_frontend_ohos" ]
 
+  subsystem_name = "arkui"
+  part_name = "arkui_cangjie_api"
   lib_name = "base"
 }

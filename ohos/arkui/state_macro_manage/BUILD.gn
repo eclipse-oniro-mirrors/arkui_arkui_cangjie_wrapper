@@ -11,7 +11,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//build/ohos.gni")
 import("//build/cangjie/cjc.gni")
 
 cj_macro_library("arkui.state_macro_manage") {
@@ -43,11 +42,9 @@ cj_macro_library("arkui.state_macro_manage") {
     "cj_watch_define.cj",
   ]
 
-  cj_deps = [
-    "../../../encoding:ohos.json.static",
-  ]
-  compilation_config = "pipeline=NG"
-  subsystem_name = "arkcompiler"
-  part_name = "cangjie_api"
-}
+  cj_external_deps = [ "cangjie_api:ohos.json.static" ]
 
+  compilation_config = "pipeline=NG"
+  subsystem_name = "arkui"
+  part_name = "arkui_cangjie_api"
+}

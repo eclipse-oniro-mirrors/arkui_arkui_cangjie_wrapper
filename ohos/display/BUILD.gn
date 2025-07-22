@@ -11,7 +11,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//build/ohos.gni")
 import("//build/cangjie/cjc.gni")
 
 ohos_cj_library("ohos.display") {
@@ -22,17 +21,18 @@ ohos_cj_library("ohos.display") {
     "display.cj",
   ]
 
-  cj_deps = [
-    "../base:ohos.base",
-    "../../graphics/color_space_manager:ohos.graphics.color_space_manager",
-    "../../ffi_bind:ohos.ffi",
-    "../../hilog:ohos.hilog",
-    "../../labels:ohos.labels",
+  cj_deps = [ "../base:ohos.base" ]
+
+  cj_external_deps = [
+    "cangjie_api:ohos.ffi",
+    "cangjie_api:ohos.labels",
+    "graphic_cangjie_api:ohos.graphics.color_space_manager",
+    "hiviewdfx_cangjie_api:ohos.hilog",
   ]
 
-  external_deps = ["window_manager:cj_display_ffi"]
+  external_deps = [ "window_manager:cj_display_ffi" ]
 
-  subsystem_name = "arkcompiler"
-  part_name = "cangjie_api"
+  subsystem_name = "arkui"
+  part_name = "arkui_cangjie_api"
   lib_name = "display"
 }

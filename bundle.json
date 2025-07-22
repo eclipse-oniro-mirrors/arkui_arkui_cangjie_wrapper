@@ -31,7 +31,7 @@
         },
         "build": {
             "sub_component": [
-                "//foundation/arkui/arkui_cangjie_api/ohos/base:ohos.base"
+                "//foundation/arkui/arkui_cangjie_api:arkui_cangjie_api_package"
             ],
             "inner_kits": [
                 {

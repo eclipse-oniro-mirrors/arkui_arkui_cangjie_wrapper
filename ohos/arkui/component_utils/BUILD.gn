@@ -11,18 +11,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//build/ohos.gni")
 import("//build/cangjie/cjc.gni")
 
 ohos_cj_library("ohos.arkui.component_utils") {
   sources = [ "cj_component_utils.cj" ]
 
-  cj_deps = [
-    "../../base:ohos.base",
-    "../../../ffi_bind:ohos.ffi",
-    "../../../labels:ohos.labels",
+  cj_deps = [ "../../base:ohos.base" ]
+
+  cj_external_deps = [
+    "cangjie_api:ohos.ffi",
+    "cangjie_api:ohos.labels",
   ]
+
   external_deps = [ "ace_engine:cj_frontend_ohos" ]
   lib_name = "arkui.component_utils"
-}
 
+  subsystem_name = "arkui"
+  part_name = "arkui_cangjie_api"
+}

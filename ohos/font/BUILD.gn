@@ -11,7 +11,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//build/ohos.gni")
 import("//build/cangjie/cjc.gni")
 
 ohos_cj_library("ohos.font") {
@@ -20,14 +19,17 @@ ohos_cj_library("ohos.font") {
     "cj_font_api.cj",
   ]
 
-  cj_deps = [
-    "../base:ohos.base",
-    "../../hilog:ohos.hilog",
-    "../../global/resource:ohos.resource",
-    "../../labels:ohos.labels",
+  cj_deps = [ "../base:ohos.base" ]
+
+  cj_external_deps = [
+    "cangjie_api:ohos.labels",
+    "global_cangjie_api:ohos.resource",
+    "hiviewdfx_cangjie_api:ohos.hilog",
   ]
 
   external_deps = [ "ace_engine:cj_frontend_ohos" ]
 
+  subsystem_name = "arkui"
+  part_name = "arkui_cangjie_api"
   lib_name = "font"
 }

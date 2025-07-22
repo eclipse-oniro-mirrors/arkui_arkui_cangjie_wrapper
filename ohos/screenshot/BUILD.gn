@@ -11,22 +11,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//build/ohos.gni")
 import("//build/cangjie/cjc.gni")
 
 ohos_cj_library("ohos.screenshot") {
   sources = [ "cj_screenshot.cj" ]
 
-  cj_deps = [
-    "../base:ohos.base",
-    "../../graphics/color_space_manager:ohos.graphics.color_space_manager",
-    "../../ffi_bind:ohos.ffi",
-    "../../hilog:ohos.hilog",
-    "../../multimedia/image:ohos.multimedia.image",
-    "../../labels:ohos.labels",
+  cj_deps = [ "../base:ohos.base" ]
+
+  cj_external_deps = [
+    "cangjie_api:ohos.ffi",
+    "cangjie_api:ohos.labels",
+    "graphic_cangjie_api:ohos.graphics.color_space_manager",
+    "hiviewdfx_cangjie_api:ohos.hilog",
+    "multimedia_cangjie_api:ohos.multimedia.image",
   ]
 
   external_deps = [ "window_manager:cj_screenshot_ffi" ]
-
   lib_name = "screenshot"
+  subsystem_name = "arkui"
+  part_name = "arkui_cangjie_api"
 }
