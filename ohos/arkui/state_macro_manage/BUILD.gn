@@ -13,7 +13,7 @@
 
 import("//build/cangjie/cjc.gni")
 
-cj_macro_library("arkui.state_macro_manage") {
+cj_macro_library("ohos.arkui.state_macro_manage") {
   sources = [
     "cj_app_storage_define.cj",
     "cj_binder_define.cj",
