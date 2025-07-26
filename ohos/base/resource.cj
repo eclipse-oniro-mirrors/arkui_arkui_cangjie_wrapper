@@ -31,6 +31,16 @@ foreign {
 
 @!APILevel[
     12,
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public interface ResourceStr {
+    func toString(): String
+}
+
+extend String <: ResourceStr {}
+
+@!APILevel[
+    12,
     atomicservice: true,
     crossplatform: true,
     stagemodelonly: true,

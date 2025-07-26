@@ -76,15 +76,49 @@ foreign {
     func FfiOHOSAceFrameworkAlphabetIndexerOnPopupSelected(callback: Int64): Unit
 }
 
+/**
+ * Defines an AlphabetIndexer callback when onSelect.
+ *
+ * @typedef { function } OnAlphabetIndexerSelectCallback
+ * @param { Int64 } index - selected index
+ */
 public type OnAlphabetIndexerSelectCallback = (Int64) -> Unit
-public type OnAlphabetIndexerRequestPopupCallback = (Int64) -> Array<String>
+
+/**
+ * Defines an AlphabetIndexer callback when onRequestPopupData.
+ *
+ * @typedef { function } OnAlphabetIndexerRequestPopupDataCallback
+ * @param { Int64 } index - selected index
+ * @returns { Array<String> } string array corresponding to the index
+ */
+public type OnAlphabetIndexerRequestPopupDataCallback = (Int64) -> Array<String>
+
+/**
+ * Defines an AlphabetIndexer callback when onPopupSelect.
+ *
+ * @typedef { function } OnAlphabetIndexerPopupSelectCallback
+ * @param { Int64 } index - selected index
+ */
 public type OnAlphabetIndexerPopupSelectCallback = (Int64) -> Unit
 
+/**
+ * Defines AlphabetIndexer Component.
+ *
+ * @syscap SystemCapability.ArkUI.ArkUI.Full
+ */
 @!APILevel[
     12,
     syscap: "SystemCapability.ArkUI.ArkUI.Full"
 ]
 public class AlphabetIndexer <: ViewBase {
+    /**
+     * Construct the alphabet indexer component.
+     * Called when the alphabet indexer component is used.
+     *
+     * @param { Array<String> } arrayValue - Alphabetical index string array.
+     * @param { UInt32 } selected - ID of the selected item.
+     * @returns { AlphabetIndexer }
+     */
     @!APILevel[
         12,
         stagemodelonly: true,
@@ -103,6 +137,12 @@ public class AlphabetIndexer <: ViewBase {
         vecFfi.free()
     }
 
+    /**
+     * Definitions color.
+     *
+     * @param { ResourceColor } value
+     * @returns { This }
+     */
     @!APILevel[
         12,
         stagemodelonly: true,
@@ -115,6 +155,12 @@ public class AlphabetIndexer <: ViewBase {
         this
     }
 
+    /**
+     * Select the text color.
+     *
+     * @param { ResourceColor } value
+     * @returns { This }
+     */
     @!APILevel[
         12,
         stagemodelonly: true,
@@ -127,6 +173,12 @@ public class AlphabetIndexer <: ViewBase {
         this
     }
 
+    /**
+     * Font color of the pop-up prompt text.
+     *
+     * @param { ResourceColor } value
+     * @returns { This }
+     */
     @!APILevel[
         12,
         stagemodelonly: true,
@@ -139,6 +191,12 @@ public class AlphabetIndexer <: ViewBase {
         this
     }
 
+    /**
+     * Select the text background color.
+     *
+     * @param { ResourceColor } value
+     * @returns { This }
+     */
     @!APILevel[
         12,
         stagemodelonly: true,
@@ -151,6 +209,12 @@ public class AlphabetIndexer <: ViewBase {
         this
     }
 
+    /**
+     * Background color of the pop-up window index.
+     *
+     * @param { ResourceColor } value
+     * @returns { This }
+     */
     @!APILevel[
         12,
         stagemodelonly: true,
@@ -163,6 +227,12 @@ public class AlphabetIndexer <: ViewBase {
         this
     }
 
+    /**
+     * Whether to use pop-up index hints.
+     *
+     * @param { Bool } value
+     * @returns { This }
+     */
     @!APILevel[
         12,
         stagemodelonly: true,
@@ -175,6 +245,15 @@ public class AlphabetIndexer <: ViewBase {
         this
     }
 
+    /**
+     * Select the text text style,
+     *
+     * @param { Length } size
+     * @param { FontWeight } weight
+     * @param { ResourceStr } family
+     * @param { FontStyle } style
+     * @returns { This }
+     */
     @!APILevel[
         12,
         stagemodelonly: true,
@@ -183,13 +262,13 @@ public class AlphabetIndexer <: ViewBase {
     public func selectedFont(
         size!: Length = 10.vp,
         weight!: FontWeight = FontWeight.Normal,
-        family!: String = "HarmonyOS Sans",
+        family!: ResourceStr = "HarmonyOS Sans",
         style!: FontStyle = FontStyle.Normal
     ): This {
         var size_ = transAppResourceToLength(size)
         unsafe {
             try (weightCString = LibC.mallocCString(weight.getValue()).asResource(),
-                fontFamilyCString = LibC.mallocCString(family).asResource()) {
+                fontFamilyCString = LibC.mallocCString(family.toString()).asResource()) {
                 FfiOHOSAceFrameworkAlphabetIndexerSelectedFont(
                     size_.value,
                     size_.unitType.getValue(),
@@ -202,26 +281,15 @@ public class AlphabetIndexer <: ViewBase {
         this
     }
 
-    @!APILevel[
-        12,
-        stagemodelonly: true,
-        syscap: "SystemCapability.ArkUI.ArkUI.Full"
-    ]
-    public func selectedFont(
-        size!: Length = 10.vp,
-        weight!: FontWeight = FontWeight.Normal,
-        family!: AppResource,
-        style!: FontStyle = FontStyle.Normal
-    ): This {
-        selectedFont(
-            size: size,
-            weight: weight,
-            family: getResourceString(family),
-            style: style
-        )
-        this
-    }
-
+    /**
+     * Select the text background color.
+     *
+     * @param { Length } size
+     * @param { FontWeight } weight
+     * @param { ResourceStr } family
+     * @param { FontStyle } style
+     * @returns { This }
+     */
     @!APILevel[
         12,
         stagemodelonly: true,
@@ -230,13 +298,13 @@ public class AlphabetIndexer <: ViewBase {
     public func popupFont(
         size!: Length = 24.vp,
         weight!: FontWeight = FontWeight.Normal,
-        family!: String = "HarmonyOS Sans",
+        family!: ResourceStr = "HarmonyOS Sans",
         style!: FontStyle = FontStyle.Normal
     ): This {
         var size_ = transAppResourceToLength(size)
         unsafe {
             try (weightCString = LibC.mallocCString(weight.getValue()).asResource(),
-                fontFamilyCString = LibC.mallocCString(family).asResource()) {
+                fontFamilyCString = LibC.mallocCString(family.toString()).asResource()) {
                 FfiOHOSAceFrameworkAlphabetIndexerPopupFont(
                     size_.value,
                     size_.unitType.getValue(),
@@ -249,26 +317,15 @@ public class AlphabetIndexer <: ViewBase {
         this
     }
 
-    @!APILevel[
-        12,
-        stagemodelonly: true,
-        syscap: "SystemCapability.ArkUI.ArkUI.Full"
-    ]
-    public func popupFont(
-        size!: Length = 24.vp,
-        weight!: FontWeight = FontWeight.Normal,
-        family!: AppResource,
-        style!: FontStyle = FontStyle.Normal
-    ): This {
-        popupFont(
-            size: size,
-            weight: weight,
-            family: getResourceString(family),
-            style: style
-        )
-        this
-    }
-
+    /**
+     * Definitions fonts.
+     *
+     * @param { Length } size
+     * @param { FontWeight } weight
+     * @param { ResourceStr } family
+     * @param { FontStyle } style
+     * @returns { This }
+     */
     @!APILevel[
         12,
         stagemodelonly: true,
@@ -277,13 +334,13 @@ public class AlphabetIndexer <: ViewBase {
     public func font(
         size!: Length = 10.vp,
         weight!: FontWeight = FontWeight.Normal,
-        family!: String = "HarmonyOS Sans",
+        family!: ResourceStr = "HarmonyOS Sans",
         style!: FontStyle = FontStyle.Normal
     ): This {
         var size_ = transAppResourceToLength(size)
         unsafe {
             try (weightCString = LibC.mallocCString(weight.getValue()).asResource(),
-                fontFamilyCString = LibC.mallocCString(family).asResource()) {
+                fontFamilyCString = LibC.mallocCString(family.toString()).asResource()) {
                 FfiOHOSAceFrameworkAlphabetIndexerFont(
                     size_.value,
                     size_.unitType.getValue(),
@@ -296,63 +353,69 @@ public class AlphabetIndexer <: ViewBase {
         this
     }
 
+    /**
+     * Size of the letter area on the letter index bar. The letter area is a square. Set the length of the square side.
+     *
+     * @param { Length } value
+     * @returns { This }
+     */
     @!APILevel[
         12,
         stagemodelonly: true,
         syscap: "SystemCapability.ArkUI.ArkUI.Full"
     ]
-    public func font(
-        size!: Length = 10.vp,
-        weight!: FontWeight = FontWeight.Normal,
-        family!: AppResource,
-        style!: FontStyle = FontStyle.Normal
-    ): This {
-        font(
-            size: size,
-            weight: weight,
-            family: getResourceString(family),
-            style: style
-        )
-        this
-    }
-
-    @!APILevel[
-        12,
-        stagemodelonly: true,
-        syscap: "SystemCapability.ArkUI.ArkUI.Full"
-    ]
-    public func itemSize(size: Length): This {
-        var size_ = transAppResourceToLength(size)
+    public func itemSize(value: Length): This {
+        var size_ = transAppResourceToLength(value)
         unsafe {
             FfiOHOSAceFrameworkAlphabetIndexerItemSize(size_.value, size_.unitType.getValue())
         }
         this
     }
 
+    /**
+     * Alphabet index bar alignment style. The left and right alignment styles are supported,
+     * which affects the pop-up position of the pop-up window.
+     *
+     * @param { IndexerAlign } value - indicates the alignment style of Alphabet index.
+     * @returns { This }
+     */
     @!APILevel[
         12,
         stagemodelonly: true,
         syscap: "SystemCapability.ArkUI.ArkUI.Full"
     ]
-    public func alignStyle(align: IndexerAlign): This {
+    public func alignStyle(value: IndexerAlign): This {
         unsafe {
-            FfiOHOSAceFrameworkAlphabetIndexerAlignStyle(align.getValue())
+            FfiOHOSAceFrameworkAlphabetIndexerAlignStyle(value.getValue())
         }
         this
     }
 
+    /**
+     * Sets the selected index.
+     *
+     * @param { Int32 } index
+     * @returns { This }
+     */
     @!APILevel[
         12,
         stagemodelonly: true,
         syscap: "SystemCapability.ArkUI.ArkUI.Full"
     ]
-    public func selected(idx: Int32): This {
+    public func selected(index: Int32): This {
         unsafe {
-            FfiOHOSAceFrameworkAlphabetIndexerSelected(idx)
+            FfiOHOSAceFrameworkAlphabetIndexerSelected(index)
         }
         this
     }
 
+    /**
+     * Position of the pop-up windows, relative to the midpoint of the top border of the indexer bar.
+     *
+     * @param { Length } x
+     * @param { Length } y
+     * @returns { This }
+     */
     @!APILevel[
         12,
         stagemodelonly: true,
@@ -368,6 +431,13 @@ public class AlphabetIndexer <: ViewBase {
         this
     }
 
+    /**
+     * Index bar selection callback.
+     * Anonymous Object Rectification.
+     *
+     * @param { OnAlphabetIndexerSelectCallback } callback
+     * @returns { This }
+     */
     @!APILevel[
         12,
         stagemodelonly: true,
@@ -384,12 +454,19 @@ public class AlphabetIndexer <: ViewBase {
         this
     }
 
+    /**
+     * Index bar selection callback and return the strings which display on pop-up.
+     * Anonymous Object Rectification.
+     *
+     * @param { OnAlphabetIndexerRequestPopupDataCallback } callback
+     * @returns { This }
+     */
     @!APILevel[
         12,
         stagemodelonly: true,
         syscap: "SystemCapability.ArkUI.ArkUI.Full"
     ]
-    public func onRequestPopupData(callback: OnAlphabetIndexerRequestPopupCallback): This {
+    public func onRequestPopupData(callback: OnAlphabetIndexerRequestPopupDataCallback): This {
         let wrapper = {
             value: Int32 =>
             let arr = callback(Int64(value))
@@ -406,6 +483,13 @@ public class AlphabetIndexer <: ViewBase {
         this
     }
 
+    /**
+     * Pop-up selection callback.
+     * Anonymous Object Rectification.
+     *
+     * @param { OnAlphabetIndexerPopupSelectCallback } callback
+     * @returns { This }
+     */
     @!APILevel[
         12,
         stagemodelonly: true,
