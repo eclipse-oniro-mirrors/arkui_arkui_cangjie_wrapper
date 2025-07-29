@@ -31,7 +31,6 @@ ohos_cj_library("ohos.arkui.component.common") {
     "cj_view_base.cj",
     "cj_view_typedef.cj",
     "container_base.cj",
-    # "hybrid_component_base.cj"
   ]
 
   cj_deps = [

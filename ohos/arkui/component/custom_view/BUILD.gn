@@ -15,24 +15,16 @@ import("//build/cangjie/cjc.gni")
 
 ohos_cj_library("ohos.arkui.component.custom_view") {
   sources = [
-    #"custom_view.cj",
-    "hybrid_component_base.cj",
+    "remote_view.cj",
   ]
 
   cj_deps = [
-    "../common:ohos.arkui.component.common",
-    "../native_struct:ohos.arkui.component.native_struct",
-    "../remote_view:ohos.arkui.component.remote_view",
     "../../../base:ohos.base",
-    "../../state_management:ohos.arkui.state_management",
   ]
 
   cj_external_deps = [
     "cangjie_api:ohos.labels",
     "cangjie_api:ohos.ffi",
-    "cangjie_api:ohos.ark_interop",
-    "global_cangjie_api:ohos.resource",
-    "hiviewdfx_cangjie_api:ohos.hilog",
   ]
 
   subsystem_name = "arkui"

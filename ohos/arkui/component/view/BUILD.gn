@@ -27,7 +27,7 @@ ohos_cj_library("ohos.arkui.component.view") {
 
   cj_deps = [
     "../common:ohos.arkui.component.common",
-    "../remote_view:ohos.arkui.component.remote_view",
+    "../custom_view:ohos.arkui.component.custom_view",
     "../ifcomponent:ohos.arkui.component.ifcomponent",
     "../lazy_for_each:ohos.arkui.component.lazy_for_each",
     "../native_struct:ohos.arkui.component.native_struct",

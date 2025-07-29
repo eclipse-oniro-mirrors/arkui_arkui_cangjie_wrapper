@@ -21,8 +21,6 @@ import ohos.base.*
 import ohos.ffi.*
 import ohos.labels.APILevel
 
-public type VectorNativeTextShadow = CPointer<Unit>
-
 @!APILevel[
     12,
     stagemodelonly: true,
@@ -865,4 +863,103 @@ protected func parseOffset(offset: Offset): NativeOffset {
             offset.dy.unitType.getValue()
         )
     )
+}
+
+
+@!APILevel[
+    12,
+    stagemodelonly: true,
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public class ExpectedFrameRateRange {
+    @!APILevel[
+        12,
+        stagemodelonly: true,
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var min: Int32
+    @!APILevel[
+        12,
+        stagemodelonly: true,
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var max: Int32
+    @!APILevel[
+        12,
+        stagemodelonly: true,
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var expected: Int32
+
+    @!APILevel[
+        12,
+        stagemodelonly: true,
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public init(
+        min!: Int32,
+        max!: Int32,
+        expected!: Int32
+    ) {
+        this.min = min
+        this.max = max
+        this.expected = expected
+    }
+}
+
+@!APILevel[
+    12,
+    stagemodelonly: true,
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public class AlignRuleOption {
+    @!APILevel[
+        12,
+        stagemodelonly: true,
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public AlignRuleOption(
+        @!APILevel[
+            12,
+            stagemodelonly: true,
+            syscap: "SystemCapability.ArkUI.ArkUI.Full"
+        ]
+        public var left!: ?HorizontalAnchor = None,
+        @!APILevel[
+            12,
+            stagemodelonly: true,
+            syscap: "SystemCapability.ArkUI.ArkUI.Full"
+        ]
+        public var right!: ?HorizontalAnchor = None,
+        @!APILevel[
+            12,
+            stagemodelonly: true,
+            syscap: "SystemCapability.ArkUI.ArkUI.Full"
+        ]
+        public var middle!: ?HorizontalAnchor = None,
+        @!APILevel[
+            12,
+            stagemodelonly: true,
+            syscap: "SystemCapability.ArkUI.ArkUI.Full"
+        ]
+        public var top!: ?VerticalAnchor = None,
+        @!APILevel[
+            12,
+            stagemodelonly: true,
+            syscap: "SystemCapability.ArkUI.ArkUI.Full"
+        ]
+        public var bottom!: ?VerticalAnchor = None,
+        @!APILevel[
+            12,
+            stagemodelonly: true,
+            syscap: "SystemCapability.ArkUI.ArkUI.Full"
+        ]
+        public var center!: ?VerticalAnchor = None,
+        @!APILevel[
+            12,
+            stagemodelonly: true,
+            syscap: "SystemCapability.ArkUI.ArkUI.Full"
+        ]
+        public var bias!: ?Bias = None
+    ) {}
 }

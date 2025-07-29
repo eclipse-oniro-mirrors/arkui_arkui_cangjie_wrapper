@@ -17,7 +17,7 @@ package ohos.arkui.component.view
 
 import ohos.arkui.component.common.*
 import ohos.arkui.component.ifcomponent.*
-import ohos.arkui.component.remote_view.*
+import ohos.arkui.component.custom_view.*
 import ohos.arkui.state_management.*
 import ohos.base.*
 import ohos.ffi.*

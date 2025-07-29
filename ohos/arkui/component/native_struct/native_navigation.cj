@@ -17,6 +17,8 @@ protected package ohos.arkui.component.native_struct
 
 import ohos.base.*
 
+protected type VectorNavigationItemHandle = CPointer<Unit>
+
 @C
 protected struct CJNavPathInfo {
     protected CJNavPathInfo(

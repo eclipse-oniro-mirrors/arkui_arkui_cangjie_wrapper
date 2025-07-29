@@ -6704,47 +6704,6 @@ public enum FinishCallbackType {
     stagemodelonly: true,
     syscap: "SystemCapability.ArkUI.ArkUI.Full"
 ]
-public class ExpectedFrameRateRange {
-    @!APILevel[
-        12,
-        stagemodelonly: true,
-        syscap: "SystemCapability.ArkUI.ArkUI.Full"
-    ]
-    public var min: Int32
-    @!APILevel[
-        12,
-        stagemodelonly: true,
-        syscap: "SystemCapability.ArkUI.ArkUI.Full"
-    ]
-    public var max: Int32
-    @!APILevel[
-        12,
-        stagemodelonly: true,
-        syscap: "SystemCapability.ArkUI.ArkUI.Full"
-    ]
-    public var expected: Int32
-
-    @!APILevel[
-        12,
-        stagemodelonly: true,
-        syscap: "SystemCapability.ArkUI.ArkUI.Full"
-    ]
-    public init(
-        min!: Int32,
-        max!: Int32,
-        expected!: Int32
-    ) {
-        this.min = min
-        this.max = max
-        this.expected = expected
-    }
-}
-
-@!APILevel[
-    12,
-    stagemodelonly: true,
-    syscap: "SystemCapability.ArkUI.ArkUI.Full"
-]
 public enum BlurStyle {
     @!APILevel[
         12,

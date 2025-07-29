@@ -15,6 +15,8 @@
 
 protected package ohos.arkui.component.native_struct
 
+protected type VectorNativeTextShadow = CPointer<Unit>
+
 @C
 protected struct NativeTextShadowV2 {
     let radius: Float64

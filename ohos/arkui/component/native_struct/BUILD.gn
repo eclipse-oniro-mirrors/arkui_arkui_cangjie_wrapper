@@ -37,7 +37,7 @@ ohos_cj_library("ohos.arkui.component.native_struct") {
   ]
 
   cj_deps = [
-    "../remote_view:ohos.arkui.component.remote_view",
+    "../custom_view:ohos.arkui.component.custom_view",
     "../../../base:ohos.base",
   ]
 

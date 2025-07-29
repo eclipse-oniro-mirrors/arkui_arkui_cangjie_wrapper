@@ -158,8 +158,6 @@ foreign {
     func FFICJCommonVectorNavigationItemGetSize(vec: VectorNavigationItemHandle): Int64
 }
 
-protected type VectorNavigationItemHandle = CPointer<Unit>
-
 protected class FFIVectorNavigationItem {
     private let vecHandle: VectorNavigationItemHandle
 

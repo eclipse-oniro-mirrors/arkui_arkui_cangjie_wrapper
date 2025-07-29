@@ -126,7 +126,6 @@ ohos_cj_library("ohos.arkui.component") {
     "save_button:ohos.arkui.component.save_button",
     "search:ohos.arkui.component.search",
     "ifcomponent:ohos.arkui.component.ifcomponent",
-    "remote_view:ohos.arkui.component.remote_view",
   ]
 
   subsystem_name = "arkui"

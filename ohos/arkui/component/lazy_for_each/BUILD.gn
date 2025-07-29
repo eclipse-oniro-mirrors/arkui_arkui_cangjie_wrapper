@@ -16,12 +16,10 @@ import("//build/cangjie/cjc.gni")
 ohos_cj_library("ohos.arkui.component.lazy_for_each") {
   sources = [
     "cj_data_source.cj",
-    # "lazy_for_each.cj"
   ]
 
   cj_deps = [
     "../common:ohos.arkui.component.common",
-    # "../view:ohos.arkui.component.view",
     "../native_struct:ohos.arkui.component.native_struct",
     "../../../base:ohos.base",
   ]
