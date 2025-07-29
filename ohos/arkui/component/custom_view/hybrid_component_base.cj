@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-package ohos.arkui.component
-
+package ohos.arkui.component.custom_view
+/*
 import ohos.hilog.*
 import ohos.ark_interop.*
 import std.collection.HashMap
@@ -93,3 +93,4 @@ public open class HybridComponentBase <: SharedObject {
         registerUnloadHandle(compName + "_unload", unloadHandle)
     }
 }
+*/

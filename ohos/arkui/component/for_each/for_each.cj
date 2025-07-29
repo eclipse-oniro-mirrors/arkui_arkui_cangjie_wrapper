@@ -13,7 +13,14 @@
  * limitations under the License.
  */
 
-package ohos.arkui.component
+package ohos.arkui.component.for_each
+/*
+import ohos.arkui.component.native_struct.*
+import ohos.arkui.component.common.*
+import ohos.arkui.component.lazy_for_each.*
+import ohos.base.*
+import ohos.labels.APILevel
+import std.collection.ArrayList
 
 @C
 struct SetIdResultFFI {
@@ -257,3 +264,4 @@ public class ForEach <: ComponentRender {
         }
     }
 }
+*/
