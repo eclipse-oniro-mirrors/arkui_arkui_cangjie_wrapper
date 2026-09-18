@@ -829,6 +829,6 @@ public abstract class CustomView <: RemoteView & Observer {
         syscap: "SystemCapability.ArkUI.ArkUI.Full"
     ]
     public func getUIContext(): UIContext {
-        UIContext(nativeView_inner__.getID())
+        UIContext(Int64(nativeView_inner__.getInstanceId()))
     }
 }

@@ -17,7 +17,7 @@
 
 package ohos.arkui.component.text_field
 
-import ohos.arkui.component.common.{BorderStyle, EnterKeyType, TextAlign, FontWeight, FontStyle, TextInputStyle, EdgeWidths}
+import ohos.arkui.component.common.{BorderStyle, EnterKeyType, TextAlign, FontWeight, FontStyle, TextInputStyle, EdgeWidths, TextOverflow, EllipsisMode}
 import ohos.arkui.component.native_struct.{CJBorderRadius, CJEdge, CJBorder}
 import ohos.arkui.component.util.{transAppResourceToLength, transAppResourceToResourceColor, getLengthUnitOrFp, lessNotEqual, LENGTH_PERCENT}
 import ohos.base.{Length, ResourceColor, CStringExtend, APP_LOG, Color, LengthProp}
@@ -136,7 +136,23 @@ foreign {
 
     func FfiOHOSAceFrameworkTextFieldSetTextIndent(value: Float64, unit: Int32): Unit
 
+    func FfiOHOSAceFrameworkTextFieldSetTextIndentV2(value: Float64, unit: Int32): Unit
+
+    func FfiOHOSAceFrameworkTextFieldResetTextIndent(): Unit
+
     func FfiOHOSAceFrameworkTextFieldSetTextOverflow(value: Int32): Unit
+
+    func FfiOHOSAceFrameworkTextFieldSetTextOverflowV2(value: Int32): Unit
+
+    func FfiOHOSAceFrameworkTextFieldResetTextOverflow(): Unit
+
+    func FfiOHOSAceFrameworkTextFieldSetEllipsisMode(value: Int32): Unit
+
+    func FfiOHOSAceFrameworkTextFieldResetEllipsisMode(): Unit
+
+    func FfiOHOSAceFrameworkTextFieldSetHalfLeading(value: Bool): Unit
+
+    func FfiOHOSAceFrameworkTextFieldResetHalfLeading(): Unit
 
     func FfiOHOSAceFrameworkTextFieldSetEnablePreviewText(value: Bool): Unit
 
@@ -557,6 +573,49 @@ protected class TextField {
     protected static func maxLines(value: Int32): Unit {
         unsafe {
             FfiOHOSAceFrameworkTextFieldSetMaxLines(value)
+        }
+    }
+
+    protected static func textIndent(value: ?Length): Unit {
+        if (let Some(v) <- value) {
+            let value_ = transAppResourceToLength(v)
+            unsafe {
+                FfiOHOSAceFrameworkTextFieldSetTextIndentV2(value_.value, value_.unitType.getValue())
+            }
+        } else {
+            unsafe {
+                FfiOHOSAceFrameworkTextFieldResetTextIndent()
+            }
+        }
+    }
+
+    protected static func textOverflow(value: ?TextOverflow): Unit {
+        unsafe {
+            if (let Some(v) <- value) {
+                FfiOHOSAceFrameworkTextFieldSetTextOverflowV2(v.getValue())
+            } else {
+                FfiOHOSAceFrameworkTextFieldResetTextOverflow()
+            }
+        }
+    }
+
+    protected static func ellipsisMode(mode: ?EllipsisMode): Unit {
+        unsafe {
+            if (let Some(v) <- mode) {
+                FfiOHOSAceFrameworkTextFieldSetEllipsisMode(v.getValue())
+            } else {
+                FfiOHOSAceFrameworkTextFieldResetEllipsisMode()
+            }
+        }
+    }
+
+    protected static func halfLeading(value: ?Bool): Unit {
+        unsafe {
+            if (let Some(v) <- value) {
+                FfiOHOSAceFrameworkTextFieldSetHalfLeading(v)
+            } else {
+                FfiOHOSAceFrameworkTextFieldResetHalfLeading()
+            }
         }
     }
 

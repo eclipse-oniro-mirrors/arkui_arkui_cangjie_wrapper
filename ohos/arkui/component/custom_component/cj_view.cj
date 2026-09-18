@@ -60,6 +60,8 @@ foreign {
     func FFICJVectorCJInt64Delete(vec: VectorCJInt64Handle): Unit
 
     func FfiOHOSAceFrameworkNativeViewGetUINodeId(nativeViewId: Int64): Int32
+
+    func FfiOHOSAceFrameworkNativeViewGetInstanceId(nativeViewId: Int64): Int32
 }
 
 protected class View <: RemoteData {
@@ -97,6 +99,10 @@ protected class View <: RemoteData {
 
     func getElementId(): Int32 {
         unsafe { FfiOHOSAceFrameworkNativeViewGetUINodeId(getID()) }
+    }
+
+    func getInstanceId(): Int32 {
+        unsafe { FfiOHOSAceFrameworkNativeViewGetInstanceId(getID()) }
     }
 
     protected func markNeedUpdate(): Unit {

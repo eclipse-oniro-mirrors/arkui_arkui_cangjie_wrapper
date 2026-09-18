@@ -45,6 +45,7 @@ public class UIContext {
     private var font: ?Font = None
     private var router: ?Router = None
     private var contextMenuCtrl: ?ContextMenuController = None
+    private var componentSnapshot: ?ComponentSnapshot = None
     protected init(instanceId: Int64) {
         this.instanceId = instanceId
     }
@@ -229,6 +230,23 @@ public class UIContext {
         }
         contextMenuCtrl = ContextMenuController(this.instanceId)
         return contextMenuCtrl.getOrThrow()
+    }
+
+    /**
+     * Get ComponentSnapshot.
+     *
+     * @returns { ComponentSnapshot } the ComponentSnapshot.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public func getComponentSnapshot(): ComponentSnapshot {
+        if (let Some(v) <- this.componentSnapshot) {
+            return v
+        }
+        this.componentSnapshot = ComponentSnapshot(this.instanceId)
+        return this.componentSnapshot.getOrThrow()
     }
 
     /**
