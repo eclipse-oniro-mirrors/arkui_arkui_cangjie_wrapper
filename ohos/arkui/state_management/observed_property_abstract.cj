@@ -85,7 +85,9 @@ public abstract class ObservedPropertyAbstract <: Observable {
         if (elmtId < 0) {
             return
         }
-        dependentElementIds_.add(elmtId)
+        if (!dependentElementIds_.contains(elmtId)) {
+            dependentElementIds_.add(elmtId)
+        }
         if (getStateProfilerStatus()) {
             let ownerId = profilerDependencyCurrentObserver()
             if (ownerId >= 0) {

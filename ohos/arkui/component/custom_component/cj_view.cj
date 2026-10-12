@@ -63,6 +63,8 @@ foreign {
 }
 
 protected class View <: RemoteData {
+    protected var isDestroyed_inner__: Bool = false
+
     protected static func create(view: View): Unit {
         unsafe {
             FfiOHOSAceFrameworkNativeViewCreate(view.getID())

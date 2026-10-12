@@ -375,6 +375,9 @@ public abstract class CustomView <: RemoteView & Observer {
     ]
     @!Hide
     public func observeComponentCreation(compilerAssignedUpdateFunc: UpdateFuncNew): Unit {
+        if (nativeView_inner__.isDestroyed_inner__) {
+            return
+        }
         let elmtId = ViewStackProcessor.allocateNewElmetIdForNextComponent()
         profilerRegisterViewElementId(this.id(), nativeView_inner__.getElementId())
         ViewStackProcessor.startGetAccessRecordingFor(elmtId)
@@ -689,9 +692,6 @@ public abstract class CustomView <: RemoteView & Observer {
     protected func markLazyForEachProcess(groupId: String): Unit {
         isLazyForEachProcess_inner__ = true
         lazyGroupId_inner__ = groupId
-        if (!lazyGroups_inner__.contains(groupId)) {
-            lazyGroups_inner__.add(groupId, ArrayList<String>())
-        }
     }
 
     @!Hide
@@ -768,6 +768,7 @@ public abstract class CustomView <: RemoteView & Observer {
 
     @!Hide
     protected func aboutToBeDeletedInternal(): Unit {
+        this.nativeView_inner__.isDestroyed_inner__ = true
         this.purgeDeletedElmtIds()
 
         this.updateFuncByElmtId_inner__.clear()

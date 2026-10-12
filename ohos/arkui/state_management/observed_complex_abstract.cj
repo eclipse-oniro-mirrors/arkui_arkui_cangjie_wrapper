@@ -65,7 +65,9 @@ public abstract class ObservedComplexAbstract <: Observable {
         if (elmtId < 0) {
             return
         }
-        dependentElementIds_.add(elmtId)
+        if (!dependentElementIds_.contains(elmtId)) {
+            dependentElementIds_.add(elmtId)
+        }
         ()
     }
 
