@@ -3142,4 +3142,107 @@ protected open class CommonMethodComponent<T> <: UINodeBase & CommonMethod<T> {
         }
         (this as T) ?? throw BusinessException(100001, "Internal error.")
     }
+
+    /**
+     * Sets the background image resizable.
+     *
+     * @param { ?ResizableOptions } value - Indicates the resizable options.
+     * @returns { T } The instance of the component.
+     * @throws { BusinessException } 100001 - Internal error.
+     */
+    public func backgroundImageResizable(value: ?ResizableOptions): T {
+        backgroundImageResizableInner(value)
+    }
+
+    protected open func backgroundImageResizableInner(value: ?ResizableOptions): T {
+        if (let Some(options) <- value) {
+            if (let Some(v) <- options.slice) {
+                unsafe {
+                    FfiOHOSAceFrameworkViewAbstractSetBackgroundImageResizable(
+                        CJEdge((v.top ?? 0.vp).value, (v.top ?? 0.vp).unitType.getValue(),
+                            (v.right ?? 0.vp).value, (v.right ?? 0.vp).unitType.getValue(),
+                            (v.bottom ?? 0.vp).value, (v.bottom ?? 0.vp).unitType.getValue(),
+                            (v.left ?? 0.vp).value, (v.left ?? 0.vp).unitType.getValue()))
+                }
+            }
+        }
+        (this as T) ?? throw BusinessException(100001, "Internal error.")
+    }
+
+    /**
+     * Sets the hit test mode for a component. If hitTestBehavior is not set, the component defaults to
+     * HitTestMode.Default.
+     *
+     * @param { ?HitTestMode } value - Hit test mode for a component.
+     * @returns { T } The instance of the component.
+     * @throws { BusinessException } 100001 - Internal error.
+     */
+    public func hitTestBehavior(value: ?HitTestMode): T {
+        hitTestBehaviorInner(value)
+    }
+
+    protected open func hitTestBehaviorInner(value: ?HitTestMode): T {
+        if (let Some(v) <- value) {
+            unsafe {
+                FfiOHOSAceFrameworkViewAbstractHitTestBehavior(v.getValue())
+            }
+        }
+        (this as T) ?? throw BusinessException(100001, "Internal error.")
+    }
+
+    /**
+     * Sets the hover effect for the component. When no hover effect is specified, the component uses the default
+     * HoverEffect.Auto effect. For components with hover effects applied, the hover effect is hidden when the mouse
+     * hovers and presses down on the component, and restored when the mouse button is released.
+     *
+     * @param { ?HoverEffect } value - Hover effect of the component.
+     * @returns { T } The instance of the component.
+     * @throws { BusinessException } 100001 - Internal error.
+     */
+    public func hoverEffect(value: ?HoverEffect): T {
+        hoverEffectInner(value)
+    }
+
+    protected open func hoverEffectInner(value: ?HoverEffect): T {
+        if (let Some(v) <- value) {
+            unsafe {
+                FfiOHOSAceFrameworkViewAbstractHoverEffect(v.getValue())
+            }
+        }
+        (this as T) ?? throw BusinessException(100001, "Internal error.")
+    }
+
+    /**
+     * Allows the current component to customize the hit test and control child component behavior during the test by
+     * setting a callback.
+     * NOTE: The array of child node information only includes information about named nodes, that is, nodes for
+     * which the id attribute is explicitly set.
+     *
+     * @param { ?(Array<TouchTestInfo>) -> TouchResult } callback - Touch event information. The value is an array of
+     *   child node information.
+     * @returns { T } The instance of the component.
+     * @throws { BusinessException } 100001 - Internal error.
+     */
+    public func onChildTouchTest(callback: ?(Array<TouchTestInfo>) -> TouchResult): T {
+        onChildTouchTestInner(callback)
+    }
+
+    protected open func onChildTouchTestInner(callback: ?(Array<TouchTestInfo>) -> TouchResult): T {
+        let tmpCallback = callback ?? { _ => TouchResult(TouchTestStrategy.Default) }
+        let wrapper = {
+            handle: VectorCPointerTouchTestInfoHandle =>
+            let vecHandle = FFIVectorTouchTestInfo(handle)
+            let arr: Array<TouchTestInfo> = Array<TouchTestInfo>(vecHandle.getSize()) {
+                i => parseTouchTestInfo(vecHandle.getElement(i))
+            }
+            let touchResult = tmpCallback(arr)
+            vecHandle.free()
+            return touchResult.parseToNative()
+        }
+        let lambdaTouchTest = Callback1Param<VectorCPointerTouchTestInfoHandle, CTouchResult>(wrapper)
+        unsafe {
+            FfiOHOSAceFrameworkInteractableOnChildTouchTest(lambdaTouchTest.getID())
+        }
+        (this as T) ?? throw BusinessException(100001, "Internal error.")
+    }
 }

@@ -8325,3 +8325,190 @@ public enum TextAreaType {
         }
     }
 }
+
+/**
+ * Event dispatch strategy.
+ */
+@Derive[Equatable]
+@!APILevel[
+    since: "26.1.0",
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public enum TouchTestStrategy {
+    /**
+     * Custom dispatch has no effect; the system dispatches events based on the hit status of the current node.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    Default
+    |
+    /**
+     * The event is dispatched to a specified child node, and the system determines whether to dispatch events to other sibling nodes.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    ForwardCompetition
+    |
+    /**
+     * The event is dispatched to a specified child node, and the system will not dispatch events to other sibling nodes.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    Forward
+    | ...
+
+    protected func getValue(): Int32 {
+        match (this) {
+            case Default => 0
+            case ForwardCompetition => 1
+            case Forward => 2
+            case _ => throw BusinessException(100001, "Internal error.")
+        }
+    }
+}
+
+/**
+ * Sets the response logic and node blocking rules for the hit test.
+ * NOTE: When multiple nodes in a Stack component have overlapping touch areas, if the touch point hits a child component of the topmost node,
+ * only the topmost node will undergo hit testing by default.
+ * In this case, touch testing for lower-layer nodes can only be triggered by setting the hitTestBehavior of the topmost node to HitTestMode.Transparent.
+ */
+@Derive[Equatable]
+@!APILevel[
+    since: "26.1.0",
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public enum HitTestMode {
+    /**
+     * Default hit test mode. The node itself and its child nodes respond to the hit test, but block the hit test of sibling nodes.
+     * It does not affect the hit test of ancestor nodes.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    Default
+    |
+    /**
+     * The node itself responds to the hit test and blocks the hit test of child nodes, sibling nodes, and ancestor nodes.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    Block
+    |
+    /**
+     * Both the node itself and its child nodes respond to the hit test and do not block the hit test of sibling nodes and ancestor nodes.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    Transparent
+    |
+    /**
+     * The node itself does not respond to the hit test and does not block the hit test of child nodes, sibling nodes, and ancestor nodes.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    None
+    |
+    /**
+     * The node itself and its child nodes respond to the hit test,
+     * preventing all sibling nodes and parent nodes with lower priority from participating in the hit test.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    BlockHierarchy
+    |
+    /**
+     * The node itself does not respond to the hit test, and all its descendants (children, grandchildren, and more) also do not respond to the hit test.
+     * It does not affect the hit test of ancestor nodes.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    BlockDescendants
+    | ...
+
+    protected func getValue(): Int32 {
+        match (this) {
+            case Default => 0
+            case Block => 1
+            case Transparent => 2
+            case None => 3
+            case BlockHierarchy => 4
+            case BlockDescendants => 5
+            case _ => throw BusinessException(100001, "Internal error.")
+        }
+    }
+}
+
+/**
+ * Sets the hover effect of the component.
+ */
+@Derive[Equatable]
+@!APILevel[
+    since: "26.1.0",
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public enum HoverEffect {
+    /**
+     * Default hover effect.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    Auto
+    |
+    /**
+     * Zoom-in and zoom-out effect.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    Scale
+    |
+    /**
+     * Background fade-in and fade-out effect.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    Highlight
+    |
+    /**
+     * No effect.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    None
+    | ...
+
+    protected func getValue(): Int32 {
+        match (this) {
+            case None => 0
+            case Scale => 2
+            case Highlight => 3
+            case Auto => 4
+            case _ => throw BusinessException(100001, "Internal error.")
+        }
+    }
+}

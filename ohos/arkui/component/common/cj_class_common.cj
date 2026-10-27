@@ -19,7 +19,7 @@ package ohos.arkui.component.common
 
 import ohos.arkui.component.native_struct.{CBorderRadiuses, NativeActionSheetShadowOptions, NativeTextShadowV2, NativeEdgeStyles,NativeAnimateParam}
 import ohos.arkui.component.util.{transAppResourceToLength, transResourceStrToString, transAppResourceToResourceColor}
-import ohos.base.{Length, ResourceStr, ResourceColor, NativeOffset, Color, NativeOptionInt32, NativeOptionFloat32, NativeOptionCallBack, NativeOptionCString, NativeLength, LengthProp}
+import ohos.base.{Length, ResourceStr, ResourceColor, NativeOffset, Color, NativeOptionInt32, NativeOptionFloat32, NativeOptionCallBack, NativeOptionCString, NativeLength, LengthProp, ExternalString}
 import ohos.ffi.{Callback0Param}
 import ohos.business_exception.BusinessException
 import ohos.labels.{APILevel}
@@ -1578,4 +1578,251 @@ public class Bindable<T> {
 ]
 public interface TextContentControllerBase {
 
+}
+
+/**
+ * Defines the custom event dispatch result. You can influence event dispatch by returning specific results.
+ */
+@!APILevel[
+    since: "26.1.0",
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public class TouchResult {
+    /**
+     * Event dispatch strategy.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var strategy: TouchTestStrategy
+
+    /**
+     * Unique ID of the child component.
+     * If strategy is set to TouchTestStrategy.Default, id is optional.
+     * If strategy is set to TouchTestStrategy.ForwardCompetition or TouchTestStrategy.Forward, id is mandatory.
+     * If id is not returned, the strategy TouchTestStrategy.Default is used.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var id: ?String
+
+    /**
+     * TouchResult constructor.
+     *
+     * @param { TouchTestStrategy } strategy - Event dispatch strategy.
+     * @param { ?String } [id] - Unique ID of the child component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public init(strategy: TouchTestStrategy, id!: ?String = None) {
+        this.strategy = strategy
+        this.id = id
+    }
+
+    func parseToNative(): CTouchResult {
+        return CTouchResult(
+            strategy.getValue(),
+            ExternalString(id ?? "")
+        )
+    }
+}
+
+/**
+ * Describes the position, width, and height of a component.
+ */
+@!APILevel[
+    since: "26.1.0",
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public class ComponentRect {
+    /**
+     * X-coordinate, in vp.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var x: Float64
+
+    /**
+     * Y-coordinate, in vp.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var y: Float64
+
+    /**
+     * Content width, in vp.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var width: Float64
+
+    /**
+     * Content height, in vp.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var height: Float64
+
+    protected init(
+        x: Float64,
+        y: Float64,
+        width: Float64,
+        height: Float64
+    ) {
+        this.x = x
+        this.y = y
+        this.width = width
+        this.height = height
+    }
+}
+
+/**
+ * Provides information about the coordinate system, ID, and size of the component where the current touch point is located.
+ */
+@!APILevel[
+    since: "26.1.0",
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public class TouchTestInfo {
+    /**
+     * X-coordinate of the touch point relative to the upper left corner of the window. Unit: vp.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var windowX: Float64
+
+    /**
+     * Y-coordinate of the touch point relative to the upper left corner of the window. Unit: vp.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var windowY: Float64
+
+    /**
+     * X-coordinate of the touch point relative to the upper left corner of the parent component. Unit: vp.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var parentX: Float64
+
+    /**
+     * Y-coordinate of the touch point relative to the upper left corner of the parent component. Unit: vp.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var parentY: Float64
+
+    /**
+     * X-coordinate of the touch point relative to the upper left corner of the child component. Unit: vp.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var x: Float64
+
+    /**
+     * Y-coordinate of the touch point relative to the upper left corner of the child component. Unit: vp.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var y: Float64
+
+    /**
+     * Position, width, and height of the child component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var rect: ComponentRect
+
+    /**
+     * Unique ID of the child component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var id: String
+
+    protected init(
+        windowX: Float64,
+        windowY: Float64,
+        parentX: Float64,
+        parentY: Float64,
+        x: Float64,
+        y: Float64,
+        rect: ComponentRect,
+        id: String
+    ) {
+        this.windowX = windowX
+        this.windowY = windowY
+        this.parentX = parentX
+        this.parentY = parentY
+        this.x = x
+        this.y = y
+        this.rect = rect
+        this.id = id
+    }
+}
+
+/**
+ * Defines the resizable image options.
+ */
+@!APILevel[
+    since: "26.1.0",
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public class ResizableOptions {
+    /**
+     * Edge widths in different directions of a component.
+     * NOTE: This attribute takes effect only when both bottom and right are greater than 0.
+     * When top is set, the top part of the image is stretched while the pixel values of the image remain unchanged.
+     * When right is set, the right part of the image is stretched while the pixel values of the image remain unchanged.
+     * When bottom is set, the bottom part of the image is stretched while the pixel values of the image remain unchanged.
+     * When left is set, the left part of the image is stretched while the pixel values of the image remain unchanged.
+     * The default width of each direction is 0. The default unit is vp.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var slice: ?EdgeWidths
+
+    /**
+     * ResizableOptions constructor.
+     *
+     * @param { ?EdgeWidths } slice - Edge widths in different directions of a component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public init(slice!: ?EdgeWidths) {
+        this.slice = slice
+    }
 }

@@ -17,12 +17,34 @@
 
 package ohos.arkui.component.common
 
-import ohos.arkui.component.native_struct.{NativeRectangle, CJEventTarget, CJPosition, CJClickEvent, CJArea}
-import ohos.base.{VectorStringHandle, VectorFloat64Handle}
+import ohos.arkui.component.native_struct.{NativeRectangle, CJEventTarget, CJPosition, CJClickEvent, CJArea, RectResultParams}
+import ohos.base.{VectorStringHandle, VectorFloat64Handle, ExternalString}
 import std.collection.ArrayList
 import ohos.business_exception.BusinessException
 
 type VectorCPointerTouchTestInfoHandle = CPointer<Unit>
+
+@C
+struct CJTouchTestInfo {
+    CJTouchTestInfo(
+        let windowX: Float32,
+        let windowY: Float32,
+        let parentX: Float32,
+        let parentY: Float32,
+        let x: Float32,
+        let y: Float32,
+        let rect: RectResultParams,
+        let id: ExternalString
+    ) {}
+}
+
+@C
+struct CTouchResult {
+    CTouchResult(
+        let strategy: Int32,
+        let id: ExternalString
+    ) {}
+}
 
 foreign {
     func FfiDragEventGetResult(ptr: CPointer<Unit>): Int32
@@ -59,6 +81,7 @@ foreign {
     func FFICJCreateVectorTouchTestInfo(size: Int64): VectorCPointerTouchTestInfoHandle
     func FFICJVectorTouchTestInfoDelete(vec: VectorCPointerTouchTestInfoHandle): Unit
     func FFICJVectorTouchTestInfoGetSize(vec: VectorCPointerTouchTestInfoHandle): Int64
+    func FFICJVectorTouchTestInfoGetElement(vec: VectorCPointerTouchTestInfoHandle, index: Int64): CJTouchTestInfo
     func FfiOHOSAceFrameworkInteractableViewOnDragStart(callback: Int64, name: UInt32): Unit
     func FfiOHOSAceFrameworkInteractableViewOnDragEnter(callback: Int64, name: UInt32): Unit
     func FfiOHOSAceFrameworkInteractableViewOnDragMove(callback: Int64, name: UInt32): Unit
@@ -267,4 +290,49 @@ func parseCJArea(area: CJArea): Area {
         unsafe { Position(x: area.position.read().x, y: area.position.read().y) },
         unsafe { Position(x: area.globalPosition.read().x, y: area.globalPosition.read().y) }
     )
+}
+
+class FFIVectorTouchTestInfo {
+    private let vecHandle: VectorCPointerTouchTestInfoHandle
+    init(vec: VectorCPointerTouchTestInfoHandle) {
+        vecHandle = vec
+    }
+    init(size: Int64) {
+        vecHandle = unsafe { FFICJCreateVectorTouchTestInfo(size) }
+    }
+    func getElement(index: Int64): CJTouchTestInfo {
+        unsafe { FFICJVectorTouchTestInfoGetElement(vecHandle, index) }
+    }
+    func free(): Unit {
+        unsafe { FFICJVectorTouchTestInfoDelete(vecHandle) }
+    }
+    func getSize(): Int64 {
+        unsafe { FFICJVectorTouchTestInfoGetSize(vecHandle) }
+    }
+    func getNativeHandle(): VectorCPointerTouchTestInfoHandle {
+        vecHandle
+    }
+}
+
+func parseTouchTestInfo(touchTestInfo: CJTouchTestInfo): TouchTestInfo {
+    let rect = ComponentRect(
+        touchTestInfo.rect.x,
+        touchTestInfo.rect.y,
+        touchTestInfo.rect.width,
+        touchTestInfo.rect.height
+    )
+    let item = TouchTestInfo(
+        Float64(touchTestInfo.windowX),
+        Float64(touchTestInfo.windowY),
+        Float64(touchTestInfo.parentX),
+        Float64(touchTestInfo.parentY),
+        Float64(touchTestInfo.x),
+        Float64(touchTestInfo.y),
+        rect,
+        touchTestInfo.id.toString()
+    )
+    unsafe {
+        touchTestInfo.id.free()
+    }
+    return item
 }

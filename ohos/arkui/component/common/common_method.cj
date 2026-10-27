@@ -18,6 +18,7 @@ package ohos.arkui.component.common
 import ohos.arkui.shape.{BaseShape}
 import ohos.labels.{APILevel, Hide}
 import ohos.base.{ResourceColor, Length, ResourceStr}
+import ohos.business_exception.BusinessException
 
 /**
  * CommonMethod interface.
@@ -1480,4 +1481,71 @@ public interface CommonMethod<T> {
         syscap: "SystemCapability.ArkUI.ArkUI.Full"
     ]
     func dragPreview(value: String): T
+
+    /**
+     * Sets the background image resizable.
+     *
+     * @param { ?ResizableOptions } value - Indicates the resizable options.
+     * @returns { T } The instance of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    func backgroundImageResizable(value: ?ResizableOptions): T {
+        let _ = value
+        (this as T) ?? throw BusinessException(100001, "Internal error.")
+    }
+
+    /**
+     * Sets the hit test mode for a component. If hitTestBehavior is not set, the component defaults to
+     * HitTestMode.Default.
+     *
+     * @param { ?HitTestMode } value - Hit test mode for a component.
+     * @returns { T } The instance of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    func hitTestBehavior(value: ?HitTestMode): T {
+        let _ = value
+        (this as T) ?? throw BusinessException(100001, "Internal error.")
+    }
+
+    /**
+     * Sets the hover effect for the component. When no hover effect is specified, the component uses the default
+     * HoverEffect.Auto effect. For components with hover effects applied, the hover effect is hidden when the mouse
+     * hovers and presses down on the component, and restored when the mouse button is released.
+     *
+     * @param { ?HoverEffect } value - Hover effect of the component.
+     * @returns { T } The instance of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    func hoverEffect(value: ?HoverEffect): T {
+        let _ = value
+        (this as T) ?? throw BusinessException(100001, "Internal error.")
+    }
+
+    /**
+     * Allows the current component to customize the hit test and control child component behavior during the test by
+     * setting a callback.
+     * NOTE: The array of child node information only includes information about named nodes, that is, nodes for
+     * which the id attribute is explicitly set.
+     *
+     * @param { ?(Array<TouchTestInfo>) -> TouchResult } callback - Touch event information. The value is an array of
+     *   child node information.
+     * @returns { T } The instance of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    func onChildTouchTest(callback: ?(Array<TouchTestInfo>) -> TouchResult): T {
+        let _ = callback
+        (this as T) ?? throw BusinessException(100001, "Internal error.")
+    }
 }
