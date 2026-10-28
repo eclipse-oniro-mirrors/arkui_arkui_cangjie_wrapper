@@ -31,6 +31,7 @@ ohos_cangjie_shared_library("ohos.arkui.component.common") {
     "container_base.cj",
     "common_component.cj",
     "common_method.cj",
+    "gesture_type.cj",
   ]
 
   cj_deps = [

@@ -3245,4 +3245,36 @@ protected open class CommonMethodComponent<T> <: UINodeBase & CommonMethod<T> {
         }
         (this as T) ?? throw BusinessException(100001, "Internal error.")
     }
+
+    public func gesture(gesture: GestureType): T {
+        gestureInner(gesture, GestureMask.Normal)
+    }
+
+    public func gesture(gesture: GestureType, mask: ?GestureMask): T {
+        gestureInner(gesture, mask)
+    }
+
+    protected open func gestureInner(gestureType: GestureType, mask: ?GestureMask): T {
+        GestureInner.create(GesturePriorityInner.Low, mask ?? GestureMask.Normal)
+        gestureType.create()
+        gestureType.pop()
+        GestureInner.pop()
+        (this as T) ?? throw BusinessException(100001, "Internal error.")
+    }
+
+    public func parallelGesture(gesture: GestureType): T {
+        parallelGestureInner(gesture, GestureMask.Normal)
+    }
+
+    public func parallelGesture(gesture: GestureType, mask: ?GestureMask): T {
+        parallelGestureInner(gesture, mask)
+    }
+
+    protected open func parallelGestureInner(gestureType: GestureType, mask: ?GestureMask): T {
+        GestureInner.create(GesturePriorityInner.Parallel, mask ?? GestureMask.Normal)
+        gestureType.create()
+        gestureType.pop()
+        GestureInner.pop()
+        (this as T) ?? throw BusinessException(100001, "Internal error.")
+    }
 }

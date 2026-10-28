@@ -1826,3 +1826,435 @@ public class ResizableOptions {
         this.slice = slice
     }
 }
+
+/**
+ * Defines the finger information type.
+ */
+@!APILevel[
+    since: "26.1.0",
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public class FingerInfo {
+    /**
+     * Index of the finger, determined by the number of fingers pressed.
+     * The first pressed finger is assigned 0, with the index incrementing by one for each subsequent finger.
+     * NOTE: Indexes for other input sources (mouse: 1001, stylus: 102, mouse wheel: 0, two-finger trackpad slide: 0) are also converted to finger indexes. Value range: [0, 9).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var id: Int32
+
+    /**
+     * X-coordinate relative to the upper left corner of the global display, in vp. Value range: [0, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var globalDisplayX: ?Float64
+
+    /**
+     * Y-coordinate relative to the upper left corner of the global display, in vp. Value range: [0, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var globalDisplayY: ?Float64
+
+    /**
+     * X-coordinate relative to the upper left corner of the application window, in vp. Value range: [0, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var globalX: Float64
+
+    /**
+     * Y-coordinate relative to the upper left corner of the application window, in vp. Value range: [0, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var globalY: Float64
+
+    /**
+     * X-coordinate relative to the upper left corner of the current component's original area, in vp. Value range: [0, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var localX: Float64
+
+    /**
+     * Y-coordinate relative to the upper left corner of the current component's original area, in vp. Value range: [0, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var localY: Float64
+
+    /**
+     * X-coordinate relative to the upper left corner of the screen, in vp. Value range: [0, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var displayX: Float64
+
+    /**
+     * Y-coordinate relative to the upper left corner of the screen, in vp. Value range: [0, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var displayY: Float64
+
+    /**
+     * Whether the event is triggered by a left-hand or right-hand tap.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var hand: ?InteractionHand
+
+    protected init(
+        id: Int32,
+        globalX: Float64,
+        globalY: Float64,
+        localX: Float64,
+        localY: Float64,
+        displayX: Float64,
+        displayY: Float64,
+        hand!: ?InteractionHand = Option<InteractionHand>.None,
+        globalDisplayX!: ?Float64 = None,
+        globalDisplayY!: ?Float64 = None
+    ) {
+        this.id = id
+        this.globalDisplayX = globalDisplayX
+        this.globalDisplayY = globalDisplayY
+        this.globalX = globalX
+        this.globalY = globalY
+        this.localX = localX
+        this.localY = localY
+        this.displayX = displayX
+        this.displayY = displayY
+        this.hand = hand
+    }
+}
+
+/**
+ * Provides coordinate information for tap gestures.
+ */
+@!APILevel[
+    since: "26.1.0",
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public class EventLocationInfo {
+    /**
+     * X coordinate relative to the upper left corner of the component, in vp. Value range: [0, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var x: Float64
+
+    /**
+     * Y coordinate relative to the upper left corner of the component, in vp. Value range: [0, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var y: Float64
+
+    /**
+     * X coordinate relative to the upper left corner of the window, in vp. Value range: [0, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var windowX: Float64
+
+    /**
+     * Y coordinate relative to the upper left corner of the window, in vp. Value range: [0, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var windowY: Float64
+
+    /**
+     * X coordinate relative to the upper left corner of the screen, in vp. Value range: [0, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var displayX: Float64
+
+    /**
+     * Y coordinate relative to the upper left corner of the screen, in vp. Value range: [0, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var displayY: Float64
+
+    /**
+     * X-coordinate in the coordinate system with the upper left corner of the main screen as the origin, in vp. Value range: [0, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var globalDisplayX: ?Float64
+
+    /**
+     * Y-coordinate in the coordinate system with the upper left corner of the main screen as the origin, in vp. Value range: [0, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var globalDisplayY: ?Float64
+
+    protected init(
+        x: Float64,
+        y: Float64,
+        windowX: Float64,
+        windowY: Float64,
+        displayX: Float64,
+        displayY: Float64,
+        globalDisplayX!: ?Float64 = None,
+        globalDisplayY!: ?Float64 = None
+    ) {
+        this.x = x
+        this.y = y
+        this.windowX = windowX
+        this.windowY = windowY
+        this.displayX = displayX
+        this.displayY = displayY
+        this.globalDisplayX = globalDisplayX
+        this.globalDisplayY = globalDisplayY
+    }
+}
+
+/**
+ * Defines the gesture event information. Inherits from BaseEvent.
+ */
+@!APILevel[
+    since: "26.1.0",
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public class GestureEvent <: BaseEvent {
+    /**
+     * X-axis offset of the gesture event relative to the finger press position, in vp.
+     * Used in PanGesture scenarios. A positive value means to pan from left to right,
+     * and a negative value means the opposite. Value range: (-∞, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var offsetX: Float64
+
+    /**
+     * Y-axis offset of the gesture event relative to the finger press position, in vp.
+     * Used in PanGesture scenarios. A positive value means to pan from top to bottom,
+     * and a negative value means the opposite. Value range: (-∞, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var offsetY: Float64
+
+    /**
+     * Whether the event is a repeated trigger event, used in the LongPressGesture scenarios.
+     * The value true means that the event is a repeated trigger event, and false means the opposite.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var repeat: Bool
+
+    /**
+     * List of touch points of the gesture event. If the event input device is touchscreen, the list includes all touch points.
+     * If the event input device is mouse or touchpad, the list contains only one touch point.
+     * NOTE:
+     * 1. The index of a finger corresponds to its position, that is, the ID of a finger in fingerList[index] refers to its index.
+     * If a finger is pressed first and does not participate in triggering of the current gesture, its position in fingerList is left empty.
+     * 2. fingerList is empty when gestures are triggered using a keyboard or game controller and no finger information exists.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var fingerList: Array<FingerInfo>
+
+    /**
+     * Information about touch points of the gesture event.
+     * For gesture events initiated by a touchscreen, fingerInfos includes information about all touch points.
+     * For gesture events initiated by a mouse or touchpad, fingerInfos contains only one touch point.
+     * NOTE: fingerInfos only records information about effective fingers that participate in the touch.
+     * Fingers that are pressed first but do not participate in triggering of the current gesture will not be shown in fingerInfos.
+     * The default value is an empty array [], and an empty array indicates no effective touch point information.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var fingerInfos: ?Array<FingerInfo>
+
+    /**
+     * Rotation angle for the RotationGesture event, in deg.
+     * Angle of the swipe gesture for the SwipeGesture event, that is, the angle between the instantaneous direction of finger sliding and the positive horizontal direction, in deg.
+     * NOTE: Rotation gesture angle calculation:
+     * When a rotation gesture is detected, the line connecting the two fingers is identified as the starting line.
+     * As the fingers slide, the line between them rotates.
+     * Based on the coordinates of the end points of the starting line and the current line,
+     * the arctangent function is used to calculate the included angles relative to the horizontal direction.
+     * The rotation angle is calculated as arctan2(cy2-cy1, cx2-cx1) - arctan2(y2-y1, x2-x1).
+     * With the starting line as the reference axis, clockwise rotation ranges from 0 to 180 degrees,
+     * and counterclockwise rotation ranges from 0 to –180 degrees. Value range: [-180, 180].
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var angle: Float64
+
+    /**
+     * Swipe gesture speed, that is, the average swipe speed of all fingers relative to the original area of the current component, in vp/s.
+     * Used for the SwipeGesture event. Value range: [0, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var speed: Float64
+
+    /**
+     * Scale ratio. This attribute is used for the pinch gesture. Value range: [0, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var scale: Float64
+
+    /**
+     * X-coordinate of the center of the pinch gesture, in vp, relative to the original area of the current component.
+     * This attribute is used for the PinchGesture event. Value range: [0, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var pinchCenterX: Float64
+
+    /**
+     * Y-coordinate of the center of the pinch gesture, in vp, relative to the original area of the current component.
+     * This attribute is used for the PinchGesture event. Value range: [0, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var pinchCenterY: Float64
+
+    /**
+     * Velocity along the x-axis. This parameter is used in PanGesture.
+     * The origin of the coordinate axis is the upper left corner of the screen.
+     * The velocity is positive if the movement is from left to right, and it is negative if the movement is from right to left.
+     * The unit is vp/s. Value range: (-∞, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var velocityX: Float64
+
+    /**
+     * Velocity along the y-axis. This parameter is used in PanGesture. 
+     * The origin of the coordinate axis is the upper left corner of the screen.
+     * The velocity is positive if the movement is from top to bottom, and it is negative if the movement is from bottom to top.
+     * The unit is vp/s. Value range: (-∞, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var velocityY: Float64
+
+    /**
+     * Velocity along the main axis. This parameter is used in PanGesture.
+     * The value is the arithmetic square root of the sum of squares of the velocity along the x- and y-axis.
+     * The unit is vp/s. Value range: [0, +∞).
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var velocity: Float64
+
+    /**
+     * Coordinate information of the current tap gesture. For non-tap gestures, the return value of tapLocation is undefined.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var tapLocation: ?EventLocationInfo
+
+    protected init(
+        target: EventTarget,
+        timestamp: Int64,
+        source: SourceType,
+        offsetX: Float64,
+        offsetY: Float64,
+        repeat: Bool,
+        fingerList: Array<FingerInfo>,
+        angle: Float64,
+        speed: Float64,
+        scale: Float64,
+        pinchCenterX: Float64,
+        pinchCenterY: Float64,
+        velocityX: Float64,
+        velocityY: Float64,
+        velocity: Float64,
+        fingerInfos!: ?Array<FingerInfo> = None,
+        tapLocation!: ?EventLocationInfo = None
+    ) {
+        super(source: source, target: target, timestamp: timestamp)
+        this.offsetX = offsetX
+        this.offsetY = offsetY
+        this.repeat = repeat
+        this.fingerList = fingerList
+        this.fingerInfos = fingerInfos
+        this.angle = angle
+        this.speed = speed
+        this.scale = scale
+        this.pinchCenterX = pinchCenterX
+        this.pinchCenterY = pinchCenterY
+        this.velocityX = velocityX
+        this.velocityY = velocityY
+        this.velocity = velocity
+        this.tapLocation = tapLocation
+    }
+}

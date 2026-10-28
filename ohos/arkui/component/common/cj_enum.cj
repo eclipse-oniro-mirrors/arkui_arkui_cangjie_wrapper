@@ -8626,3 +8626,41 @@ public enum DynamicRangeMode {
         }
     }
 }
+
+/**
+ * Enumerates how an input event is triggered.
+ */
+@Derive[Equatable]
+@!APILevel[
+    since: "26.1.0",
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public enum InteractionHand {
+    /**
+     * Unspecified.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    None
+    |
+    /**
+     * Left-hand interaction.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    Left
+    |
+    /**
+     * Right-hand interaction.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    Right
+    | ...
+}
