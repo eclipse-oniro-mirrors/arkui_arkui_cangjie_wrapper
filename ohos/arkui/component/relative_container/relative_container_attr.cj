@@ -51,4 +51,17 @@ sealed interface RelativeContainerAttribute <: CommonMethod<RelativeContainerAtt
         syscap: "SystemCapability.ArkUI.ArkUI.Full"
     ]
     func barrier(value: ?Array<BarrierStyle>): RelativeContainerAttribute
+
+    /**
+     * Sets barriers in the RelativeContainer component. Each array element defines a barrier.
+     * Barriers can be defined in mirrored layout mode.
+     *
+     * @param { Array<LocalizedBarrierStyle> } value - Barriers in the RelativeContainer component.
+     * @returns { RelativeContainerAttribute } The attribute of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    func barrier(value: Array<LocalizedBarrierStyle>): RelativeContainerAttribute
 }

@@ -16,6 +16,7 @@
 package ohos.arkui.component.radio
 
 import ohos.arkui.component.common.{CommonMethod}
+import ohos.base.{ResourceColor}
 import ohos.labels.{APILevel}
 
 /**
@@ -49,4 +50,22 @@ sealed interface RadioAttribute <: CommonMethod<RadioAttribute> {
         syscap: "SystemCapability.ArkUI.ArkUI.Full"
     ]
     func onChange(callback: ?(Bool) -> Unit): RadioAttribute
+
+    /**
+     * Sets the style of the radio button in selected or deselected state.
+     *
+     * @param { ?ResourceColor } checkedBackgroundColor - Color of the background when the radio button is selected.
+     * @param { ?ResourceColor } uncheckedBorderColor - Color of the border when the radio button is deselected.
+     * @param { ?ResourceColor } indicatorColor - Color of the indicator when the radio button is selected.
+     * @returns { RadioAttribute } The attribute of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    func radioStyle(
+        checkedBackgroundColor!: ?ResourceColor,
+        uncheckedBorderColor!: ?ResourceColor,
+        indicatorColor!: ?ResourceColor
+    ): RadioAttribute
 }

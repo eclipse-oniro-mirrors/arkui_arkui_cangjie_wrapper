@@ -15,7 +15,7 @@
 
 package ohos.arkui.component.scroll
 
-import ohos.arkui.component.common.{ScrollDirection, ScrollState, ScrollSource}
+import ohos.arkui.component.common.{ScrollDirection, ScrollState, ScrollSource, EdgeEffect, EdgeEffectOptions}
 import ohos.labels.{APILevel}
 
 /**
@@ -123,4 +123,21 @@ sealed interface ScrollAttribute <: ScrollableCommonMethod<ScrollAttribute> {
         syscap: "SystemCapability.ArkUI.ArkUI.Full"
     ]
     func onScrollEdge(event: ?OnScrollEdgeCallback): ScrollAttribute
+
+    /**
+     * Sets the effect used when the scroll boundary is reached.
+     *
+     * @param { ?EdgeEffect } edgeEffect - Effect used when the scroll boundary is reached. The spring and shadow
+     *     effects are supported.
+     *     Default value: EdgeEffect.None.
+     * @param { ?EdgeEffectOptions } options - Whether to enable the scroll effect when the component content is smaller
+     *     than the component itself. The value EdgeEffectOptions(true) means to enable the scroll effect, and
+     *     EdgeEffectOptions(false) means the opposite. Default value: EdgeEffectOptions(true).
+     * @returns { ScrollAttribute }
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    func edgeEffect(edgeEffect: ?EdgeEffect, options!: ?EdgeEffectOptions): ScrollAttribute
 }

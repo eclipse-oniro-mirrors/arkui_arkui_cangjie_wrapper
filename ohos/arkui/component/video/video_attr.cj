@@ -194,4 +194,16 @@ sealed interface VideoAttribute <: CommonMethod<VideoAttribute> {
         syscap: "SystemCapability.ArkUI.ArkUI.Full"
     ]
     func onFullscreenChange(callback: ?Callback<FullscreenInfo, Unit>): VideoAttribute
+
+    /**
+     * Called when the video is stopped.
+     *
+     * @param { ?() -> Unit } event - The callback invoked when the video stops.
+     * @returns { VideoAttribute } Returns the attribute of video.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    func onStop(event: ?() -> Unit): VideoAttribute
 }

@@ -77,6 +77,7 @@ arkui_cangjie_wrapper_packages_ohos = [
   "//foundation/arkui/arkui_cangjie_wrapper/ohos/arkui/component/line:ohos.arkui.component.line",
   "//foundation/arkui/arkui_cangjie_wrapper/ohos/arkui/component/rating:ohos.arkui.component.rating",
   "//foundation/arkui/arkui_cangjie_wrapper/ohos/arkui/component/column:ohos.arkui.component.column",
+  "//foundation/arkui/arkui_cangjie_wrapper/ohos/arkui/component/column_split:ohos.arkui.component.column_split",
   "//foundation/arkui/arkui_cangjie_wrapper/ohos/arkui/component/rect:ohos.arkui.component.rect",
   "//foundation/arkui/arkui_cangjie_wrapper/ohos/arkui/component/gauge:ohos.arkui.component.gauge",
   "//foundation/arkui/arkui_cangjie_wrapper/ohos/arkui/component/grid:ohos.arkui.component.grid",

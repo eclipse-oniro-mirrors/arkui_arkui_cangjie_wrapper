@@ -2258,3 +2258,50 @@ public class GestureEvent <: BaseEvent {
         this.tapLocation = tapLocation
     }
 }
+
+
+/**
+ * Defines the edge effect options.
+ */
+@!APILevel[
+    since: "26.1.0",
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public class EdgeEffectOptions {
+    /**
+     * Whether to enable the sliding effect when the component content is smaller than the component itself.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var alwaysEnabled: Bool
+
+    /**
+     * Set the effective edge of the edge effect.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var effectEdge: ?Int32
+
+    /**
+     * EdgeEffectOptions constructor.
+     *
+     * @param { Bool } alwaysEnabled - Whether to enable the sliding effect when the component content is smaller than
+     *     the component itself.
+     * @param { ?Int32 } [effectEdge] - Set the effective edge of the edge effect.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public init(
+        alwaysEnabled: Bool,
+        effectEdge!: ?Int32 = None
+    ) {
+        this.alwaysEnabled = alwaysEnabled
+        this.effectEdge = effectEdge
+    }
+}

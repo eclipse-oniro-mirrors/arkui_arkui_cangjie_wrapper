@@ -28,6 +28,7 @@ ohos_cangjie_shared_library("ohos.arkui.component") {
     "checkbox_group:ohos.arkui.component.checkbox_group",
     "circle:ohos.arkui.component.circle",
     "column:ohos.arkui.component.column",
+    "column_split:ohos.arkui.component.column_split",
     "common:ohos.arkui.component.common",
     "counter:ohos.arkui.component.counter",
     "custom_dialog:ohos.arkui.component.custom_dialog",

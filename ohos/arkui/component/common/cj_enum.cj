@@ -1992,10 +1992,9 @@ public enum ScrollDirection {
      * Scrolling is disabled.
      */
     @!APILevel[
-        since: "22",
+        since: "26.1.0",
         syscap: "SystemCapability.ArkUI.ArkUI.Full"
     ]
-    @!Hide[isChecked: true]
     None
     |
     /**
@@ -2013,6 +2012,7 @@ public enum ScrollDirection {
         match (this) {
             case Vertical => 0
             case Horizontal => 1
+            case None => 3
             case _ => throw BusinessException(100001, "Internal error.")
         }
     }
