@@ -1,0 +1,22 @@
+[package]
+  cjc-version = "1.2.0"
+  compile-option = "--dy-std --cfg=\"${COMPILE_CONDITION_ENTRY}\""
+  override-compile-option = "${OVERRIDE_COMPILE_OPTION}"
+  description = "CangjieUI Application"
+  name = "ohos_app_cangjie_entry_local_test"
+  output-type = "dynamic"
+  src-dir = "."
+  target-dir = ""
+  version = "1.0.0"
+
+[profile]
+  [profile.build]
+    incremental = true
+    lto = ""
+    [profile.build.combined]
+      ohos_app_cangjie_entry_local_test = "dynamic"
+  [profile.customized-option]
+    debug = "-g -Woff all -Won apilevel-check"
+    release = "--fast-math -O2 -s -Woff all -Won apilevel-check"
+    asan = "--sanitize=address -lclang_rt.asan"
+  [profile.test]
