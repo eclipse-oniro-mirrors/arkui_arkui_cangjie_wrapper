@@ -17,7 +17,7 @@
 
 package ohos.arkui.component.text
 
-import ohos.arkui.component.common.{FontStyle, FontWeight, TextAlign, TextOverflow, TextDecorationType, TextCase, Rectangle, CommonMethodComponent, TextDecorationStyle}
+import ohos.arkui.component.common.{FontStyle, FontWeight, TextAlign, TextOverflow, TextDecorationType, TextCase, Rectangle, CommonMethodComponent, TextDecorationStyle, Font}
 import ohos.arkui.component.native_struct.{FFIVectorNativeRectangle, VectorNativeRectangleHandle, CJResponseRegion, NativeShadowOptions}
 import ohos.arkui.component.util.{getLengthUnitOrFp, transResourceStrToString, transAppResourceToLength, transAppResourceToResourceColor, lessNotEqual, LENGTH_PERCENT}
 import ohos.base.{BASE_LOG, Length, ResourceColor, ResourceStr, VectorStringHandle, CStringExtend, Color, LengthProp}
@@ -117,6 +117,8 @@ foreign {
 
     func FfiOHOSAceFrameworkTextSetFont(fontSize: Float64, unit: Int32, fontWeight: CString, fontFamily: CString,
         fontStyle: Int32): Unit
+
+    func FfiOHOSAceFrameworkTextResetFont(): Unit
 
     func FfiOHOSAceFrameworkTextEnableDataDetector(value: Bool): Unit
 
@@ -656,6 +658,55 @@ public class Text <: CommonMethodComponent<Text> & TextAttribute {
             FfiTextSetResponseRegionArray(vecFFi.getNativeHandle())
         }
         vecFFi.free()
+        this
+    }
+
+    /**
+     * Sets the text style, covering the font size, font width, font family, and font style.
+     *
+     * @param { ?Length } size - Font size.
+     * @param { ?FontWeight } weight - Font weight.
+     * @param { ?ResourceStr } family - Font family.
+     * @param { ?FontStyle } style - Font style.
+     * @returns { This } The instance of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public func font(size!: ?Length = None, weight!: ?FontWeight = None, family!: ?ResourceStr = None,
+        style!: ?FontStyle = None): This {
+        unsafe {
+            FfiOHOSAceFrameworkTextResetFont()
+            if (let Some(size_) <- size) {
+                let sizeValue = transAppResourceToLength(size_)
+                if (sizeValue.value >= 0.0 && sizeValue.unitType.getValue() != LENGTH_PERCENT) {
+                    FfiOHOSAceFrameworkTextSetFontSize(sizeValue.value, getLengthUnitOrFp(sizeValue).getValue())
+                }
+            }
+            if (let Some(weight_) <- weight) {
+                let fontWeightString = weight_.getValue()
+                if (fontWeightString != "") {
+                    try (unsafeFontWeight = LibC.mallocCString(fontWeightString).asResource()) {
+                        FfiOHOSAceFrameworkTextSetFontWeight(unsafeFontWeight.value)
+                    }
+                }
+            }
+            if (let Some(family_) <- family) {
+                let fontFamilyString = transResourceStrToString(family_)
+                if (fontFamilyString != "") {
+                    try (unsafeFontFamily = LibC.mallocCString(fontFamilyString).asResource()) {
+                        FfiOHOSAceFrameworkTextSetFontFamily(unsafeFontFamily.value)
+                    }
+                }
+            }
+            if (let Some(style_) <- style) {
+                let fontStyleValue = style_.getValue()
+                if (fontStyleValue >= 0) {
+                    FfiOHOSAceFrameworkTextSetFontStyle(fontStyleValue)
+                }
+            }
+        }
         this
     }
 }

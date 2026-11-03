@@ -17,7 +17,7 @@
 
 package ohos.arkui.component.text_input
 
-import ohos.arkui.component.common.{CommonMethodComponent, MenuPolicy, BorderStyle, EdgeWidths, EnterKeyType, TextAlign, FontWeight, FontStyle, CustomBuilder, TextInputStyle}
+import ohos.arkui.component.common.{CommonMethodComponent, MenuPolicy, BorderStyle, EdgeWidths, EnterKeyType, TextAlign, FontWeight, FontStyle, CustomBuilder, TextInputStyle, TextOverflow, EllipsisMode}
 import ohos.arkui.component.text_field.{TextField}
 import ohos.arkui.component.util.{transResourceStrToString}
 import ohos.base.{ResourceStr, Length, ResourceColor, LengthProp}
@@ -647,4 +647,80 @@ public class TextInput <: CommonMethodComponent<TextInput> & TextInputAttribute 
 
     // textInput does not need to implement pop function
     protected override func pop(): Unit {}
+
+    /**
+     * Sets the display mode for overflowing text. This attribute is supported only in the editing and non-editing states
+     * of the inline style.
+     *
+     * Chinese text is truncated by character. English text is truncated by word. To truncate English text by letter, set
+     * wordBreak to WordBreak.BreakAll.
+     *
+     * When overflow is set to TextOverflow.None, the effect is the same as TextOverflow.Clip.
+     *
+     * @param { ?TextOverflow } value - Display mode of overflowing text. Default value for the
+     *  inline style in the non-editing state: TextOverflow.Ellipsis. Default value for the inline style
+     *  in the editing state: TextOverflow.Clip
+     * @returns { This } returns the instance of the TextInput.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public func textOverflow(value: ?TextOverflow): This {
+        TextField.textOverflow(value)
+        this
+    }
+
+    /**
+     * Sets the ellipsis position. The ellipsisMode attribute takes effect only in the
+     * inline style. It must be used together with overflow set to TextOverflow.Ellipsis.
+     * The ellipsisMode attribute does not take effect if set alone.
+     *
+     * This attribute works normally in the non-editing state. In the editing state, EllipsisMode.Start and
+     * EllipsisMode.Center take effect only when maxLines is set to 1, while EllipsisMode.End,
+     * EllipsisMode.MultilineStart, and EllipsisMode.MultilineCenter take effect normally.
+     *
+     * @param { ?EllipsisMode } mode - Ellipsis position. Default value: EllipsisMode.End
+     * @returns { This } returns the instance of the TextInput.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public func ellipsisMode(mode: ?EllipsisMode): This {
+        TextField.ellipsisMode(mode)
+        this
+    }
+
+    /**
+     * Enables half leading for text, which splits the leading equally between the top and bottom of the line.
+     *
+     * @param { ?Bool } halfLeading - Whether half leading is enabled. Half leading refers to splitting the
+     * leading in half and applying it equally to the top and bottom of the line. true: Half leading is
+     * enabled. false: Half leading is not enabled. Default value: false
+     * @returns { This } returns the instance of the TextInput.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public func halfLeading(halfLeading: ?Bool): This {
+        TextField.halfLeading(halfLeading)
+        this
+    }
+
+    /**
+     * Sets the indent of the first line text.
+     *
+     * @param { ?Length } value - Indent of the first line text. Default value: 0
+     * @returns { This } returns the instance of the TextInput.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public func textIndent(value: ?Length): This {
+        TextField.textIndent(value)
+        this
+    }
 }

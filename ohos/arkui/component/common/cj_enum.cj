@@ -8512,3 +8512,117 @@ public enum HoverEffect {
         }
     }
 }
+
+/**
+ * The position of ellipsis.
+ */
+@Derive[Equatable]
+@!APILevel[
+    since: "26.1.0",
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public enum EllipsisMode {
+    /**
+     * An ellipsis is used at the start of the line of text. This applies to single-line text scenarios.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    Start
+    |
+    /**
+     * An ellipsis is used at the center of the line of text. This applies to single-line text scenarios.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    Center
+    |
+    /**
+     * An ellipsis is used at the end of the line of text. This applies to single-line and multi-line text scenarios.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    End
+    |
+    /**
+     * An ellipsis is used at the start of the line of text. This applies to single-line and multi-line text scenarios.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    MultilineStart
+    |
+    /**
+     * An ellipsis is used at the center of the line of text. This applies to single-line and multi-line text scenarios.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    MultilineCenter
+    | ...
+
+    protected func getValue(): Int32 {
+        match (this) {
+            case Start => 0
+            case Center => 1
+            case End => 2
+            case MultilineStart => 3
+            case MultilineCenter => 4
+            case _ => throw BusinessException(100001, "Internal error.")
+        }
+    }
+}
+
+/**
+ * Describes the dynamic range of the image to be displayed.
+ */
+@Derive[Equatable]
+@!APILevel[
+    since: "26.1.0",
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public enum DynamicRangeMode {
+    /**
+     * Unrestricted dynamic range, which allows for the maximum brightening of an image.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    High
+    |
+    /**
+     * Restricted dynamic range, which brightens an image within certain constraints.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    Constraint
+    |
+    /**
+     * Standard dynamic range, which does not brighten an image.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    Standard
+    | ...
+
+    protected func getValue(): Int32 {
+        match (this) {
+            case High => 0
+            case Constraint => 1
+            case Standard => 2
+            case _ => throw BusinessException(100001, "Internal error.")
+        }
+    }
+}

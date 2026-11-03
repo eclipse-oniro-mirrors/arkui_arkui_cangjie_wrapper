@@ -17,6 +17,7 @@ ohos_cangjie_shared_library("ohos.arkui.ui_context") {
   sources = [
     "cj_ui_context.cj",
     "cj_animator.cj",
+    "cj_component_snapshot.cj",
     "cj_font.cj",
     "cj_font_api.cj",
     "cj_measure.cj",
@@ -40,7 +41,8 @@ ohos_cangjie_shared_library("ohos.arkui.ui_context") {
     "hiviewdfx_cangjie_wrapper:ohos.hilog",
     "global_cangjie_wrapper:ohos.resource",
     "cangjie_ark_interop:ohos.callback_invoke",
-    "multimedia_cangjie_wrapper:ohos.multimedia.image"
+    "multimedia_cangjie_wrapper:ohos.multimedia.image",
+    "graphic_cangjie_wrapper:ohos.graphics.color_space_manager"
   ]
 
   external_deps = [ "ace_engine:cj_frontend_ohos" ]

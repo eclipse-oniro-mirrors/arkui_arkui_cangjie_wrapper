@@ -91,6 +91,10 @@ protected func lessOrEqual(left: Float64, right: Float64): Bool {
     return (left - right < EPSILON)
 }
 
+protected func greatNotEqual(left: Float64, right: Float64): Bool {
+    return (left - right > EPSILON)
+}
+
 protected func toNativeOptionLength(value: ?Length): NativeOptionLength {
     match (value) {
         case Some(len) =>

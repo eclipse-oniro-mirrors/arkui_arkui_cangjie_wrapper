@@ -17,12 +17,83 @@
 
 package ohos.arkui.component.tab
 
-import ohos.arkui.component.common.{CustomBuilder, CommonMethodComponent, CTranslateOptions, BarPosition, BarMode}
-import ohos.arkui.component.util.{transAppResourceToLength, normalizeValue, transResourceStrToString, 
-    transResourceMediaToString, lessNotEqual}
-import ohos.ffi.{Callback1Param, releaseFFIData, Callback0Param, RemoteDataLite}
-import ohos.base.{Callback, ResourceStr, VectorInt32Handle, Length, LengthProp}
+import ohos.arkui.component.common.{CustomBuilder, CommonMethodComponent, CTranslateOptions, BarPosition, BarMode,
+    EdgeEffect}
+import ohos.arkui.component.util.{transAppResourceToLength, normalizeValue, transResourceStrToString,
+    transResourceMediaToString, lessNotEqual, transAppResourceToResourceColor}
+import ohos.ffi.{Callback1Param, releaseFFIData, Callback0Param, RemoteDataLite, Callback2Param, Callback3Param}
+import ohos.base.{Callback, ResourceStr, VectorInt32Handle, Length, LengthProp, ResourceColor}
 import ohos.labels.{APILevel}
+
+@C
+struct CJTabsDividerStyle {
+    CJTabsDividerStyle(
+        let strokeWidth: Float64,
+        let strokeWidthUnit: Int32,
+        let color: UInt32,
+        let startMargin: Float64,
+        let startMarginUnit: Int32,
+        let endMargin: Float64,
+        let endMarginUnit: Int32
+    ) {}
+}
+
+@C
+struct CJTabsAnimationEvent {
+    CJTabsAnimationEvent(
+        let currentOffset: Float32,
+        let targetOffset: Float32,
+        let velocity: Float32
+    ) {}
+}
+
+/**
+ * Describes the animation information of the Tabs component.
+ */
+@!APILevel[
+    since: "26.1.0",
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public class TabsAnimationEvent {
+    /**
+     * Offset of the currently displayed element relative to the start position of the Tabs component along the main axis.
+     * Unit: vp.
+     * Default value: 0.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var currentOffset: Float32
+
+    /**
+     * Offset of the target element relative to the start position of the Tabs component along the main axis.
+     * Unit: vp.
+     * Default value: 0.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var targetOffset: Float32
+
+    /**
+     * Hands-off velocity at the beginning of the animation. Unit: vp/s.
+     *
+     * Default value: 0.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var velocity: Float32
+
+    init(event: CJTabsAnimationEvent) {
+        currentOffset = event.currentOffset
+        targetOffset = event.targetOffset
+        velocity = event.velocity
+    }
+}
 
 foreign {
     func FfiOHOSAceFrameworkTabsCreate(barVal: Int32, controller: Int64, index: Int32): Unit
@@ -62,6 +133,11 @@ foreign {
     func FfiOHOSAceFrameworkTabsSetBarBackgroundColor(backgroundColor: UInt32): Unit
 
     func FfiOHOSAceFrameworkTabsSetBarBackgroundBlurStyle(blurStyle: Int32): Unit
+
+    func FfiOHOSAceFrameworkTabsSetDivider(dividerStyle: CJTabsDividerStyle): Unit
+
+    func FfiOHOSAceFrameworkTabsSetDividerV2(dividerStyle: CJTabsDividerStyle, hasStrokeWidth: Bool,
+        hasColor: Bool, hasStartMargin: Bool, hasEndMargin: Bool): Unit
 
     func FfiOHOSAceFrameworkTabsSetEdgeEffect(edgeEffect: Int32): Unit
 
@@ -344,6 +420,181 @@ public class Tabs <: CommonMethodComponent<Tabs> & TabsAttribute {
                     }
                 }
             case None => unsafe { FFISetHeightWithEmpty() }
+        }
+        this
+    }
+
+    /**
+     * Sets the divider between the TabBar and TabContent components.
+     *
+     * @param { ?Length } strokeWidth - Width of the divider. It cannot be set in percentage.
+     *  Default value: 0.0, Unit: vp, Value range: [0, +∞).
+     * @param { ?ResourceColor } color - Color of the divider. Default value: #33182431.
+     * @param { ?Length } startMargin - Distance between the divider and the top of the sidebar.
+     *  It cannot be set in percentage. Default value: 0.0, Unit: vp, Value range: [0, +∞).
+     * @param { ?Length } endMargin - Distance between the divider and the bottom of the sidebar.
+     *  It cannot be set in percentage. Default value: 0.0, Unit: vp, Value range: [0, +∞).
+     * @returns { This } The instance of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public func divider(strokeWidth!: ?Length, color!: ?ResourceColor = None,
+        startMargin!: ?Length = None, endMargin!: ?Length = None): This {
+        var strokeWidthLength: Length = 0.0.px
+        var hasStrokeWidth = false
+        if (let Some(v) <- strokeWidth) {
+            strokeWidthLength = transAppResourceToLength(v)
+            hasStrokeWidth = true
+        }
+        var startMarginLength: Length = 0.0.px
+        var hasStartMargin = false
+        if (let Some(v) <- startMargin) {
+            startMarginLength = transAppResourceToLength(v)
+            hasStartMargin = true
+        }
+        var endMarginLength: Length = 0.0.px
+        var hasEndMargin = false
+        if (let Some(v) <- endMargin) {
+            endMarginLength = transAppResourceToLength(v)
+            hasEndMargin = true
+        }
+        var colorValue: UInt32 = 0
+        var hasColor = false
+        if (let Some(v) <- color) {
+            colorValue = transAppResourceToResourceColor(v)
+            hasColor = true
+        }
+        unsafe {
+            FfiOHOSAceFrameworkTabsSetDividerV2(
+                CJTabsDividerStyle(
+                    strokeWidthLength.value,
+                    strokeWidthLength.unitType.getValue(),
+                    colorValue,
+                    startMarginLength.value,
+                    startMarginLength.unitType.getValue(),
+                    endMarginLength.value,
+                    endMarginLength.unitType.getValue()
+                ),
+                hasStrokeWidth,
+                hasColor,
+                hasStartMargin,
+                hasEndMargin
+            )
+        }
+        this
+    }
+
+    /**
+     * Sets the edge effect used when the boundary of the scrolling area is reached.
+     *
+     * @param { ?EdgeEffect } edgeEffect - Effect used when the boundary of the scrolling area is reached.
+     *  Default value: EdgeEffect.Spring
+     * @returns { This } The instance of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public func edgeEffect(edgeEffect: ?EdgeEffect): This {
+        unsafe {
+            FfiOHOSAceFrameworkTabsSetEdgeEffect((edgeEffect ?? EdgeEffect.Spring).getValue())
+        }
+        this
+    }
+
+    /**
+     * Triggered when the transition animation starts. If animationDuration is
+     * set to 0 and scrollable is set to false, this callback is not triggered.
+     *
+     * @param { ?(Int32, Int32, TabsAnimationEvent) -> Unit } handler - Callback triggered when the transition animation starts.
+     * @returns { This } The instance of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public func onAnimationStart(handler: ?(Int32, Int32, TabsAnimationEvent) -> Unit): This {
+        let tmpHandler = handler ?? { _, _, _ => }
+        let wrapper = { index: Int32, targetIndex: Int32, event: CJTabsAnimationEvent =>
+            tmpHandler(index, targetIndex, TabsAnimationEvent(event))
+        }
+        let lambdaData = Callback3Param<Int32, Int32, CJTabsAnimationEvent, Unit>(wrapper)
+        unsafe {
+            FfiOHOSAceFrameworkTabsOnAnimationStart(lambdaData.getID())
+        }
+        this
+    }
+
+    /**
+     * Triggered when a new page is about to be displayed.
+     *
+     * This event is triggered when any of the following occurs:
+     *
+     * 1. When the user swipes through the TabContent to switch to a new page.
+     *
+     * 2. When TabsController.changeIndex is called to switch to a new page.
+     *
+     * 3. When the index attribute is changed to switch to a new page.
+     *
+     * 4. When the user taps a tab on the tab bar to switch to a new page.
+     *
+     * 5. When the user presses the left or
+     *     right arrow key on the keyboard to switch to a new page while the tab bar has focus.
+     *
+     * @param { ?(Int32, Int32) -> Bool } handler - Callback triggered when a new page is about to be displayed.
+     * @returns { This } The instance of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public func onContentWillChange(handler: ?(Int32, Int32) -> Bool): This {
+        let tmpHandler = handler ?? { _, _ => true }
+        let lambdaData = Callback2Param<Int32, Int32, Bool>(tmpHandler)
+        unsafe {
+            FfiOHOSAceFrameworkTabsOnContentWillChange(lambdaData.getID())
+        }
+        this
+    }
+
+    /**
+     * Triggered on a frame-by-frame basis during swipe gestures for tab switching.
+     *
+     * @param { ?(Int32, TabsAnimationEvent) -> Unit } handler - Triggered on a frame-by-frame basis during swipe gestures for tab switching.
+     * @returns { This } The instance of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public func onGestureSwipe(handler: ?(Int32, TabsAnimationEvent) -> Unit): This {
+        let tmpHandler = handler ?? { _, _ => }
+        let wrapper = { index: Int32, event: CJTabsAnimationEvent =>
+            tmpHandler(index, TabsAnimationEvent(event))
+        }
+        let lambdaData = Callback2Param<Int32, CJTabsAnimationEvent, Unit>(wrapper)
+        unsafe {
+            FfiOHOSAceFrameworkTabsOnGestureSwipe(lambdaData.getID())
+        }
+        this
+    }
+
+    /**
+     * Triggered when a tab is clicked.
+     *
+     * @param { ?(Int32) -> Unit } event - Index of the clicked tab. The index starts from 0.
+     * @returns { This } The instance of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public func onTabBarClick(event: ?(Int32) -> Unit): This {
+        let tmpEvent = event ?? { _ => }
+        unsafe {
+            FfiOHOSAceFrameworkTabsOnTabBarClick(Callback1Param<Int32, Unit>(tmpEvent).getID())
         }
         this
     }

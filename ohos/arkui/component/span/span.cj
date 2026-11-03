@@ -288,6 +288,27 @@ public class Span <: BaseSpan {
         this
     }
 
+    /**
+     * Sets the line height for the text.
+     *
+     * @param { ?Length } value - Line height of the text. If the value is of the number type, the unit is fp.
+     * @returns { This } Returns Span component instance itself.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public func lineHeight(value: ?Length): This {
+        var v = transAppResourceToLength(value ?? 0.0.px)
+        if (v.value < 0.0) {
+            v = 0.0.px
+        }
+        unsafe {
+            FfiOHOSAceFrameworkSpanSetLineHeight(v.value, getLengthUnitOrFp(v).getValue())
+        }
+        this
+    }
+
     protected func initial() {}
 
     protected func update() {}

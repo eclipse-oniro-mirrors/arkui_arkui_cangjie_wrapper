@@ -15,7 +15,7 @@
 
 package ohos.arkui.component.text
 
-import ohos.arkui.component.common.{TextDecorationStyle, TextCase, CommonMethod, FontStyle, FontWeight, TextAlign, TextOverflow, TextDecorationType}
+import ohos.arkui.component.common.{TextDecorationStyle, TextCase, CommonMethod, FontStyle, FontWeight, TextAlign, TextOverflow, TextDecorationType, Font}
 import ohos.labels.{APILevel}
 import ohos.base.{Length, ResourceColor, ResourceStr}
 
@@ -219,4 +219,19 @@ sealed interface TextAttribute <: CommonMethod<TextAttribute> {
         syscap: "SystemCapability.ArkUI.ArkUI.Full"
     ]
     func textCase(value: ?TextCase): TextAttribute
+
+    /**
+     * Sets the text style, covering the font size, font width, font family, and font style.
+     *
+     * @param { ?Length } size - Font size.
+     * @param { ?FontWeight } weight - Font weight.
+     * @param { ?ResourceStr } family - Font family.
+     * @param { ?FontStyle } style - Font style.
+     * @returns { TextAttribute } Returns the text attribute.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    func font(size!: ?Length, weight!: ?FontWeight, family!: ?ResourceStr, style!: ?FontStyle ): TextAttribute
 }
