@@ -1,0 +1,42 @@
+/**
+ * Copyright (c) 2026 Huawei Device Co., Ltd.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// Test view for Gesture_Direction_None
+package ohos_app_cangjie_entry.Gesture_comattr_gesture_2
+
+import ohos.base.*
+import ohos.arkui.component.*
+import ohos.arkui.state_macro_manage.*
+import kit.ArkUI.*
+import ohos_app_cangjie_entry.GestureEventRecords
+
+@Component
+public class View_Gesture_Direction_None {
+    @State
+    var status: String = "idle"
+
+    func build() {
+        Column() {
+            Text(this.status).id("gesture_status").fontSize(18)
+        }.width(300).height(300).backgroundColor(0xF0F0F0).borderRadius(12).id("gesture_area")
+        .gesture(PanGesture(fingers: 1, direction: PanDirection.None, distance: 5.0)
+            .onActionStart({ e =>
+                GestureEventRecords.record("start", e)
+                this.status = "start" })
+            .onActionEnd({ e =>
+                GestureEventRecords.record("end", e)
+                this.status = "end" }))
+    }
+}

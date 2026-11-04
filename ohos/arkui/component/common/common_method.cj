@@ -1548,4 +1548,74 @@ public interface CommonMethod<T> {
         let _ = callback
         (this as T) ?? throw BusinessException(100001, "Internal error.")
     }
+
+    /**
+     * Binds a gesture to the component.
+     *
+     * @param { GestureType } gesture - Type of the gesture to bind.
+     * @returns { T } The instance of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    func gesture(gesture: GestureType): T {
+        let _ = gesture
+        (this as T) ?? throw BusinessException(100001, "Internal error.")
+    }
+
+    /**
+     * Binds a gesture to the component.
+     *
+     * @param { GestureType } gesture - Type of the gesture to bind.
+     * @param { ?GestureMask } mask - Mask for gesture events. Default value: GestureMask.Normal.
+     * @returns { T } The instance of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    func gesture(gesture: GestureType, mask: ?GestureMask): T {
+        let _ = gesture
+        let _ = mask
+        (this as T) ?? throw BusinessException(100001, "Internal error.")
+    }
+
+    /**
+     * Binds a parallel gesture to the component. A parallel gesture can be recognized at once by the component and
+     * its child component. The gesture event is not a bubbling event. When parallelGesture is set for a component,
+     * both it and its child component can respond to the same gesture events, thereby implementing a quasi-bubbling
+     * effect.
+     *
+     * @param { GestureType } gesture - Gesture object to bind.
+     * @returns { T } The instance of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    func parallelGesture(gesture: GestureType): T {
+        let _ = gesture
+        (this as T) ?? throw BusinessException(100001, "Internal error.")
+    }
+
+    /**
+     * Binds a parallel gesture to the component. A parallel gesture can be recognized at once by the component and
+     * its child component. The gesture event is not a bubbling event. When parallelGesture is set for a component,
+     * both it and its child component can respond to the same gesture events, thereby implementing a quasi-bubbling
+     * effect.
+     *
+     * @param { GestureType } gesture - Gesture object to bind.
+     * @param { ?GestureMask } mask - Mask for gesture events. Default value: GestureMask.Normal.
+     * @returns { T } The instance of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    func parallelGesture(gesture: GestureType, mask: ?GestureMask): T {
+        let _ = gesture
+        let _ = mask
+        (this as T) ?? throw BusinessException(100001, "Internal error.")
+    }
 }

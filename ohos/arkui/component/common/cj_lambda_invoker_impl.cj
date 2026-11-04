@@ -17,7 +17,7 @@
 
 package ohos.arkui.component.common
 
-import ohos.arkui.component.native_struct.{CJClickEvent, CJArea, FfiWebResourceRequest}
+import ohos.arkui.component.native_struct.{CJClickEvent, CJArea, FfiWebResourceRequest, CJGestureEventV2}
 import ohos.base.{APP_LOG}
 import ohos.ffi.{BaseCallBack}
 import ohos.business_exception.BusinessException
@@ -189,5 +189,28 @@ protected class CallbackCJWebResourceRequest <: BaseCallBack {
             let ret = closure(arg0)
             CPointer<Bool>(res).write(ret)
         }
+    }
+}
+
+class CallbackCJGestureEventV2 <: BaseCallBack {
+    CallbackCJGestureEventV2(let closure: (CJGestureEventV2) -> Unit) {
+        registerSelf()
+    }
+
+    protected func invoke(argc: Int32, argv: CPointer<CPointer<Unit>>, _: CPointer<Unit>): Unit {
+        if (argc != 1) {
+            throw BusinessException(190002, "The callback function is invalid.")
+        }
+        if (argv.isNull()) {
+            APP_LOG.error("Invalid argument, failed to invoke CallbackCJGestureEventV2")
+            throw BusinessException(190002, "The callback function is invalid.")
+        }
+        let ptrArg0 = unsafe { CPointer<CJGestureEventV2>(argv.read()) }
+        if (ptrArg0.isNull()) {
+            APP_LOG.error("Invalid argument, failed to invoke CallbackCJGestureEventV2")
+            throw BusinessException(190002, "The callback function is invalid.")
+        }
+        let arg0 = unsafe { ptrArg0.read() }
+        closure(arg0)
     }
 }
