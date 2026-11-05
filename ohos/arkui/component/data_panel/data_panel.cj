@@ -65,6 +65,8 @@ foreign {
     func FfiOHOSAceFrameworkDataPanelSetTrackShadow(value: NativeDataPanelShadow): Unit
 
     func FfiOHOSAceFrameworkDataPanelResetValueColors(): Unit
+
+    func FfiOHOSAceFrameworkDataPanelResetShadowColors( radius: Float64, offsetX: Float64, offsetY: Float64): Unit
 }
 
 /**
@@ -147,6 +149,13 @@ public class LinearGradient {
     }
 
     func parseToNative(): NativeLinearGradient {
+        if (colorStops.size == 0) {
+            return NativeLinearGradient(0, 0.0, 0, 1.0)
+        }
+        if (colorStops.size == 1) {
+            let c = (colorStops[0].color).toUInt32()
+            return NativeLinearGradient(c, 0.0, c, 1.0)
+        }
         return NativeLinearGradient(
             (colorStops[0].color).toUInt32(),
             (colorStops[0].offset).value,
@@ -277,6 +286,12 @@ public class DataPanel <: CommonMethodComponent<DataPanel> & DataPanelAttribute 
     ]
     public func valueColors(value: ?Array<LinearGradient>): This {
         if (let Some(v) <- value) {
+            for (i in 0..v.size) {
+                if (v[i].colorStops.size == 0) {
+                    unsafe { FfiOHOSAceFrameworkDataPanelResetValueColors() }
+                    return this
+                }
+            }
             let vecValueHandle = FFIVectorNativeLinearGradient(v.size)
             for (i in 0..v.size) {
                 vecValueHandle.setElement(i, v[i].parseToNative())
@@ -344,19 +359,26 @@ public class DataPanel <: CommonMethodComponent<DataPanel> & DataPanelAttribute 
     public func trackShadow(value: ?DataPanelShadowOptions): This {
         let tmpValue = value ?? DataPanelShadowOptions()
         let colors = tmpValue.colors ?? []
+        let radius = transAppResourceToLength(tmpValue.radius ?? 20.vp).value
+        let offsetX = transAppResourceToLength(tmpValue.offsetX ?? 5.vp).value
+        let offsetY = transAppResourceToLength(tmpValue.offsetY ?? 5.vp).value
+
+        for (i in 0..colors.size) {
+            if (colors[i].colorStops.size == 0) {
+                unsafe {
+                    FfiOHOSAceFrameworkDataPanelResetShadowColors(radius, offsetX, offsetY)
+                }
+                return this
+            }
+        }
+
         let vecValueHandle = FFIVectorNativeLinearGradient(colors.size)
         for (i in 0..colors.size) {
             vecValueHandle.setElement(i, colors[i].parseToNative())
         }
         unsafe {
             FfiOHOSAceFrameworkDataPanelSetTrackShadow(
-                NativeDataPanelShadow(
-                    transAppResourceToLength(tmpValue.radius ?? 20.vp).value,
-                    transAppResourceToLength(tmpValue.offsetX ?? 5.vp).value,
-                    transAppResourceToLength(tmpValue.offsetY ?? 5.vp).value,
-                    vecValueHandle.getNativeHandle()
-                )
-            )
+                NativeDataPanelShadow(radius, offsetX, offsetY, vecValueHandle.getNativeHandle()))
         }
         vecValueHandle.free()
         this
