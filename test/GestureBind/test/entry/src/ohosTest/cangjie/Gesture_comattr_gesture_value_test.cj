@@ -48,6 +48,18 @@ private func enterValueView(caseName: String): Unit {
     sleepFor(500.milliSecond)
 }
 
+private func enterFingerDisplayView(caseName: String): Unit {
+    TestDriver.driver.waitForComponent(On().id("testButton"), 3000i32)
+    launch {
+        modtestSuiteText[0] = "Gesture_comattr_gesture_value_test"
+        modtestCaseText[0] = caseName
+        modtestView[0] = {_: CustomView => View_Gesture_FingerDisplay(Option<CustomView>.None)}
+    }
+    TestDriver.driver.waitForComponent(On().id("testButton"), 1000i32).getOrThrow().click()
+    TestDriver.driver.waitForComponent(On().id("gesture_area"), 3000i32)
+    sleepFor(500.milliSecond)
+}
+
 private func findEndRecord(): GestureEventRecord {
     var endRecord: ?GestureEventRecord = Option<GestureEventRecord>.None
     for (r in GestureEventRecords.records) {
@@ -333,5 +345,69 @@ class Gesture_comattr_gesture_value_test {
         @Expect(end.fingerInfoIds.size >= 1, true)
         @Expect(end.fingerInfoHandValue == end.fingerHandValue, true)
         Hilog.info(0u32, "CangjieTest", "observed FingerInfo.hand on injected pan: ${handRef}")
+    }
+    /*
+     * @tc.number    : TestGesture_comattr_gesture_value_test_13200
+     * @tc.name      : TestCase_ValueFingerDisplay
+     * @tc.desc      : value-level FingerInfo display coordinates: displayX/displayY (screen origin) with screen-vs-window offset constant across callbacks on both axes and agreeing with fingerInfos channel; globalDisplayX/globalDisplayY (?Float64) stable across every callback and agreeing between fingerList/fingerInfos channels (actual Some/None state is logged, not assumed)
+     * @tc.size      : MediumTest
+     * @tc.type      : Function
+     * @tc.level     : Level 0
+     */
+    @TestCase
+    @Tag[APILevel26, TestLevel0]
+    func TestCase_ValueFingerDisplay(): Unit {
+        Hilog.info(0u32, "CangjieTest", "testcase TestCase_ValueFingerDisplay begins.")
+        enterFingerDisplayView("TestCase_ValueFingerDisplay")
+        GestureEventRecords.reset()
+        slideBySteps("gesture_area", 200, 0)
+        let end = findEndRecord()
+        @Expect(end.fingerIds.size == 1, true)
+        // display (screen origin) vs global (application window origin) offset must stay
+        // constant across callbacks on BOTH axes (same window position on screen for
+        // every callback of one injected pan).
+        var screenRefX: ?Float64 = Option<Float64>.None
+        var screenRefY: ?Float64 = Option<Float64>.None
+        for (r in GestureEventRecords.records) {
+            if (r.fingerIds.size == 1) {
+                let sox = r.fingerDisplayXs[0] - r.fingerGlobalXs[0]
+                let soy = r.fingerDisplayYs[0] - r.fingerGlobalYs[0]
+                match (screenRefX) {
+                    case None => screenRefX = Option<Float64>.Some(sox)
+                    case Some(ref) => { =>
+                        @Expect(sox >= ref - 1.0 && sox <= ref + 1.0, true)
+                    }
+                }
+                match (screenRefY) {
+                    case None => screenRefY = Option<Float64>.Some(soy)
+                    case Some(ref) => { =>
+                        @Expect(soy >= ref - 1.0 && soy <= ref + 1.0, true)
+                    }
+                }
+            }
+        }
+        @Expect(screenRefX.isSome() && screenRefY.isSome(), true)
+        // globalDisplay (?Float64): serialization must be stable across every callback
+        // (consistently Some with the same value, or consistently None, on this injection).
+        let gdRefX = end.fingerGlobalDisplayXs[0]
+        let gdRefY = end.fingerGlobalDisplayYs[0]
+        for (r in GestureEventRecords.records) {
+            if (r.fingerIds.size == 1) {
+                @Expect(r.fingerGlobalDisplayXs[0] == gdRefX, true)
+                @Expect(r.fingerGlobalDisplayYs[0] == gdRefY, true)
+            }
+        }
+        // Cross-channel agreement: fingerList and fingerInfos describe the same touch
+        // point, so their display coordinates and globalDisplay serializations must
+        // agree on the end record.
+        @Expect(!end.fingerInfosNone, true)
+        @Expect(end.fingerInfoDisplayXs[0] >= end.fingerDisplayXs[0] - 1.0 &&
+            end.fingerInfoDisplayXs[0] <= end.fingerDisplayXs[0] + 1.0, true)
+        @Expect(end.fingerInfoDisplayYs[0] >= end.fingerDisplayYs[0] - 1.0 &&
+            end.fingerInfoDisplayYs[0] <= end.fingerDisplayYs[0] + 1.0, true)
+        @Expect(end.fingerInfoGlobalDisplayXs[0] == gdRefX, true)
+        @Expect(end.fingerInfoGlobalDisplayYs[0] == gdRefY, true)
+        Hilog.info(0u32, "CangjieTest",
+            "observed FingerInfo.globalDisplay on injected pan: X=${gdRefX}, Y=${gdRefY}")
     }
 }
