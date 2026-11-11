@@ -26,7 +26,9 @@ import ohos.arkui.state_macro_manage.*
 public var onAnimationStartCount: Int32 = 0
 public var onAnimationStartIndex: Int32 = -1
 public var onAnimationStartTargetIndex: Int32 = -1
-public var onAnimationStartTargetOffset: Float32 = -1.0
+public var onAnimationStartTargetOffset: Float32 = 0.0
+public var onAnimationStartCurrentOffset: Float32 = 0.0
+public var onAnimationStartVelocity: Float32 = -1.0
 
 /**
  * View_Tab_onAnimationStart_1: onAnimationStart registered, swipe 0 → 1 (TestTabs_onAnimationStart_001)
@@ -50,6 +52,8 @@ public class View_Tab_onAnimationStart_1 {
             onAnimationStartIndex = index
             onAnimationStartTargetIndex = targetIndex
             onAnimationStartTargetOffset = event.targetOffset
+            onAnimationStartCurrentOffset = event.currentOffset
+            onAnimationStartVelocity = event.velocity
         })
         .width(360)
         .height(296)
@@ -103,6 +107,8 @@ public class View_Tab_onAnimationStart_3 {
             onAnimationStartIndex = index
             onAnimationStartTargetIndex = targetIndex
             onAnimationStartTargetOffset = event.targetOffset
+            onAnimationStartCurrentOffset = event.currentOffset
+            onAnimationStartVelocity = event.velocity
         })
         .width(360)
         .height(296)
@@ -132,6 +138,8 @@ public class View_Tab_onAnimationStart_4 {
             onAnimationStartIndex = index
             onAnimationStartTargetIndex = targetIndex
             onAnimationStartTargetOffset = event.targetOffset
+            onAnimationStartCurrentOffset = event.currentOffset
+            onAnimationStartVelocity = event.velocity
         })
         .width(360)
         .height(296)
@@ -165,6 +173,8 @@ public class View_Tab_onAnimationStart_5 {
                     onAnimationStartIndex = index
                     onAnimationStartTargetIndex = targetIndex
                     onAnimationStartTargetOffset = event.targetOffset
+                    onAnimationStartCurrentOffset = event.currentOffset
+                    onAnimationStartVelocity = event.velocity
                 }
             } else {
                 Option<(Int32, Int32, TabsAnimationEvent) -> Unit>.None

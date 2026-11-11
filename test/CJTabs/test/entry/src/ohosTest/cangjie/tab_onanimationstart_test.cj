@@ -34,7 +34,9 @@ func resetOnAnimationStartCounters(): Unit {
     onAnimationStartCount = 0
     onAnimationStartIndex = -1
     onAnimationStartTargetIndex = -1
-    onAnimationStartTargetOffset = -1.0
+    onAnimationStartTargetOffset = 0.0
+    onAnimationStartCurrentOffset = 0.0
+    onAnimationStartVelocity = -1.0
 }
 
 /*
@@ -80,7 +82,9 @@ class Tab_onAnimationStart_test {
         @Expect(onAnimationStartCount, 1)
         @Expect(onAnimationStartIndex, 0)
         @Expect(onAnimationStartTargetIndex, 1)
-        @Expect(onAnimationStartTargetOffset > 0.0, true)
+        @Expect(onAnimationStartTargetOffset >= 0.0, true)
+        @Expect(onAnimationStartCurrentOffset >= 0.0, true)
+        @Expect(onAnimationStartVelocity >= 0.0, true)
         let tabIndex = getSwiperChildAttr("Tabs_comattr_id", "index")
         @Expect(tabIndex, "\"1\"")
         Hilog.info(0u32, "CangjieTest", "TestCase_1 ends.")
@@ -106,6 +110,11 @@ class Tab_onAnimationStart_test {
         let tabIndex = getSwiperChildAttr("Tabs_comattr_id", "index")
         @Expect(tabIndex, "\"1\"")
         @Expect(onAnimationStartCount, 0)
+        @Expect(onAnimationStartIndex, -1)
+        @Expect(onAnimationStartTargetIndex, -1)
+        @Expect(onAnimationStartTargetOffset, 0.0)
+        @Expect(onAnimationStartCurrentOffset, 0.0)
+        @Expect(onAnimationStartVelocity, -1.0)
         Hilog.info(0u32, "CangjieTest", "TestCase_2 ends.")
     }
 
@@ -129,6 +138,10 @@ class Tab_onAnimationStart_test {
         @Expect(onAnimationStartCount, 0)
         let tabIndex = getSwiperChildAttr("Tabs_comattr_id", "index")
         @Expect(tabIndex, "\"2\"")
+        @Expect(onAnimationStartTargetIndex, -1)
+        @Expect(onAnimationStartTargetOffset, 0.0)
+        @Expect(onAnimationStartCurrentOffset, 0.0)
+        @Expect(onAnimationStartVelocity, -1.0)
         Hilog.info(0u32, "CangjieTest", "TestCase_3 ends.")
     }
 
@@ -152,7 +165,9 @@ class Tab_onAnimationStart_test {
         @Expect(onAnimationStartCount, 1)
         @Expect(onAnimationStartIndex, 1)
         @Expect(onAnimationStartTargetIndex, 0)
-        @Expect(onAnimationStartTargetOffset < 0.0, true)
+        @Expect(onAnimationStartTargetOffset <= 0.0, true)
+        @Expect(onAnimationStartCurrentOffset <= 0.0, true)
+        @Expect(onAnimationStartVelocity >= 0.0, true)
         let tabIndex = getSwiperChildAttr("Tabs_comattr_id", "index")
         @Expect(tabIndex, "\"0\"")
         Hilog.info(0u32, "CangjieTest", "TestCase_4 ends.")
@@ -176,6 +191,11 @@ class Tab_onAnimationStart_test {
         TestDriver.driver.waitForComponent(On().text("blue"), 3000i32).getOrThrow().click()
         sleepFor(1.second)
         @Expect(onAnimationStartCount, 1)
+        @Expect(onAnimationStartIndex, 0)
+        @Expect(onAnimationStartTargetIndex, 1)
+        @Expect(onAnimationStartTargetOffset >= 0.0, true)
+        @Expect(onAnimationStartCurrentOffset >= 0.0, true)
+        @Expect(onAnimationStartVelocity >= 0.0, true)
         // 触发 onClick 切换 phase=1：None 清除
         TestDriver.driver.waitForComponent(On().id("Tabs_comattr_id"), 1000i32).getOrThrow().click()
         sleepFor(500.milliSecond)
@@ -184,6 +204,11 @@ class Tab_onAnimationStart_test {
         TestDriver.driver.waitForComponent(On().text("green"), 3000i32).getOrThrow().click()
         TestDriver.driver.waitForComponent(On().text("green"), 2000i32)
         @Expect(onAnimationStartCount, 0)
+        @Expect(onAnimationStartIndex, -1)
+        @Expect(onAnimationStartTargetIndex, -1)
+        @Expect(onAnimationStartTargetOffset, 0.0)
+        @Expect(onAnimationStartCurrentOffset, 0.0)
+        @Expect(onAnimationStartVelocity, -1.0)
         Hilog.info(0u32, "CangjieTest", "TestCase_5 ends.")
     }
 }

@@ -24,7 +24,8 @@ import ohos.arkui.state_macro_manage.*
  * 事件回调存档全局变量（测试侧读取断言）
  */
 public var onContentWillChangeCount: Int32 = 0
-public var onContentWillChangeLastIndex: Int32 = -1
+public var onContentWillChangeIndex: Int32 = -1
+public var onContentWillChangeTargetIndex: Int32 = -1
 public var onContentWillChangeReturn: Bool = true
 
 /**
@@ -45,7 +46,8 @@ public class View_Tab_onContentWillChange_1 {
         .onContentWillChange({
             index: Int32, targetIndex: Int32 =>
             onContentWillChangeCount += 1
-            onContentWillChangeLastIndex = targetIndex
+            onContentWillChangeIndex = index
+            onContentWillChangeTargetIndex = targetIndex
             true
         })
         .width(360)
@@ -91,7 +93,8 @@ public class View_Tab_onContentWillChange_3 {
         .onContentWillChange({
             index: Int32, targetIndex: Int32 =>
             onContentWillChangeCount += 1
-            onContentWillChangeLastIndex = targetIndex
+            onContentWillChangeIndex = index
+            onContentWillChangeTargetIndex = targetIndex
             true
         })
         .width(360)
@@ -117,7 +120,8 @@ public class View_Tab_onContentWillChange_4 {
         .onContentWillChange({
             index: Int32, targetIndex: Int32 =>
             onContentWillChangeCount += 1
-            onContentWillChangeLastIndex = targetIndex
+            onContentWillChangeIndex = index
+            onContentWillChangeTargetIndex = targetIndex
             false
         })
         .width(360)
@@ -147,7 +151,8 @@ public class View_Tab_onContentWillChange_5 {
             if (this.phase == 0) {
                 { index: Int32, targetIndex: Int32 =>
                     onContentWillChangeCount += 1
-                    onContentWillChangeLastIndex = targetIndex
+                    onContentWillChangeIndex = index
+                    onContentWillChangeTargetIndex = targetIndex
                     true
                 }
             } else {
