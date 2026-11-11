@@ -32,7 +32,8 @@ import ohos_app_cangjie_entry.tab_ongestureswipe.*
  */
 func resetOnGestureSwipeCounters(): Unit {
     onGestureSwipeCount = 0
-    onGestureSwipeCurrentOffset = -1.0
+    onGestureSwipeCurrentOffset = 0.0
+    onGestureSwipeTargetOffset = 0.0
     onGestureSwipeVelocity = -1.0
     onGestureSwipeIndex = -1
 }
@@ -80,7 +81,9 @@ class Tab_onGestureSwipe_test {
         @Expect(index, "\"1\"")
         @Expect(onGestureSwipeCount >= 1, true)
         @Expect(onGestureSwipeIndex >= 0, true)
-        @Expect(onGestureSwipeCurrentOffset != 0.0, true)
+        @Expect(onGestureSwipeCurrentOffset <= 0.0, true)
+        @Expect(onGestureSwipeTargetOffset <= 0.0, true)
+        @Expect(onGestureSwipeVelocity >= 0.0, true)
         Hilog.info(0u32, "CangjieTest", "TestCase_1 ends.")
     }
 
@@ -104,6 +107,11 @@ class Tab_onGestureSwipe_test {
         @Expect(onGestureSwipeCount, 0)
         let tabIndex = getSwiperChildAttr("Tabs_comattr_id", "index")
         @Expect(tabIndex, "\"1\"")
+        @Expect(onGestureSwipeCount, 0)
+        @Expect(onGestureSwipeIndex, -1)
+        @Expect(onGestureSwipeCurrentOffset, 0.0)
+        @Expect(onGestureSwipeTargetOffset, 0.0)
+        @Expect(onGestureSwipeVelocity, -1.0)
         Hilog.info(0u32, "CangjieTest", "TestCase_2 ends.")
     }
 
@@ -124,9 +132,13 @@ class Tab_onGestureSwipe_test {
         // 点击当前已选中的第一个 tab（index==0），不切换
         TestDriver.driver.waitForComponent(On().text("green"), 3000i32).getOrThrow().click()
         sleepFor(1.second)
-        @Expect(onGestureSwipeCount == 0 || onGestureSwipeCurrentOffset == 0.0, true)
         let tabIndex = getSwiperChildAttr("Tabs_comattr_id", "index")
         @Expect(tabIndex, "\"0\"")
+        @Expect(onGestureSwipeCount, 0)
+        @Expect(onGestureSwipeIndex, -1)
+        @Expect(onGestureSwipeCurrentOffset, 0.0)
+        @Expect(onGestureSwipeTargetOffset, 0.0)
+        @Expect(onGestureSwipeVelocity, -1.0)
         Hilog.info(0u32, "CangjieTest", "TestCase_3 ends.")
     }
 
@@ -150,6 +162,11 @@ class Tab_onGestureSwipe_test {
         @Expect(onGestureSwipeCount, 0)
         let tabIndex = getSwiperChildAttr("Tabs_comattr_id", "index")
         @Expect(tabIndex, "\"0\"")
+        @Expect(onGestureSwipeCount, 0)
+        @Expect(onGestureSwipeIndex, -1)
+        @Expect(onGestureSwipeCurrentOffset, 0.0)
+        @Expect(onGestureSwipeTargetOffset, 0.0)
+        @Expect(onGestureSwipeVelocity, -1.0)
         Hilog.info(0u32, "CangjieTest", "TestCase_4 ends.")
     }
 
@@ -172,6 +189,9 @@ class Tab_onGestureSwipe_test {
         sleepFor(1.second)
         @Expect(onGestureSwipeCount >= 1, true)
         @Expect(onGestureSwipeIndex >= 0, true)
+        @Expect(onGestureSwipeCurrentOffset <= 0.0, true)
+        @Expect(onGestureSwipeTargetOffset <= 0.0, true)
+        @Expect(onGestureSwipeVelocity >= 0.0, true)
         // 触发 onClick 切换 phase=1：None 清除
         TestDriver.driver.waitForComponent(On().id("Tabs_comattr_id"), 1000i32).getOrThrow().click()
         sleepFor(500.milliSecond)
@@ -180,6 +200,10 @@ class Tab_onGestureSwipe_test {
         swipe(from: Point(80, 750), to: Point(680, 750), speed: 2000)
         sleepFor(1.second)
         @Expect(onGestureSwipeCount, 0)
+        @Expect(onGestureSwipeIndex, -1)
+        @Expect(onGestureSwipeCurrentOffset, 0.0)
+        @Expect(onGestureSwipeTargetOffset, 0.0)
+        @Expect(onGestureSwipeVelocity, -1.0)
         Hilog.info(0u32, "CangjieTest", "TestCase_5 ends.")
     }
 }

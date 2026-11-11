@@ -24,7 +24,8 @@ import ohos.arkui.state_macro_manage.*
  * 事件回调存档全局变量（测试侧读取断言）
  */
 public var onGestureSwipeCount: Int32 = 0
-public var onGestureSwipeCurrentOffset: Float32 = -1.0
+public var onGestureSwipeCurrentOffset: Float32 = 0.0
+public var onGestureSwipeTargetOffset: Float32 = 0.0
 public var onGestureSwipeVelocity: Float32 = -1.0
 public var onGestureSwipeIndex: Int32 = -1
 
@@ -48,6 +49,7 @@ public class View_Tab_onGestureSwipe_1 {
             onGestureSwipeCount += 1
             onGestureSwipeIndex = index
             onGestureSwipeCurrentOffset = event.currentOffset
+            onGestureSwipeTargetOffset = event.targetOffset
             onGestureSwipeVelocity = event.velocity
         })
         .width(360)
@@ -95,6 +97,7 @@ public class View_Tab_onGestureSwipe_3 {
             onGestureSwipeCount += 1
             onGestureSwipeIndex = index
             onGestureSwipeCurrentOffset = event.currentOffset
+            onGestureSwipeTargetOffset = event.targetOffset
             onGestureSwipeVelocity = event.velocity
         })
         .width(360)
@@ -123,6 +126,7 @@ public class View_Tab_onGestureSwipe_4 {
             onGestureSwipeCount += 1
             onGestureSwipeIndex = index
             onGestureSwipeCurrentOffset = event.currentOffset
+            onGestureSwipeTargetOffset = event.targetOffset
             onGestureSwipeVelocity = event.velocity
         })
         .width(360)
@@ -154,6 +158,7 @@ public class View_Tab_onGestureSwipe_5 {
                     onGestureSwipeCount += 1
                     onGestureSwipeIndex = index
                     onGestureSwipeCurrentOffset = event.currentOffset
+                    onGestureSwipeTargetOffset = event.targetOffset
                     onGestureSwipeVelocity = event.velocity
                 }
             } else {

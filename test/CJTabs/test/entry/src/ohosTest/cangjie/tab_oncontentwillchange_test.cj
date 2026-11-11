@@ -32,7 +32,8 @@ import ohos_app_cangjie_entry.tab_oncontentwillchange.*
  */
 func resetOnContentWillChangeCounters(): Unit {
     onContentWillChangeCount = 0
-    onContentWillChangeLastIndex = -1
+    onContentWillChangeIndex = -1
+    onContentWillChangeTargetIndex = -1
     onContentWillChangeReturn = true
 }
 
@@ -77,7 +78,8 @@ class Tab_onContentWillChange_test {
         TestDriver.driver.waitForComponent(On().text("blue"), 3000i32).getOrThrow().click()
         sleepFor(1.second)
         @Expect(onContentWillChangeCount, 1)
-        @Expect(onContentWillChangeLastIndex, 1)
+        @Expect(onContentWillChangeIndex, 0)
+        @Expect(onContentWillChangeTargetIndex, 1)
         let tabIndex = getSwiperChildAttr("Tabs_comattr_id", "index")
         @Expect(tabIndex, "\"1\"")
         Hilog.info(0u32, "CangjieTest", "TestCase_1 ends.")
@@ -101,6 +103,8 @@ class Tab_onContentWillChange_test {
         TestDriver.driver.waitForComponent(On().text("blue"), 3000i32).getOrThrow().click()
         sleepFor(1.second)
         @Expect(onContentWillChangeCount, 0)
+        @Expect(onContentWillChangeIndex, -1)
+        @Expect(onContentWillChangeTargetIndex, -1)
         let tabIndex = getSwiperChildAttr("Tabs_comattr_id", "index")
         @Expect(tabIndex, "\"1\"")
         Hilog.info(0u32, "CangjieTest", "TestCase_2 ends.")
@@ -124,6 +128,8 @@ class Tab_onContentWillChange_test {
         TestDriver.driver.waitForComponent(On().text("green"), 3000i32).getOrThrow().click()
         sleepFor(1.second)
         @Expect(onContentWillChangeCount, 0)
+        @Expect(onContentWillChangeIndex, -1)
+        @Expect(onContentWillChangeTargetIndex, -1)
         let tabIndex = getSwiperChildAttr("Tabs_comattr_id", "index")
         @Expect(tabIndex, "\"0\"")
         Hilog.info(0u32, "CangjieTest", "TestCase_3 ends.")
@@ -147,6 +153,8 @@ class Tab_onContentWillChange_test {
         TestDriver.driver.waitForComponent(On().text("blue"), 3000i32).getOrThrow().click()
         sleepFor(1.second)
         @Expect(onContentWillChangeCount, 1)
+        @Expect(onContentWillChangeIndex, 0)
+        @Expect(onContentWillChangeTargetIndex, 1)
         let tabIndex = getSwiperChildAttr("Tabs_comattr_id", "index")
         @Expect(tabIndex, "\"0\"")
         Hilog.info(0u32, "CangjieTest", "TestCase_4 ends.")
@@ -170,6 +178,8 @@ class Tab_onContentWillChange_test {
         TestDriver.driver.waitForComponent(On().text("blue"), 3000i32).getOrThrow().click()
         sleepFor(1.second)
         @Expect(onContentWillChangeCount, 1)
+        @Expect(onContentWillChangeIndex, 0)
+        @Expect(onContentWillChangeTargetIndex, 1)
         // 触发 onClick 切换 phase=1：None 清除
         TestDriver.driver.waitForComponent(On().id("Tabs_comattr_id"), 1000i32).getOrThrow().click()
         sleepFor(500.milliSecond)
@@ -178,6 +188,8 @@ class Tab_onContentWillChange_test {
         TestDriver.driver.waitForComponent(On().text("blue"), 3000i32).getOrThrow().click()
         sleepFor(1.second)
         @Expect(onContentWillChangeCount, 0)
+        @Expect(onContentWillChangeIndex, -1)
+        @Expect(onContentWillChangeTargetIndex, -1)
         Hilog.info(0u32, "CangjieTest", "TestCase_5 ends.")
     }
 }

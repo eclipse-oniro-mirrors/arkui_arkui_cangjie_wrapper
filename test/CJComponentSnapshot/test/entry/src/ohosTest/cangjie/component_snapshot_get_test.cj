@@ -27,6 +27,7 @@ import ohos_app_cangjie_entry.modtestView
 import ohos.arkui.component.custom_component.CustomView
 import ohos_app_cangjie_entry.component_snapshot_get.*
 import kit.ArkUI.getInspectorByKey
+import std.convert.*
 
 /*
  * 公共驱动：launch 指定 View（编号 1~37）→ 点击 testButton → 等待目标组件挂载。已覆盖 36 个原始场景 + 1 个 BC 优先级验证场景。
@@ -88,6 +89,15 @@ func getInspectorAttr(id: String, field: String): String {
 }
 
 /*
+ * 将 inspector 输出的 vp 字符串（如 "\"30.00vp\""、"30.00vp"）转换为 Float64：
+ * 去掉首尾空白、外层引号与 vp 单位后缀。
+ */
+func vp2Float64(value: String): Float64 {
+    let text = value.trimAscii().removePrefix('"').removeSuffix('"').removeSuffix("vp")
+    return Float64.parse(text.trimAscii())
+}
+
+/*
  * 触发按钮并等待回调完成（回调置 snapDone）。
  */
 func triggerAndWait(buttonText: String): Unit {
@@ -114,8 +124,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_1 ends.")
     }
 
@@ -137,8 +147,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_2 ends.")
     }
 
@@ -166,8 +176,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 100001)
         @Expect(snapPixelMapPresent, false)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"130.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"130.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(130.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(130.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_3 ends.")
     }
 
@@ -189,8 +199,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapErrCode, 100001)
         @Expect(snapPixelMapPresent, false)
         @Expect(snapErrMessage, "Invalid ID.")
-        @Expect(getInspectorAttr("Image_id", "width"), "\"130.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"130.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(130.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(130.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_4 ends.")
     }
 
@@ -232,8 +242,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_6 ends.")
     }
 
@@ -254,8 +264,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_7 ends.")
     }
 
@@ -276,8 +286,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_8 ends.")
     }
 
@@ -298,8 +308,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_9 ends.")
     }
 
@@ -320,8 +330,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, false)
         @Expect(snapErrCode, -1)
         @Expect(snapPixelMapPresent, false)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"130.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"130.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(130.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(130.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_10 ends.")
     }
 
@@ -342,8 +352,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_11 ends.")
     }
 
@@ -364,8 +374,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_12 ends.")
     }
 
@@ -386,8 +396,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_13 ends.")
     }
 
@@ -408,8 +418,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_14 ends.")
     }
 
@@ -430,8 +440,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_15 ends.")
     }
 
@@ -452,8 +462,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"110.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"20.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(110.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(20.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_16 ends.")
     }
 
@@ -474,8 +484,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_17 ends.")
     }
 
@@ -516,8 +526,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_19 ends.")
     }
 
@@ -538,8 +548,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"110.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"20.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(110.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(20.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_20 ends.")
     }
 
@@ -560,8 +570,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_21 ends.")
     }
 
@@ -582,8 +592,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 401)
         @Expect(snapPixelMapPresent, false)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"130.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"130.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(130.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(130.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_22 ends.")
     }
 
@@ -604,8 +614,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_23 ends.")
     }
 
@@ -626,8 +636,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_24 ends.")
     }
 
@@ -648,8 +658,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_25 ends.")
     }
 
@@ -670,8 +680,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 160003)
         @Expect(snapPixelMapPresent, false)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"130.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"130.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(130.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(130.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_26 ends.")
     }
 
@@ -692,8 +702,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_27 ends.")
     }
 
@@ -714,8 +724,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_28 ends.")
     }
 
@@ -736,8 +746,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_29 ends.")
     }
 
@@ -758,8 +768,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_30 ends.")
     }
 
@@ -780,8 +790,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_31 ends.")
     }
 
@@ -802,8 +812,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_32 ends.")
     }
 
@@ -824,8 +834,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_33 ends.")
     }
 
@@ -846,8 +856,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_34 ends.")
     }
 
@@ -868,8 +878,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_35 ends.")
     }
 
@@ -910,8 +920,8 @@ class ComponentSnapshot_get_test {
         @Expect(snapDone, true)
         @Expect(snapErrCode, 0)
         @Expect(snapPixelMapPresent, true)
-        @Expect(getInspectorAttr("Image_id", "width"), "\"120.00vp\"")
-        @Expect(getInspectorAttr("Image_id", "height"), "\"30.00vp\"")
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "width")).isNear(120.00, delta: 1.0))
+        @Expect(vp2Float64(getInspectorAttr("Image_id", "height")).isNear(30.00, delta: 1.0))
         Hilog.info(0u32, "CangjieTest", "TestCase_37 ends.")
     }
 }

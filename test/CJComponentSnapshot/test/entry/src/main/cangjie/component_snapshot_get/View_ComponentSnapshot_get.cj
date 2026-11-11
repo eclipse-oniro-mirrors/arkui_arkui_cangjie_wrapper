@@ -63,14 +63,14 @@ public class View_ComponentSnapshot_get_1 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -103,14 +103,14 @@ public class View_ComponentSnapshot_get_2 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -170,14 +170,14 @@ public class View_ComponentSnapshot_get_3 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -199,14 +199,14 @@ public class View_ComponentSnapshot_get_4 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -241,14 +241,14 @@ public class View_ComponentSnapshot_get_5 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -283,14 +283,14 @@ public class View_ComponentSnapshot_get_6 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -326,14 +326,14 @@ public class View_ComponentSnapshot_get_7 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -369,14 +369,14 @@ public class View_ComponentSnapshot_get_8 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -412,14 +412,14 @@ public class View_ComponentSnapshot_get_9 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -455,14 +455,14 @@ public class View_ComponentSnapshot_get_10 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -502,14 +502,14 @@ public class View_ComponentSnapshot_get_11 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -545,14 +545,14 @@ public class View_ComponentSnapshot_get_12 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -588,14 +588,14 @@ public class View_ComponentSnapshot_get_13 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -631,14 +631,14 @@ public class View_ComponentSnapshot_get_14 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -674,14 +674,14 @@ public class View_ComponentSnapshot_get_15 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -717,14 +717,14 @@ public class View_ComponentSnapshot_get_16 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -766,14 +766,14 @@ public class View_ComponentSnapshot_get_17 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -815,14 +815,14 @@ public class View_ComponentSnapshot_get_18 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -864,14 +864,14 @@ public class View_ComponentSnapshot_get_19 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -909,14 +909,14 @@ public class View_ComponentSnapshot_get_20 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -958,14 +958,14 @@ public class View_ComponentSnapshot_get_21 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -1007,14 +1007,14 @@ public class View_ComponentSnapshot_get_22 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -1056,14 +1056,14 @@ public class View_ComponentSnapshot_get_23 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -1101,14 +1101,14 @@ public class View_ComponentSnapshot_get_24 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -1146,14 +1146,14 @@ public class View_ComponentSnapshot_get_25 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -1191,14 +1191,14 @@ public class View_ComponentSnapshot_get_26 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -1236,14 +1236,14 @@ public class View_ComponentSnapshot_get_27 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -1281,14 +1281,14 @@ public class View_ComponentSnapshot_get_28 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -1326,14 +1326,14 @@ public class View_ComponentSnapshot_get_29 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -1371,14 +1371,14 @@ public class View_ComponentSnapshot_get_30 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -1418,14 +1418,14 @@ public class View_ComponentSnapshot_get_31 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -1465,14 +1465,14 @@ public class View_ComponentSnapshot_get_32 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -1512,14 +1512,14 @@ public class View_ComponentSnapshot_get_33 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -1557,14 +1557,14 @@ public class View_ComponentSnapshot_get_34 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -1602,14 +1602,14 @@ public class View_ComponentSnapshot_get_35 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -1647,14 +1647,14 @@ public class View_ComponentSnapshot_get_36 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -1701,14 +1701,14 @@ public class View_ComponentSnapshot_get_37 {
                     if (pixelMap.isSome()) {
                         Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130).height(130).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150).height(150).border(color: Color.Black, width: 2).justifyContent(FlexAlign.Center)
+                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120)
-                  .height(30)
+                  .width(120.vp)
+                  .height(30.vp)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
