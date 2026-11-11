@@ -349,7 +349,7 @@ class Gesture_comattr_gesture_value_test {
     /*
      * @tc.number    : TestGesture_comattr_gesture_value_test_13200
      * @tc.name      : TestCase_ValueFingerDisplay
-     * @tc.desc      : value-level FingerInfo display coordinates: displayX/displayY (screen origin) with screen-vs-window offset constant across callbacks on both axes and agreeing with fingerInfos channel; globalDisplayX/globalDisplayY (?Float64) stable across every callback and agreeing between fingerList/fingerInfos channels (actual Some/None state is logged, not assumed)
+     * @tc.desc      : value-level FingerInfo display coordinates: displayX/displayY (screen origin) with screen-vs-window offset constant across callbacks on both axes and agreeing with fingerInfos channel; globalDisplayX/globalDisplayY (?Float64) is the touch point position (tracks the moving finger), so only the Some/None state is asserted stable across every callback, plus fingerList/fingerInfos channel agreement on every record (actual Some/None state is logged, not assumed)
      * @tc.size      : MediumTest
      * @tc.type      : Function
      * @tc.level     : Level 0
@@ -387,14 +387,16 @@ class Gesture_comattr_gesture_value_test {
             }
         }
         @Expect(screenRefX.isSome() && screenRefY.isSome(), true)
-        // globalDisplay (?Float64): serialization must be stable across every callback
-        // (consistently Some with the same value, or consistently None, on this injection).
         let gdRefX = end.fingerGlobalDisplayXs[0]
         let gdRefY = end.fingerGlobalDisplayYs[0]
         for (r in GestureEventRecords.records) {
             if (r.fingerIds.size == 1) {
-                @Expect(r.fingerGlobalDisplayXs[0] == gdRefX, true)
-                @Expect(r.fingerGlobalDisplayYs[0] == gdRefY, true)
+                @Expect((r.fingerGlobalDisplayXs[0] == "OptionNone") == (gdRefX == "OptionNone"), true)
+                @Expect((r.fingerGlobalDisplayYs[0] == "OptionNone") == (gdRefY == "OptionNone"), true)
+            }
+            if (r.fingerIds.size == 1 && !r.fingerInfosNone && r.fingerInfoIds.size >= 1) {
+                @Expect(r.fingerGlobalDisplayXs[0] == r.fingerInfoGlobalDisplayXs[0], true)
+                @Expect(r.fingerGlobalDisplayYs[0] == r.fingerInfoGlobalDisplayYs[0], true)
             }
         }
         // Cross-channel agreement: fingerList and fingerInfos describe the same touch
