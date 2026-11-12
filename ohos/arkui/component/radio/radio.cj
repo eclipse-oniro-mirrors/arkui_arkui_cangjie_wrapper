@@ -19,10 +19,24 @@ package ohos.arkui.component.radio
 
 import ohos.arkui.component.common.{CommonMethodComponent, Rectangle}
 import ohos.arkui.component.native_struct.{CJEdge, VectorNativeRectangleHandle, CJResponseRegion, FFIVectorNativeRectangle}
-import ohos.arkui.component.util.{transAppResourceToLength, lessNotEqual}
-import ohos.base.{Length, BASE_LOG, LengthProp}
-import ohos.ffi.{Callback1Param}
+import ohos.arkui.component.util.{transAppResourceToLength, transAppResourceToResourceColor, lessNotEqual}
+import ohos.base.{Length, BASE_LOG, LengthProp, ResourceColor, Color}
+import ohos.ffi.{Callback1Param, Callback0Param}
 import ohos.labels.{APILevel}
+import std.deriving.Derive
+import ohos.business_exception.BusinessException
+
+@C
+struct CJRadioStyleOptions {
+    CJRadioStyleOptions(
+        let checkedBackgroundColor: UInt32,
+        let hasCheckedBackgroundColor: Bool,
+        let uncheckedBorderColor: UInt32,
+        let hasUncheckedBorderColor: Bool,
+        let indicatorColor: UInt32,
+        let hasIndicatorColor: Bool
+    ) {}
+}
 
 foreign {
     func FfiOHOSAceFrameworkRadioCreate(group: CString, value: CString): Unit
@@ -34,6 +48,8 @@ foreign {
 
     func FfiOHOSAceFrameworkRadioSetStyle(checkedBackgroundColor: UInt32, uncheckedBorderColor: UInt32,
         indicatorColor: UInt32): Unit
+
+    func FfiOHOSAceFrameworkRadioSetStyleV2(options: CJRadioStyleOptions): Unit
 
     func FfiOHOSAceFrameworkRadioSetSize(width: Float64, widthUnit: Int32, height: Float64, heightUnit: Int32): Unit
 
@@ -48,6 +64,53 @@ foreign {
     func FfiRadioSetResponseRegionArray(array: VectorNativeRectangleHandle): Unit
 
     func FfiRadioSetResponseRegion(value: CJResponseRegion): Unit
+}
+
+/**
+ * Enumerates the radio indicator types.
+ */
+@Derive[Equatable]
+@!APILevel[
+    since: "26.1.0",
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public enum RadioIndicatorType {
+    /**
+     * Default tick icon.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    Tick
+    |
+    /**
+     * Default dot icon.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    Dot
+    |
+    /**
+     * Custom component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    Custom
+    | ...
+
+    protected func getValue(): Int32 {
+        match (this) {
+            case Tick => 0
+            case Dot => 1
+            case Custom => 2
+            case _ => throw BusinessException(100001, "Internal error.")
+        }
+    }
 }
 
 /**
@@ -205,6 +268,60 @@ public class Radio <: CommonMethodComponent<Radio> & RadioAttribute {
             FfiRadioSetResponseRegionArray(vecFFi.getNativeHandle())
         }
         vecFFi.free()
+        this
+    }
+
+    /**
+     * Create a radio box with the specified indicator type and optional custom indicator builder.
+     *
+     * @param { ?String } value - Current value of the radio box.
+     * @param { ?String } group - Group name of the radio box.
+     * @param { RadioIndicatorType } indicatorType - Indicator type of the radio button.
+     * @param { ?() -> Unit } [indicatorBuilder] - Custom component to indicate that the radio button is selected.
+     *     This custom component is center aligned with the radio button.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public init(value!: ?String, group!: ?String, indicatorType!: RadioIndicatorType,
+        indicatorBuilder!: ?() -> Unit = Option<() -> Unit>.None) {
+        let builderId: Int64 = match (indicatorBuilder) {
+            case Some(cb) => Callback0Param<Unit>(cb).getID()
+            case None => 0
+        }
+        unsafe {
+            try (groupStr = LibC.mallocCString(group ?? "").asResource(), valStr = LibC.mallocCString(value ?? "").asResource()) {
+                FfiOHOSAceFrameworkRadioWithIndicatorCreate(groupStr.value, valStr.value,
+                    indicatorType.getValue(), builderId)
+            }
+        }
+    }
+
+    /**
+     * Sets the style of the radio button in selected or deselected state.
+     *
+     * @param { ?ResourceColor } [checkedBackgroundColor] - Color of the background when the radio button is selected.
+     * @param { ?ResourceColor } [uncheckedBorderColor] - Color of the border when the radio button is deselected.
+     * @param { ?ResourceColor } [indicatorColor] - Color of the indicator when the radio button is selected.
+     * @returns { This } The instance of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public func radioStyle(
+        checkedBackgroundColor!: ?ResourceColor = None,
+        uncheckedBorderColor!: ?ResourceColor = None,
+        indicatorColor!: ?ResourceColor = None
+    ): This {
+        unsafe {
+            FfiOHOSAceFrameworkRadioSetStyleV2(CJRadioStyleOptions(
+                transAppResourceToResourceColor(checkedBackgroundColor ?? Color(0)),
+                checkedBackgroundColor.isSome(),
+                transAppResourceToResourceColor(uncheckedBorderColor ?? Color(0)), uncheckedBorderColor.isSome(),
+                transAppResourceToResourceColor(indicatorColor ?? Color(0)), indicatorColor.isSome()))
+        }
         this
     }
 }

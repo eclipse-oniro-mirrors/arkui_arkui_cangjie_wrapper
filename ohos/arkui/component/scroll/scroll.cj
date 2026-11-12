@@ -17,7 +17,7 @@
 
 package ohos.arkui.component.scroll
 
-import ohos.arkui.component.common.{ScrollState, Edge, Curve, NestedScrollMode, ScrollDirection, BarState, ScrollSource}
+import ohos.arkui.component.common.{ScrollState, Edge, Curve, NestedScrollMode, ScrollDirection, BarState, ScrollSource, EdgeEffect, EdgeEffectOptions}
 import ohos.arkui.component.native_struct.{RectResultParams}
 import ohos.arkui.component.util.{transAppResourceToResourceColor, transAppResourceToLength, EMPTY_FUNCTION}
 import ohos.base.{VectorFloat32Handle, VectorInt32Handle, Length, ResourceColor, LengthProp, BASE_LOG}
@@ -320,7 +320,7 @@ public enum ScrollAlign {
     Auto
     | ...
 
-    func getValue(): Int32 {
+    protected func getValue(): Int32 {
         match (this) {
             case Start => 0
             case Center => 1
@@ -596,6 +596,8 @@ foreign {
     func FfiOHOSAceFrameworkScrollFriction(friction: Float64): Unit
 
     func FfiOHOSAceFrameworkScrollEdgeEffect(edgeEffect: Int32, alwaysEnabled: Bool): Unit
+
+    func FfiOHOSAceFrameworkScrollEdgeEffectWithOptions(edgeEffect: Int32, alwaysEnabled: Bool, effectEdge: Int32): Unit
 
     func FfiOHOSAceFrameworkScrollScrollsnap(value: ScrollSnapOptionsParams): Unit
 
@@ -992,6 +994,30 @@ public class Scroll <: ScrollableCommonMethodComponent<Scroll> & ScrollAttribute
         }
         this
     }
+
+    /**
+     * Sets the effect used when the scroll boundary is reached.
+     *
+     * @param { ?EdgeEffect } edgeEffect - Effect used when the scroll boundary is reached. The spring and shadow
+     *     effects are supported.
+     *     Default value: EdgeEffect.None.
+     * @param { ?EdgeEffectOptions } [options] - Whether to enable the scroll effect when the component content is smaller
+     *     than the component itself. The value EdgeEffectOptions(true) means to enable the scroll effect, and
+     *     EdgeEffectOptions(false) means the opposite. Default value: EdgeEffectOptions(true).
+     * @returns { This } The instance of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public func edgeEffect(edgeEffect: ?EdgeEffect, options!: ?EdgeEffectOptions = None): This {
+        let tmpOptions = options ?? EdgeEffectOptions(true, effectEdge: 3)
+        unsafe {
+            FfiOHOSAceFrameworkScrollEdgeEffectWithOptions((edgeEffect ?? EdgeEffect.None).getValue(),
+                tmpOptions.alwaysEnabled, tmpOptions.effectEdge ?? 3)
+        }
+        this
+    }
 }
 
 class ScrollerHandler <: RemoteDataLite {
@@ -1015,7 +1041,7 @@ class ScrollerHandler <: RemoteDataLite {
     since: "22",
     syscap: "SystemCapability.ArkUI.ArkUI.Full"
 ]
-public class Scroller {
+public open class Scroller {
     let handler: ScrollerHandler
 
     /**
@@ -1029,6 +1055,15 @@ public class Scroller {
         this.handler = ScrollerHandler(unsafe {
             FfiOHOSAceFrameworkScrollerCtor()
         })
+    }
+
+    /**
+     * Creates a Scroller object with the given native handler ID.
+     *
+     * @param { Int64 } handlerId - The native scroller handler ID.
+     */
+    protected init(handlerId: Int64) {
+        this.handler = ScrollerHandler(handlerId)
     }
 
     protected func getID(): Int64 {

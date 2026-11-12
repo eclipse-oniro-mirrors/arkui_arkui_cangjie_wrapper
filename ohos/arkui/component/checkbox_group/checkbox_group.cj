@@ -20,10 +20,22 @@ package ohos.arkui.component.checkbox_group
 import ohos.arkui.component.common.{CommonMethodComponent, SelectStatus, Rectangle}
 import ohos.arkui.component.native_struct.{CJEdge, VectorNativeRectangleHandle, CJResponseRegion, FFiCheckboxGroupResult, FFIVectorNativeRectangle}
 import ohos.arkui.component.util.{transAppResourceToResourceColor, transAppResourceToLength, lessNotEqual}
-import ohos.base.{ResourceColor, Length, APP_LOG, BASE_LOG, LengthProp}
+import ohos.base.{ResourceColor, Length, APP_LOG, BASE_LOG, LengthProp, Color}
 import ohos.ffi.{BaseCallBack}
 import ohos.labels.{APILevel}
 import ohos.business_exception.BusinessException
+
+@C
+struct CJCheckBoxGroupMarkOptions {
+    CJCheckBoxGroupMarkOptions(
+        let strokeColor: UInt32,
+        let hasStrokeColor: Bool,
+        let size: Float64,
+        let sizeUnit: Int32,
+        let strokeWidth: Float64,
+        let strokeWidthUnit: Int32
+    ) {}
+}
 
 foreign {
     func FfiOHOSAceFrameworkCheckBoxGroupCreate(group: CString): Unit
@@ -52,6 +64,8 @@ foreign {
 
     func FfiOHOSAceFrameworkCheckBoxGroupSetMark(strokeColor: UInt32, size: Float64, sizeUnit: Int32,
         strokeWidth: Float64, strokeWidthUnit: Int32): Unit
+
+    func FfiOHOSAceFrameworkCheckBoxGroupSetMarkV2(options: CJCheckBoxGroupMarkOptions): Unit
 
     func FfiOHOSAceFrameworkCheckBoxGroupSetCheckboxShape(value: Int32): Unit
 
@@ -334,6 +348,37 @@ public class CheckboxGroup <: CommonMethodComponent<CheckboxGroup> & CheckboxGro
         let lambdaData = CallbackFFiCheckboxGroupResult(wrapper)
         unsafe {
             FfiOHOSAceFrameworkCheckBoxGroupSetOnChange(lambdaData.getID())
+        }
+        this
+    }
+
+    /**
+     * Sets the check mark style of the check box.
+     *
+     * @param { ?ResourceColor } [strokeColor] - Color of the internal icon. If not set, the theme default color is used.
+     * @param { ?Length } [size] - Size of the internal icon, in vp. The default size is the same as the width of the
+     *     check box component. Percentage values are not supported. If an invalid value is set, the default value is
+     *     used.
+     * @param { ?Length } [strokeWidth] - Thickness of the internal icon, in vp. Percentage values are not supported. If
+     *     an invalid value is set, the default value is used. Default value: 2.vp.
+     * @returns { This } The instance of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public func mark(
+        strokeColor!: ?ResourceColor = None,
+        size!: ?Length = None,
+        strokeWidth!: ?Length = None
+    ): This {
+        let tmpSize = transAppResourceToLength(size ?? (-1.0).vp)
+        let tmpStrokeWidth = transAppResourceToLength(strokeWidth ?? 2.vp)
+        unsafe {
+            FfiOHOSAceFrameworkCheckBoxGroupSetMarkV2(CJCheckBoxGroupMarkOptions(
+                transAppResourceToResourceColor(strokeColor ?? Color(0)),
+                strokeColor.isSome(), tmpSize.value, tmpSize.unitType.getValue(),
+                tmpStrokeWidth.value, tmpStrokeWidth.unitType.getValue()))
         }
         this
     }

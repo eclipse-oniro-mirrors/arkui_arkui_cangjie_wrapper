@@ -65,6 +65,7 @@ public import ohos.arkui.component.swiper.*
 public import ohos.arkui.component.grid_item.*
 public import ohos.arkui.component.menu_item_group.*
 public import ohos.arkui.component.flex.*
+public import ohos.arkui.component.column_split.*
 public import ohos.arkui.component.gauge.*
 public import ohos.arkui.component.rect.*
 public import ohos.arkui.component.text_field.*

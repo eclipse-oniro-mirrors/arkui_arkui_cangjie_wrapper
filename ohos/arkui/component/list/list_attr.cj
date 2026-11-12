@@ -15,7 +15,7 @@
 
 package ohos.arkui.component.list
 
-import ohos.arkui.component.common.{Axis, EdgeEffect, ListItemAlign, StickyStyle, ScrollState}
+import ohos.arkui.component.common.{Axis, EdgeEffect, ListItemAlign, StickyStyle, ScrollState, EdgeEffectOptions}
 import ohos.arkui.component.scroll.{ScrollableCommonMethod}
 import ohos.arkui.component.list_item_group.{ListDividerOptions}
 import ohos.labels.{APILevel}
@@ -178,4 +178,36 @@ sealed interface ListAttribute <: ScrollableCommonMethod<ListAttribute> {
         syscap: "SystemCapability.ArkUI.ArkUI.Full"
     ]
     func onScrollFrameBegin(event: ?(Float64, ScrollState) -> OnScrollFrameBeginHandlerResult): ListAttribute
+
+    /**
+     * Sets the effect used when the scroll boundary is reached.
+     *
+     * @param { ?EdgeEffect } edgeEffect - Effect used when the scroll boundary is reached. The spring and shadow
+     *     effects are supported.
+     *     Default value: EdgeEffect.Spring.
+     * @param { ?EdgeEffectOptions } options - Whether to enable the scroll effect when the component content is smaller
+     *     than the component itself. The value EdgeEffectOptions(true) means to enable the scroll effect, and
+     *     EdgeEffectOptions(false) means the opposite. Default value: EdgeEffectOptions(false).
+     * @returns { ListAttribute }
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    func edgeEffect(edgeEffect: ?EdgeEffect, options!: ?EdgeEffectOptions): ListAttribute
+
+    /**
+     * Sets the scroll snap alignment effect for list items when scrolling ends.
+     * This API is available only when the heights of list items are the same. During the alignment animation,
+     * the scroll operation source type reported by the onWillScroll event is ScrollSource.Fling.
+     *
+     * @param { ?ScrollSnapAlign } value - Alignment mode of the scroll snap position. Default value:
+     *     ScrollSnapAlign.None.
+     * @returns { ListAttribute } The attribute of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    func scrollSnapAlign(value: ?ScrollSnapAlign): ListAttribute
 }

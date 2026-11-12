@@ -17,14 +17,16 @@
 
 package ohos.arkui.component.list
 
-import ohos.arkui.component.common.{Axis, EdgeEffect, ListItemAlign, StickyStyle, BarState, ScrollState, NestedScrollMode}
+import ohos.arkui.component.common.{Axis, EdgeEffect, ListItemAlign, StickyStyle, BarState, ScrollState, NestedScrollMode, EdgeEffectOptions}
 import ohos.arkui.component.list_item_group.{ListDividerOptions}
 import ohos.arkui.component.native_struct.{DividerParams, RectResultParams}
-import ohos.arkui.component.scroll.{ScrollableCommonMethodComponent, Scroller, NestedScrollOptions, ContentClipMode}
+import ohos.arkui.component.scroll.{ScrollableCommonMethodComponent, Scroller, NestedScrollOptions, ContentClipMode, ScrollAlign, RectResult}
 import ohos.arkui.component.util.{LENGTH_VP, transAppResourceToLength, transAppResourceToResourceColor, lessNotEqual, EMPTY_FUNCTION}
 import ohos.base.{Length, LengthProp, ResourceColor, BASE_LOG}
 import ohos.ffi.{Callback3Param, Callback2Param, Callback0Param}
 import ohos.labels.{APILevel}
+import std.deriving.Derive
+import ohos.business_exception.BusinessException
 import ohos.resource.{AppResource, getResourceString}
 import std.convert.{Parsable}
 
@@ -37,6 +39,48 @@ struct LanesParams {
         let maxUnit: Int32,
         let gutter: Float64,
         let gutterUnit: Int32
+    ) {}
+}
+
+/**
+ * Native visible list content info struct.
+ * Field layout must stay in sync with the C++ side (cj_frontend_ohos).
+ */
+@C
+protected struct CJVisibleListContentInfo {
+    protected CJVisibleListContentInfo(
+        protected let index: Int32,
+        protected let itemGroupArea: Int32,
+        protected let itemIndexInGroup: Int32
+    ) {}
+}
+
+/**
+ * Native rect result with error code struct.
+ * Field layout must stay in sync with the C++ side (cj_frontend_ohos).
+ */
+@C
+protected struct CJListRectResult {
+    protected CJListRectResult(
+        protected let x: Float64,
+        protected let y: Float64,
+        protected let width: Float64,
+        protected let height: Float64,
+        protected let errorCode: Int32
+    ) {}
+}
+
+/**
+ * Native visible list content result with error code struct.
+ * Field layout must stay in sync with the C++ side (cj_frontend_ohos).
+ */
+@C
+protected struct CJListVisibleContentResult {
+    protected CJListVisibleContentResult(
+        protected let index: Int32,
+        protected let itemGroupArea: Int32,
+        protected let itemIndexInGroup: Int32,
+        protected let errorCode: Int32
     ) {}
 }
 
@@ -96,6 +140,8 @@ foreign {
     func FfiOHOSAceFrameworkListSetEdgeEffect(edgeEffect: Int32): Unit
 
     func FfiOHOSAceFrameworkListSetEdgeEffectWithOption(edgeEffect: Int32, options: Bool): Unit
+
+    func FfiOHOSAceFrameworkListSetEdgeEffectWithOptions(edgeEffect: Int32, alwaysEnabled: Bool, effectEdge: Int32): Unit
 
     func FfiOHOSAceFrameworkListSetChainAnimation(flag: Bool): Unit
 
@@ -170,6 +216,8 @@ foreign {
     func FfiOHOSAceFrameworkListScrollerScrollToItemInGroup(listScrollerId: Int64, index: Int32, indexInGroup: Int32,
         smooth: Bool, align: Int32): Unit
 
+    func FfiOHOSAceFrameworkListScrollerGetVisibleListContentInfo(listScrollerId: Int64, x: Float64, y: Float64): CJVisibleListContentInfo
+
     func FfiOHOSAceFrameworkListScrollerCloseAllSwipeActions(listScrollerId: Int64): Unit
 
     func FfiOHOSAceFrameworkListScrollerCloseAllSwipeActionsWithCallback(
@@ -177,11 +225,212 @@ foreign {
         onFinishCallback: Int64
     ): Unit
 
+    func FfiOHOSAceFrameworkListScrollerGetItemRectInGroupV2(listScrollerId: Int64, index: Int32, indexInGroup: Int32): CJListRectResult
+
+    func FfiOHOSAceFrameworkListScrollerScrollToItemInGroupV2(listScrollerId: Int64, index: Int32, indexInGroup: Int32,
+        smooth: Bool, align: Int32): Int32
+
+    func FfiOHOSAceFrameworkListScrollerGetVisibleListContentInfoV2(listScrollerId: Int64, x: Float64, y: Float64): CJListVisibleContentResult
+
+    func FfiOHOSAceFrameworkListScrollerCloseAllSwipeActionsV2(listScrollerId: Int64): Int32
+
+    func FfiOHOSAceFrameworkListScrollerCloseAllSwipeActionsWithCallbackV2(
+        listScrollerId: Int64,
+        onFinishCallback: Int64
+    ): Int32
+
     func FfiOHOSAceFrameworkScrollableBaseClipMode(clip: Int32): Unit
 
     func FFISetWidthWithEmpty(): Unit
 
     func FFISetHeightWithEmpty(): Unit
+}
+
+/**
+ * Enumerates the alignment modes of list items when scrolling ends.
+ */
+@Derive[Equatable]
+@!APILevel[
+    since: "26.1.0",
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public enum ScrollSnapAlign {
+    /**
+     * No alignment. This is the default value.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    None
+    |
+    /**
+     * The first item in the view is aligned at the start of the list.
+     * When the list hits the end, the items at the end must be completely displayed,
+     * and the items at the start may not be aligned.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    Start
+    |
+    /**
+     * The middle items in the view are aligned in the center of the list.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    Center
+    |
+    /**
+     * The last item in the view is aligned at the end of the list.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    End
+    | ...
+
+    protected func getValue(): Int32 {
+        match (this) {
+            case None => 0
+            case Start => 1
+            case Center => 2
+            case End => 3
+            case _ => throw BusinessException(100001, "Internal error.")
+        }
+    }
+}
+
+/**
+ * Enumerates the areas of ListItemGroup.
+ */
+@Derive[Equatable]
+@!APILevel[
+    since: "26.1.0",
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public enum ListItemGroupArea {
+    /**
+     * Area other than the ListItem, header, and footer areas in ListItemGroup.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    None
+    |
+    /**
+     * ListItem area in ListItemGroup.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    InListItemArea
+    |
+    /**
+     * Header area in ListItemGroup.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    InHeaderArea
+    |
+    /**
+     * Footer area in ListItemGroup.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    InFooterArea
+    | ...
+
+    protected func getValue(): Int32 {
+        match (this) {
+            case None => 0
+            case InListItemArea => 1
+            case InHeaderArea => 2
+            case InFooterArea => 3
+            case _ => throw BusinessException(100001, "Internal error.")
+        }
+    }
+
+    protected static func parseValue(value: Int32): ListItemGroupArea {
+        match (value) {
+            case 0 => ListItemGroupArea.None
+            case 1 => ListItemGroupArea.InListItemArea
+            case 2 => ListItemGroupArea.InHeaderArea
+            case 3 => ListItemGroupArea.InFooterArea
+            case _ => throw BusinessException(100001, "Internal error.")
+        }
+    }
+}
+
+/**
+ * Describes the details of the child components in the visible area of a list.
+ */
+@!APILevel[
+    since: "26.1.0",
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public class VisibleListContentInfo {
+    /**
+     * Index of the list item or list item group in the list display area.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var index: Int32
+
+    /**
+     * Position of the top or bottom edge of the viewport in the list item group to which the edge is located, if
+     *     applicable.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var itemGroupArea: ?ListItemGroupArea
+
+    /**
+     * Index of the starting or ending list item in the list item group to which the top or bottom edge of the viewport
+     *     is located.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public var itemIndexInGroup: ?Int32
+
+    /**
+     * VisibleListContentInfo constructor.
+     *
+     * @param { Int32 } index - Index of the list item or list item group in the list display area.
+     * @param { ?ListItemGroupArea } [itemGroupArea] - Position of the top or bottom edge of the viewport in the list
+     *     item group to which the edge is located, if applicable.
+     * @param { ?Int32 } [itemIndexInGroup] - Index of the starting or ending list item in the list item group to which
+     *     the top or bottom edge of the viewport is located.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public init(
+        index: Int32,
+        itemGroupArea!: ?ListItemGroupArea = Option<ListItemGroupArea>.None,
+        itemIndexInGroup!: ?Int32 = None
+    ) {
+        this.index = index
+        this.itemGroupArea = itemGroupArea
+        this.itemIndexInGroup = itemIndexInGroup
+    }
 }
 
 /**
@@ -611,5 +860,200 @@ public class List <: ScrollableCommonMethodComponent<List> & ListAttribute {
             FfiOHOSAceFrameworkListSetOnScrollStopCallback(lambdaData.getID())
         }
         this
+    }
+
+    /**
+     * Sets the effect used when the scroll boundary is reached.
+     *
+     * @param { ?EdgeEffect } edgeEffect - Effect used when the scroll boundary is reached. The spring and shadow
+     *     effects are supported.
+     *     Default value: EdgeEffect.Spring.
+     * @param { ?EdgeEffectOptions } options - Whether to enable the scroll effect when the component content is smaller
+     *     than the component itself. The value EdgeEffectOptions(true) means to enable the scroll effect, and
+     *     EdgeEffectOptions(false) means the opposite. Default value: EdgeEffectOptions(false).
+     * @returns { This } The instance of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public func edgeEffect(edgeEffect: ?EdgeEffect, options!: ?EdgeEffectOptions): This {
+        let tmpOptions = options ?? EdgeEffectOptions(false, effectEdge: 3)
+        unsafe {
+            FfiOHOSAceFrameworkListSetEdgeEffectWithOptions((edgeEffect ?? EdgeEffect.Spring).getValue(),
+                tmpOptions.alwaysEnabled, tmpOptions.effectEdge ?? 3)
+        }
+        this
+    }
+
+    /**
+     * Sets the scroll snap alignment effect for list items when scrolling ends.
+     * Scroll snap alignment is supported only for lists with uniform item heights; otherwise, the result may be 
+     * inaccurate. During the alignment animation, the scroll operation source type reported by the onWillScroll 
+     * event is ScrollSource.Fling.
+     *
+     * @param { ?ScrollSnapAlign } value - Alignment mode of the scroll snap position. Default value:
+     *     ScrollSnapAlign.None.
+     * @returns { This } The instance of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public func scrollSnapAlign(value: ?ScrollSnapAlign): This {
+        unsafe {
+            FfiOHOSAceFrameworkListSetScrollSnapAlign((value ?? ScrollSnapAlign.None).getValue())
+        }
+        this
+    }
+}
+
+/**
+ * Defines the scroll controller for the List component.
+ * A List component is bound to a ListScroller on a one-to-one basis.
+ * ListScroller inherits from Scroller and has all methods of Scroller.
+ */
+@!APILevel[
+    since: "26.1.0",
+    syscap: "SystemCapability.ArkUI.ArkUI.Full"
+]
+public class ListScroller <: Scroller {
+    /**
+     * ListScroller constructor.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public init() {
+        super(unsafe {
+            FfiOHOSAceFrameworkListScrollerCtor()
+        })
+    }
+
+    /**
+     * Obtains the size of a list item in a list item group and its position relative to the list.
+     *
+     * The value of index must be the index of a child component visible in the display area.
+     * The child component for which index is set must be a list item group.
+     * The value of indexInGroup must be the index of a list item in the list item group visible in the display area.
+     * When index or indexInGroup is set to an invalid value, the returned size and position are both 0.
+     *
+     * @param { Int32 } index - Index of the list item group in the list.
+     * @param { Int32 } indexInGroup - Index of the list item in the list item group.
+     * @returns { RectResult } Size of the list item in the list item group and its position relative to the list. Unit:
+     *     vp.
+     * @throws { BusinessException } 100004 - Controller not bound to a component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full",
+        throwexception: true
+    ]
+    public func getItemRectInGroup(index: Int32, indexInGroup: Int32): RectResult {
+        let params = unsafe { FfiOHOSAceFrameworkListScrollerGetItemRectInGroupV2(this.getID(), index, indexInGroup) }
+        if (params.errorCode != 0) {
+            throw BusinessException(params.errorCode, "Controller not bound to a component.")
+        }
+        return RectResult(params.x, params.y, params.width, params.height)
+    }
+
+    /**
+     * Scrolls to the specified list item in the specified list item group.
+     *
+     * If the value set for index is a negative value or greater than the maximum index of the items in the container,
+     *     the value is deemed abnormal, and no scrolling will be performed.
+     * If the value set for indexInGroup is a negative value or greater than the maximum index of the items in the list
+     *     item group, the value is deemed abnormal, and no scrolling will be performed.
+     *
+     * @param { Int32 } index - Index of the target list item group in the current container.
+     * @param { Int32 } indexInGroup - Index of the target list item in the list item group specified by index.
+     * @param { ?Bool } [smooth] - Whether the scroll animation is enabled. Default value: false. When smooth is set to
+     *     true, all passed items are loaded and counted in layout calculation. This may result in performance issues if
+     *     a large number of items are involved.
+     * @param { ?ScrollAlign } [align] - How the list item to scroll to is aligned with the container. Default value:
+     *     ScrollAlign.Start.
+     * @throws { BusinessException } 100004 - Controller not bound to a component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full",
+        throwexception: true
+    ]
+    public func scrollToItemInGroup(
+        index: Int32,
+        indexInGroup: Int32,
+        smooth!: ?Bool = None,
+        align!: ?ScrollAlign = None
+    ): Unit {
+        let errorCode = unsafe {
+            FfiOHOSAceFrameworkListScrollerScrollToItemInGroupV2(this.getID(), index, indexInGroup, smooth ?? false,
+                (align ?? ScrollAlign.Start).getValue())
+        }
+        if (errorCode != 0) {
+            throw BusinessException(errorCode, "Controller not bound to a component.")
+        }
+    }
+
+    /**
+     * Collapses all list items in the Expanded state and sets a callback.
+     *
+     * @param { ?() -> Unit } [onFinish] - The callback invoked when all list items in the Expanded state are
+     *     collapsed.
+     * @throws { BusinessException } 100004 - Controller not bound to a component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full",
+        throwexception: true
+    ]
+    public func closeAllSwipeActions(onFinish!: ?() -> Unit = None): Unit {
+        if (let Some(callback) <- onFinish) {
+            let errorCode = unsafe {
+                FfiOHOSAceFrameworkListScrollerCloseAllSwipeActionsWithCallbackV2(this.getID(),
+                    Callback0Param<Unit>(callback).getID())
+            }
+            if (errorCode != 0) {
+                throw BusinessException(errorCode, "Controller not bound to a component.")
+            }
+        } else {
+            let errorCode = unsafe { FfiOHOSAceFrameworkListScrollerCloseAllSwipeActionsV2(this.getID()) }
+            if (errorCode != 0) {
+                throw BusinessException(errorCode, "Controller not bound to a component.")
+            }
+        }
+    }
+
+    /**
+     * Obtains the index information of the child component at the specified coordinates.
+     *
+     * @param { Float64 } x - The x-coordinate. Unit: vp.
+     * @param { Float64 } y - The y-coordinate. Unit: vp.
+     * @returns { VisibleListContentInfo } The visible list content info.
+     * @throws { BusinessException } 100004 - Controller not bound to a component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full",
+        throwexception: true
+    ]
+    public func getVisibleListContentInfo(x: Float64, y: Float64): VisibleListContentInfo {
+        let native = unsafe { FfiOHOSAceFrameworkListScrollerGetVisibleListContentInfoV2(this.getID(), x, y) }
+        if (native.errorCode != 0) {
+            throw BusinessException(native.errorCode, "Controller not bound to a component.")
+        }
+        var itemGroupArea: ?ListItemGroupArea = Option<ListItemGroupArea>.None
+        if (native.itemGroupArea >= 0) {
+            itemGroupArea = ListItemGroupArea.parseValue(native.itemGroupArea)
+        }
+        var itemIndexInGroup: ?Int32 = None
+        if (native.itemIndexInGroup >= 0) {
+            itemIndexInGroup = native.itemIndexInGroup
+        }
+        return VisibleListContentInfo(
+            native.index,
+            itemGroupArea: itemGroupArea,
+            itemIndexInGroup: itemIndexInGroup
+        )
     }
 }

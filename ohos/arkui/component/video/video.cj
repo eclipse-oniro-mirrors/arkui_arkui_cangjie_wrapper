@@ -566,4 +566,24 @@ public class Video <: CommonMethodComponent<Video> & VideoAttribute {
         }
         this
     }
+
+    /**
+     * Called when the video is stopped.
+     *
+     * @param { ?() -> Unit } event - The callback invoked when the video stops.
+     * @returns { This } The instance of the component.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.ArkUI.ArkUI.Full"
+    ]
+    public func onStop(event: ?() -> Unit): This {
+        let tmpCallback = event ?? { => }
+        let wrapper = { _: CString => tmpCallback() }
+        let lambdaData = Callback1Param<CString, Unit>(wrapper)
+        unsafe {
+            FfiOHOSAceFrameworkVideoOnStop(lambdaData.getID())
+        }
+        this
+    }
 }
