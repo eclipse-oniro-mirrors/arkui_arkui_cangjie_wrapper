@@ -1,0 +1,9 @@
+{
+  "name": "testsuite_list_snapAlign",
+  "test_list": [
+    {
+      "name": "ListSnapAlignTest",
+      "timeout": 100
+    }
+  ]
+}
