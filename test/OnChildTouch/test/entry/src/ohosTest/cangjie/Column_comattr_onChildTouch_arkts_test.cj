@@ -72,7 +72,6 @@ class Column_comattr_onChildTouch_arkts_test {
         clickMyButton()
         waitStatusText("dispatchStatusText", "\"scroll=true;click=1\"")
         @Expect(readStatusText("callbackStatusText"), "\"cb=2;seen=true\"")
-        @Expect(readStatusText("touchInfoStatusText") != "\"touch=unset\"")
         Hilog.info(0u32, "CangjieTest", "testcase TestCase_arkts_example1 ends.")
     }
 

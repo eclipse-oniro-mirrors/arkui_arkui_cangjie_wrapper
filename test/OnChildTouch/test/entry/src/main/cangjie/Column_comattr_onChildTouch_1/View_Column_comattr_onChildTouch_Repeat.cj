@@ -19,6 +19,7 @@ import ohos.base.*
 import ohos.arkui.component.*
 import ohos.arkui.state_macro_manage.*
 import kit.ArkUI.*
+import ohos_app_cangjie_entry.OnChildTouchRecords
 
 @Component
 public class View_Column_comattr_onChildTouch_Repeat {
@@ -81,6 +82,7 @@ public class View_Column_comattr_onChildTouch_Repeat {
                 return TouchResult(TouchTestStrategy.Default)
             })
             .onChildTouchTest({ touchInfo: Array<TouchTestInfo> =>
+                OnChildTouchRecords.record(touchInfo)
                 this.callbackCount = this.callbackCount + 1
                 for (info in touchInfo) {
                     if (info.id == "MyList") {

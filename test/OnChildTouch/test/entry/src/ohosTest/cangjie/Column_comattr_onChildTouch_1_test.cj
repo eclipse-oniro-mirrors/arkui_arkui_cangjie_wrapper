@@ -105,16 +105,26 @@ func waitStatusText(id: String, expected: String): Unit {
 // Drag upward inside the blank area below MyList (between List bottom and Button top margin gap).
 // speed 2000 keeps the 600px gesture at ~300ms; the dispatch decision is made at touch-down,
 // so gesture speed does not affect the strategy under test.
-func dragBlankAreaBelowMyList(): Unit {
+// Returns the touch-down point in ui_test screen px, i.e. the point onChildTouchTest sees.
+func dragBlankAreaBelowMyList(): (Int32, Int32) {
     let listRect = TestDriver.driver.findComponent(On().id("MyList")).getOrThrow().getBounds()
     let buttonRect = TestDriver.driver.findComponent(On().id("MyButton")).getOrThrow().getBounds()
     let gapY = (listRect.bottom + buttonRect.top) / 2
     let centerX = (listRect.left + listRect.right) / 2
     TestDriver.driver.drag(centerX, gapY, centerX, gapY - 600, speed: 2000)
+    return (centerX, gapY)
 }
 
-func clickMyButton(): Unit {
-    TestDriver.driver.findComponent(On().id("MyButton")).getOrThrow().click()
+// Clicks the center of MyButton through explicit coordinates so the injected point is known.
+// Returns the click point in ui_test screen px. Per-property value assertions on the
+// onChildTouchTest event data live in Column_comattr_onChildTouch_value_test.cj (captured
+// via the OnChildTouchRecords direct-capture buffer).
+func clickMyButton(): (Int32, Int32) {
+    let buttonRect = TestDriver.driver.findComponent(On().id("MyButton")).getOrThrow().getBounds()
+    let centerX = (buttonRect.left + buttonRect.right) / 2
+    let centerY = (buttonRect.top + buttonRect.bottom) / 2
+    TestDriver.driver.click(centerX, centerY)
+    return (centerX, centerY)
 }
 
 // Grace window before a negative assertion (state should NOT change): covers the touch-up
@@ -155,7 +165,6 @@ class Column_comattr_onChildTouch_1_test {
         clickMyButton()
         waitStatusText("dispatchStatusText", "\"scroll=false;click=1\"")
         @Expect(readStatusText("callbackStatusText"), "\"cb=2;seen=true\"")
-        @Expect(readStatusText("touchInfoStatusText") != "\"touch=unset\"")
         @Expect(TouchTestStrategy.Default == TouchTestStrategy.Default)
         @Expect(TouchTestStrategy.Default != TouchTestStrategy.Forward)
         Hilog.info(0u32, "CangjieTest", "testcase TestCase_Default ends.")
@@ -190,7 +199,6 @@ class Column_comattr_onChildTouch_1_test {
         clickMyButton()
         waitStatusText("dispatchStatusText", "\"scroll=true;click=1\"")
         @Expect(readStatusText("callbackStatusText"), "\"cb=2;seen=true\"")
-        @Expect(readStatusText("touchInfoStatusText") != "\"touch=unset\"")
         Hilog.info(0u32, "CangjieTest", "testcase TestCase_ForwardCompetition ends.")
     }
 
@@ -224,7 +232,6 @@ class Column_comattr_onChildTouch_1_test {
         waitStatusText("callbackStatusText", "\"cb=2;seen=true\"")
         graceForNegativeAssert()
         @Expect(readStatusText("dispatchStatusText"), "\"scroll=true;click=0\"")
-        @Expect(readStatusText("touchInfoStatusText") != "\"touch=unset\"")
         Hilog.info(0u32, "CangjieTest", "testcase TestCase_Forward ends.")
     }
 

@@ -28,4 +28,5 @@ func testsuite() {
     registerTestSuite {OnChildTouch_AllComponents_6_test()}
     registerTestSuite {Column_comattr_onChildTouch_1_test()}
     registerTestSuite {Column_comattr_onChildTouch_arkts_test()}
+    registerTestSuite {Column_comattr_onChildTouch_value_test()}
 }

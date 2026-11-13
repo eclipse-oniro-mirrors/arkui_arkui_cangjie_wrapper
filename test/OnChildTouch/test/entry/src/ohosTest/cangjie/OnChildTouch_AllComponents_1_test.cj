@@ -62,10 +62,15 @@ class OnChildTouch_AllComponents_1_test {
         @Expect(Screen.findTheOnlyUiComponentWhoseIdEqualsTo("Button_comattr_id").isSome(), true)
         @Expect(readStatusText("touchInfoStatusText"), "\"touch=unset\"")
         OnChildTouchCount.reset()
+        OnChildTouchRecords.reset()
         TestDriver.driver.findComponent(On().id("Button_comattr_id")).getOrThrow().click()
         waitFor(2.second, { => OnChildTouchCount.count == 1 })
         sleepFor(300.milliSecond)
         @Expect(OnChildTouchCount.count, 1)
+        // event content: one invocation; the Button has no id'd direct child, so the
+        // TouchTestInfo array is empty (verified via the direct-capture buffer)
+        @Expect(OnChildTouchRecords.invocations.size, 1)
+        @Expect(OnChildTouchRecords.entriesOf(0).size, 0)
         Hilog.info(0u32, "CangjieTest", "testcase TestCase_Button ends.")
     }
     /*
@@ -91,10 +96,15 @@ class OnChildTouch_AllComponents_1_test {
         @Expect(Screen.findTheOnlyUiComponentWhoseIdEqualsTo("Text_comattr_id").isSome(), true)
         @Expect(readStatusText("touchInfoStatusText"), "\"touch=unset\"")
         OnChildTouchCount.reset()
+        OnChildTouchRecords.reset()
         TestDriver.driver.findComponent(On().id("Text_comattr_id")).getOrThrow().click()
         waitFor(2.second, { => OnChildTouchCount.count == 1 })
         sleepFor(300.milliSecond)
         @Expect(OnChildTouchCount.count, 1)
+        // event content: one invocation; the Text has no id'd direct child, so the
+        // TouchTestInfo array is empty (verified via the direct-capture buffer)
+        @Expect(OnChildTouchRecords.invocations.size, 1)
+        @Expect(OnChildTouchRecords.entriesOf(0).size, 0)
         Hilog.info(0u32, "CangjieTest", "testcase TestCase_Text ends.")
     }
     /*

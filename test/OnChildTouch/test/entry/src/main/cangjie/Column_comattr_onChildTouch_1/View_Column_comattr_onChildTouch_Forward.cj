@@ -19,6 +19,7 @@ import ohos.base.*
 import ohos.arkui.component.*
 import ohos.arkui.state_macro_manage.*
 import kit.ArkUI.*
+import ohos_app_cangjie_entry.OnChildTouchRecords
 
 @Component
 public class View_Column_comattr_onChildTouch_Forward {
@@ -83,9 +84,10 @@ public class View_Column_comattr_onChildTouch_Forward {
             .width(100.percent)
             .height(100.percent)
             .onChildTouchTest({ touchInfo: Array<TouchTestInfo> =>
+                OnChildTouchRecords.record(touchInfo)
                 this.callbackCount = this.callbackCount + 1
+                this.touchInfoText = "n=${touchInfo.size.toString()}"
                 for (info in touchInfo) {
-                    this.touchInfoText = "x=${info.x.toString()};y=${info.y.toString()};parent=${info.parentX.toString()},${info.parentY.toString()};window=${info.windowX.toString()},${info.windowY.toString()};rect=${info.rect.x.toString()},${info.rect.y.toString()},${info.rect.width.toString()},${info.rect.height.toString()}"
                     if (info.id == "MyList") {
                         this.seenMyList = true
                         return TouchResult(TouchTestStrategy.Forward, id: "MyList")
