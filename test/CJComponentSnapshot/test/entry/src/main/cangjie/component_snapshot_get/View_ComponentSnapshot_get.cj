@@ -758,22 +758,24 @@ public class View_ComponentSnapshot_get_16 {
 @Component
 public class View_ComponentSnapshot_get_17 {
     @State var pixelMap: ?PixelMap = Option<PixelMap>.None
+    @State var width: Length = 0
+    @State var height: Length = 0
 
     func build() {
         Column(space: 10) {
             Row() {
                 Column {
                     if (pixelMap.isSome()) {
-                        Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
+                        Image(this.pixelMap).width(this.width).height(this.height).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(455.px).height(455.px).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
+                }.width(525.px).height(525.px).border(color: Color.Black, width: 7.px).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120.vp)
-                  .height(30.vp)
+                  .width(420.px)
+                  .height(105.px)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -786,14 +788,16 @@ public class View_ComponentSnapshot_get_17 {
                             setSnapResultState(err, pixelMap)
                             if (err.isNone() && pixelMap.isSome()) {
                                 this.pixelMap = pixelMap.getOrThrow()
+                                this.width = Int64(this.pixelMap.getOrThrow().getImageInfo().size.width).px
+                                this.height = Int64(this.pixelMap.getOrThrow().getImageInfo().size.height).px
                             }
                         },
                         options: SnapshotOptions(
                             region: SnapshotRegion(
-                                left: this.getUIContext().vp2px(0.0).getOrThrow().value,
-                                right: this.getUIContext().vp2px(120.0).getOrThrow().value,
-                                top: this.getUIContext().vp2px(0.0).getOrThrow().value,
-                                bottom: this.getUIContext().vp2px(30.0).getOrThrow().value)
+                                left: 0.0,
+                                right: 420.0,
+                                top: 0.0,
+                                bottom: 105.0)
                         )
                     )
             })
@@ -950,22 +954,24 @@ public class View_ComponentSnapshot_get_20 {
 @Component
 public class View_ComponentSnapshot_get_21 {
     @State var pixelMap: ?PixelMap = Option<PixelMap>.None
+    @State var width: Length = 0
+    @State var height: Length = 0
 
     func build() {
         Column(space: 10) {
             Row() {
                 Column {
                     if (pixelMap.isSome()) {
-                        Image(this.pixelMap).fitOriginalSize(true).margin(5).id("Image_id")
+                        Image(this.pixelMap).width(this.width).height(this.height).margin(5).id("Image_id")
                     } else {
-                        Image(Option<ResourceStr>.None).width(130.vp).height(130.vp).backgroundColor(Color.Gray).margin(5).id("Image_id")
+                        Image(Option<ResourceStr>.None).width(455.px).height(455.px).backgroundColor(Color.Gray).margin(5).id("Image_id")
                     }
-                }.width(150.vp).height(150.vp).border(color: Color.Black, width: 2.vp).justifyContent(FlexAlign.Center)
+                }.width(525.px).height(525.px).border(color: Color.Black, width: 7.px).justifyContent(FlexAlign.Center)
 
                 Text("snapshot target")
                   .backgroundColor(Color.Green)
-                  .width(120.vp)
-                  .height(30.vp)
+                  .width(420.px)
+                  .height(105.px)
                   .margin(5)
                   .id('Snapshot_target_id')
             }
@@ -978,14 +984,16 @@ public class View_ComponentSnapshot_get_21 {
                             setSnapResultState(err, pixelMap)
                             if (err.isNone() && pixelMap.isSome()) {
                                 this.pixelMap = pixelMap.getOrThrow()
+                                this.width = Int64(this.pixelMap.getOrThrow().getImageInfo().size.width).px
+                                this.height = Int64(this.pixelMap.getOrThrow().getImageInfo().size.height).px
                             }
                         },
                         options: SnapshotOptions(
                             region: LocalizedSnapshotRegion(
-                                start: this.getUIContext().vp2px(0.0).getOrThrow().value,
-                                end: this.getUIContext().vp2px(120.0).getOrThrow().value,
-                                top: this.getUIContext().vp2px(0.0).getOrThrow().value,
-                                bottom: this.getUIContext().vp2px(30.0).getOrThrow().value)
+                                start: 0.0,
+                                end: 420.0,
+                                top: 0.0,
+                                bottom: 105.0)
                         )
                     )
             })
