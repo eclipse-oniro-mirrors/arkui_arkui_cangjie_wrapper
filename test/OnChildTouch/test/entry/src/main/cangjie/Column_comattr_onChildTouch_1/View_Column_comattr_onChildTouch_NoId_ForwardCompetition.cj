@@ -19,6 +19,7 @@ import ohos.base.*
 import ohos.arkui.component.*
 import ohos.arkui.state_macro_manage.*
 import kit.ArkUI.*
+import ohos_app_cangjie_entry.OnChildTouchRecords
 
 @Component
 public class View_Column_comattr_onChildTouch_NoId_ForwardCompetition {
@@ -78,6 +79,7 @@ public class View_Column_comattr_onChildTouch_NoId_ForwardCompetition {
             .width(100.percent)
             .height(100.percent)
             .onChildTouchTest({ touchInfo: Array<TouchTestInfo> =>
+                OnChildTouchRecords.record(touchInfo)
                 this.callbackCount = this.callbackCount + 1
                 for (info in touchInfo) {
                     if (info.id == "MyList") {

@@ -19,6 +19,7 @@ import ohos.base.*
 import ohos.arkui.component.*
 import ohos.arkui.state_macro_manage.*
 import kit.ArkUI.*
+import ohos_app_cangjie_entry.OnChildTouchRecords
 
 @Component
 public class View_OnChildTouch_Button {
@@ -34,9 +35,8 @@ public class View_OnChildTouch_Button {
                 .id("Button_comattr_id")
                 .onChildTouchTest({ touchInfo: Array<TouchTestInfo> =>
                     OnChildTouchCount.inc()
-                    for (info in touchInfo) {
-                        this.touchInfoText = "x=${info.x.toString()};y=${info.y.toString()};parent=${info.parentX.toString()},${info.parentY.toString()};window=${info.windowX.toString()},${info.windowY.toString()};rect=${info.rect.x.toString()},${info.rect.y.toString()},${info.rect.width.toString()},${info.rect.height.toString()}"
-                    }
+                    OnChildTouchRecords.record(touchInfo)
+                    this.touchInfoText = "n=${touchInfo.size.toString()}"
                     return TouchResult(TouchTestStrategy.Default)
                 })
         }.width(100.percent).height(100.percent)

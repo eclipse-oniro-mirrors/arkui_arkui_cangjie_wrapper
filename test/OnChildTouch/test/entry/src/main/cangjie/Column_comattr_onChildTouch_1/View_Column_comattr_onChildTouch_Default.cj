@@ -19,6 +19,7 @@ import ohos.base.*
 import ohos.arkui.component.*
 import ohos.arkui.state_macro_manage.*
 import kit.ArkUI.*
+import ohos_app_cangjie_entry.OnChildTouchRecords
 
 @Component
 public class View_Column_comattr_onChildTouch_Default {
@@ -35,15 +36,21 @@ public class View_Column_comattr_onChildTouch_Default {
 
     func build() {
         Column {
+            // Fixed-width status texts keep the layout identical before/after the state
+            // updates land, so the bounds measured by ui_test always match the geometry
+            // captured inside onChildTouchTest (value tests compare the two).
             Text("cb=${this.callbackCount.toString()};seen=${this.seenMyList.toString()}")
                 .id("callbackStatusText")
                 .fontSize(20.vp)
+                .width(100.percent)
             Text("scroll=${this.listScrolled.toString()};click=${this.buttonClickCount.toString()}")
                 .id("dispatchStatusText")
                 .fontSize(20.vp)
+                .width(100.percent)
             Text("touch=${this.touchInfoText}")
                 .id("touchInfoStatusText")
                 .fontSize(20.vp)
+                .width(100.percent)
             List {
                 ListItem { Text("Item 0").fontSize(20.vp) }.height(56.vp)
                 ListItem { Text("Item 1").fontSize(20.vp) }.height(56.vp)
@@ -83,13 +90,14 @@ public class View_Column_comattr_onChildTouch_Default {
             .width(100.percent)
             .height(100.percent)
             .onChildTouchTest({ touchInfo: Array<TouchTestInfo> =>
+                OnChildTouchRecords.record(touchInfo)
                 this.callbackCount = this.callbackCount + 1
                 for (info in touchInfo) {
                     if (info.id == "MyList") {
                         this.seenMyList = true
                     }
-                    this.touchInfoText = "x=${info.x.toString()};y=${info.y.toString()};parent=${info.parentX.toString()},${info.parentY.toString()};window=${info.windowX.toString()},${info.windowY.toString()};rect=${info.rect.x.toString()},${info.rect.y.toString()},${info.rect.width.toString()},${info.rect.height.toString()}"
                 }
+                this.touchInfoText = "n=${touchInfo.size.toString()}"
                 return TouchResult(TouchTestStrategy.Default)
             })
     }
