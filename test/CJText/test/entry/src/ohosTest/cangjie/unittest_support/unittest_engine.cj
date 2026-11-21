@@ -100,10 +100,10 @@ public class OpenHarmonyTestRunner <: TestRunner {
 
         testSuite
             .runTests()
-            .reportTo(XmlReporter(Path("/data/storage/el2/base")))
+            .reportTo(XmlReporter(Path("/data/storage/el1/base")))
 
         let testReportXmlFileName = "test-default.${testClassName}.xml"
-        match (Directory.readFrom("/data/storage/el2/base/tests") |>
+        match (Directory.readFrom("/data/storage/el1/base/tests") |>
             filter {fileInfo => fileInfo.name == testReportXmlFileName} |> first) {
             case None => Hilog.error(1, "Cangjie-Test", "${testReportXmlFileName} not found.")
             case Some(testReportXmlFileInfo) =>
@@ -139,10 +139,10 @@ public class OpenHarmonyTestRunner <: TestRunner {
         configuration.setByName("filter", "${testClassName}.${testCaseName}")
         testSuite
             .runTests(configuration)
-            .reportTo(XmlReporter(Path("/data/storage/el2/base")))
+            .reportTo(XmlReporter(Path("/data/storage/el1/base")))
 
         let testReportXmlFileName = "test-default.${testClassName}.xml"
-        match (Directory.readFrom("/data/storage/el2/base/tests") |>
+        match (Directory.readFrom("/data/storage/el1/base/tests") |>
             filter {fileInfo => fileInfo.name == testReportXmlFileName} |> first) {
             case None => Hilog.error(1, "Cangjie-Test", "${testReportXmlFileName} not found.")
             case Some(testReportXmlFileInfo) =>
@@ -183,7 +183,7 @@ public class OpenHarmonyTestRunner <: TestRunner {
         let abilityDelegator = AbilityDelegatorRegistry.getAbilityDelegator()
         let abilityDelegatorArguments = AbilityDelegatorRegistry.getArguments()
         let bundleName = abilityDelegatorArguments.bundleName
-        abilityDelegator.print("REPORT_TEST_RESULT: /data/app/el2/100/base/${bundleName}/tests/${testReportName}")
+        abilityDelegator.print("REPORT_TEST_RESULT: /data/app/el1/100/base/${bundleName}/tests/${testReportName}")
     }
     public override func onPrepare(): Unit {
         Hilog.info(0, "Cangjie-Test", "OpenHarmonyTestRunner onPrepare")
@@ -272,8 +272,8 @@ public class OpenHarmonyTestRunner <: TestRunner {
             } catch (e: Exception) {
                 Hilog.error(1, "Cangjie-Test", "an exception occurred:\n${getDetailedInfoOf(e)}")
             }
-            setVariable("GCOV_PREFIX", "/data/storage/el2/base/cov")
-            gcov_dump("/data/app/el2/100/base/${bundleName}/cov/")
+            setVariable("GCOV_PREFIX", "/data/storage/el1/base/cov")
+            gcov_dump("/data/app/el1/100/base/${bundleName}/cov/")
 
             abilityDelegator.finishTest("Test finished.", 0)
         }

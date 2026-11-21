@@ -60,6 +60,16 @@ import std.io.ByteBuffer
 import stdx.encoding.json.stream.JsonWriter
 import std.collection.filterMap
 
+foreign func __gcov_dump(): Unit
+
+public func gcov_dump(coveragePath: String): Unit {
+    Hilog.info(1,"1", "execute test with coverage")
+    Process
+        .current
+        .setEnv("GCOV_PREFIX", coveragePath)
+    unsafe { __gcov_dump() }
+}
+
 public func registerTestSuite(_: String, testClassInstanceGenerator: () -> TestClass): Unit {
     OpenHarmonyTestRunner.testClassInstanceGenerators.add(testClassInstanceGenerator)
 }
@@ -300,7 +310,7 @@ public class OpenHarmonyTestRunner <: TestRunner {
                 } catch (e: Exception) {
                     Hilog.info(1, "Cangjie-Test", "an exception occurred:\n${getDetailedInfoOf(e)}")
                 }
-                // gcov_dump("/data/storage/el1/base/cov")
+                gcov_dump("/data/storage/el1/base/cov")
                 abilityDelegator.finishTest("Test finished.", 0)
             }
         } catch (e: Exception) {

@@ -91,194 +91,6 @@ public class OpenHarmonyTestRunner <: TestRunner {
         sb.toString()
     }
 
-    private func readXmlFileLineByLine(testClassName: String, abilityDelegator: AbilityDelegator): Unit {
-        let testReportXmlFileName = "test-default.${testClassName}.xml"
-        match (Directory.readFrom("/data/storage/el1/base/tests") |>
-            filter {fileInfo => fileInfo.name == testReportXmlFileName} |> first) {
-            case None =>
-                Hilog.error(1, "Cangjie-Test", "${testReportXmlFileName} not found.")
-                return
-            case Some(testReportXmlFileInfo) =>
-                let testReportXmlFilePath = testReportXmlFileInfo.path
-                let testReportXmlFileContent = File.readFrom(testReportXmlFilePath)
-                let xmlString = removeSkippedTestcases(String.fromUtf8(testReportXmlFileContent))
-                let lines = xmlString.split("\n", removeEmpty: true)
-                var lineIndex = 0
-                let tempArray = ArrayList<String>()
-                for (line in lines) {
-                    let trimmedLine = line.trimAscii()
-                    if (trimmedLine.isEmpty()) {
-                        continue
-                    }
-                    tempArray.add(line)
-                    lineIndex++
-                    if (tempArray.size == 20) {
-                        let output = OpenHarmonyTestRunner.joinStrings(tempArray, "\n")
-                        abilityDelegator.print(output)
-                        tempArray.clear()
-                    }
-                }
-                if (tempArray.size > 0) {
-                    let output = OpenHarmonyTestRunner.joinStrings(tempArray, "\n")
-                    abilityDelegator.print(output)
-                }
-                Hilog.info(0, "Cangjie-Test", "Total lines read: ${lineIndex}")
-        }
-    }
-
-    private func removeSkippedTestcases(xml: String): String {
-        func isIndentChar(b: Byte): Bool {
-            return b == 32 || b == 9
-        }
-
-        func lineStart(pos: Int64): Int64 {
-            var i = pos
-            while (i > 0 && xml[i - 1] != 10 && xml[i - 1] != 13) {
-                i--
-            }
-            return i
-        }
-
-        func canRemoveIndent(from: Int64, to: Int64): Bool {
-            var i = from
-            while (i < to) {
-                if (!isIndentChar(xml[i])) {
-                    return false
-                }
-                i++
-            }
-            return true
-        }
-
-        func nextLine(pos: Int64): Int64 {
-            if (pos < xml.size && xml[pos] == 13) {
-                return if (pos + 1 < xml.size && xml[pos + 1] == 10) {
-                    pos + 2
-                } else {
-                    pos + 1
-                }
-            }
-            return if (pos < xml.size && xml[pos] == 10) {
-                pos + 1
-            } else {
-                pos
-            }
-        }
-
-        func decreaseAttr(tag: String, name: String, count: Int64): String {
-            let key = name + "=\""
-            if (let None <- tag.indexOf(key)) {
-                return tag
-            }
-
-            let valueStart = tag
-                .indexOf(key)
-                .getOrThrow() + key.size
-            let valueEnd = tag
-                .indexOf("\"", valueStart)
-                .getOrThrow()
-            let oldValue = Int64.parse(tag[valueStart..valueEnd])
-            let newValue = if (oldValue > count) {
-                oldValue - count
-            } else {
-                0
-            }
-
-            return tag[0..valueStart] + "${newValue}" + tag[valueEnd..tag.size]
-        }
-
-        func updateTestsuiteAttrs(source: String, count: Int64): String {
-            if (count == 0) {
-                return source
-            }
-
-            let startOpt = source.indexOf("<testsuite")
-            if (let None <- startOpt) {
-                return source
-            }
-
-            let start = startOpt.getOrThrow()
-            let end = source
-                .indexOf(">", start)
-                .getOrThrow()
-            var tag = source[start..(end + 1)]
-
-            tag = decreaseAttr(tag, "tests", count)
-            tag = decreaseAttr(tag, "skipped", count)
-
-            return source[0..start] + tag + source[(end + 1)..source.size]
-        }
-
-        func formatXml(source: String): String {
-            let out = StringBuilder()
-            var depth: Int64 = 0
-
-            for (raw in source.lines()) {
-                let line = raw.trimAscii()
-                if (line.isEmpty()) {
-                    continue
-                }
-
-                if (line.startsWith("</")) {
-                    depth--
-                }
-                if (depth < 0) {
-                    depth = 0
-                }
-
-                out.append("    " * depth)
-                out.append(line)
-                out.append("\n")
-
-                if (line.startsWith("<") && !line.startsWith("</") && !line.startsWith("<?") && !line.startsWith("<!") &&
-                    !line.endsWith("/>") && !line.contains("</")) {
-                    depth++
-                }
-            }
-
-            return out.toString()
-        }
-
-        let out = StringBuilder()
-        var pos: Int64 = 0
-        var removed: Int64 = 0
-
-        while (true) {
-            let startOpt = xml.indexOf("<testcase", pos)
-            if (let None <- startOpt) {
-                out.append(xml[pos..xml.size])
-                break
-            }
-
-            let start = startOpt.getOrThrow()
-            let endOpt = xml.indexOf("</testcase>", start)
-            if (let None <- endOpt) {
-                out.append(xml[pos..xml.size])
-                break
-            }
-
-            let end = endOpt.getOrThrow() + "</testcase>".size
-            let testcase = xml[start..end]
-
-            if (testcase.contains("<skipped")) {
-                let lineStartPos = lineStart(start)
-                let removeStart = if (canRemoveIndent(lineStartPos, start)) {
-                    lineStartPos
-                } else {
-                    start
-                }
-
-                out.append(xml[pos..removeStart])
-                pos = nextLine(end)
-                removed++
-            } else {
-                out.append(xml[pos..end])
-                pos = end
-            }
-        }
-        return formatXml(updateTestsuiteAttrs(out.toString(), removed))
-    }
-
     private func executeTestClass(testClassName: String): Unit {
         let abilityDelegator = AbilityDelegatorRegistry.getAbilityDelegator()
         Hilog.info(0, "Cangjie-Test", "EXECUTE_CLASS_START: \"${testClassName}\"")
@@ -293,12 +105,23 @@ public class OpenHarmonyTestRunner <: TestRunner {
         testSuite
             .runTests(configuration)
             .reportTo(XmlReporter(Path("/data/storage/el1/base")))
-        readXmlFileLineByLine(testClassName, abilityDelegator)
 
-        Hilog.info(0, "Cangjie-Test", "EXECUTE_CLASS_END: \"${testClassName}\"")
-        abilityDelegator.print("EXECUTE_CLASS_END: \"${testClassName}\"")
+        let testReportXmlFileName = "test-default.${testClassName}.xml"
+        match (Directory.readFrom("/data/storage/el1/base/tests") |>
+            filter {fileInfo => fileInfo.name == testReportXmlFileName} |> first) {
+            case None => Hilog.error(1, "Cangjie-Test", "${testReportXmlFileName} not found.")
+            case Some(testReportXmlFileInfo) =>
+                let testReportXmlFilePath = testReportXmlFileInfo.path
+                let testReportXmlFileContent = File.readFrom(testReportXmlFilePath)
+                let xmlReport = String.fromUtf8(testReportXmlFileContent)
+                reportTestReport("test-default.${testClassName}.xml")
+                Hilog.info(0, "Cangjie-Test", "XML_REPORT_CONTENT_LENGTH: ${xmlReport.size}")
+                abilityDelegator.print("XML_REPORT_CONTENT_LENGTH: ${xmlReport.size}")
+                splitPrint(xmlReport, abilityDelegator)
+                Hilog.info(0, "Cangjie-Test", "EXECUTE_CLASS_END: \"${testClassName}\"")
+                abilityDelegator.print("EXECUTE_CLASS_END: \"${testClassName}\"")
+        }
     }
-
     private func executeAllTestClasses(): Unit {
         for (testClassName in OpenHarmonyTestRunner
                 .testSuiteMap
@@ -321,12 +144,43 @@ public class OpenHarmonyTestRunner <: TestRunner {
         testSuite
             .runTests(configuration)
             .reportTo(XmlReporter(Path("/data/storage/el1/base")))
-        readXmlFileLineByLine(testClassName, abilityDelegator)
 
-        Hilog.info(0, "Cangjie-Test", "EXECUTE_METHOD_END: \"${testClassName}#${testCaseName}\"")
-        abilityDelegator.print("EXECUTE_CLASS_END: \"${testClassName}\"")
+        let testReportXmlFileName = "test-default.${testClassName}.xml"
+        match (Directory.readFrom("/data/storage/el1/base/tests") |>
+            filter {fileInfo => fileInfo.name == testReportXmlFileName} |> first) {
+            case None => Hilog.error(1, "Cangjie-Test", "${testReportXmlFileName} not found.")
+            case Some(testReportXmlFileInfo) =>
+                let testReportXmlFilePath = testReportXmlFileInfo.path
+                let testReportXmlFileContent = File.readFrom(testReportXmlFilePath)
+                let xmlReport = String.fromUtf8(testReportXmlFileContent)
+                reportTestReport("test-default.${testClassName}.xml")
+                Hilog.info(0, "Cangjie-Test", "XML_REPORT_CONTENT_LENGTH: ${xmlReport.size}")
+                abilityDelegator.print("XML_REPORT_CONTENT_LENGTH: ${xmlReport.size}")
+                splitPrint(xmlReport, abilityDelegator)
+                Hilog.info(0, "Cangjie-Test", "EXECUTE_METHOD_END: \"${testClassName}#${testCaseName}\"")
+                abilityDelegator.print("EXECUTE_CLASS_END: \"${testClassName}\"")
+        }
     }
-
+    private func splitPrint(xmlReport: String, abilityDelegator: AbilityDelegator): Unit {
+        let lines = xmlReport.split("\n", removeEmpty: true)
+        let tempArray = ArrayList<String>()
+        for (line in lines) {
+            let trimmedLine = line.trimAscii()
+            if (trimmedLine.isEmpty()) {
+                continue
+            }
+            tempArray.add(line)
+            if (tempArray.size == 10) {
+                let output = OpenHarmonyTestRunner.joinStrings(tempArray, "\n")
+                abilityDelegator.print(output)
+                tempArray.clear()
+            }
+        }
+        if (tempArray.size > 0) {
+            let output = OpenHarmonyTestRunner.joinStrings(tempArray, "\n")
+            abilityDelegator.print(output)
+        }
+    }
     private func reportTestReport(testReportName: String): Unit {
         let abilityDelegator = AbilityDelegatorRegistry.getAbilityDelegator()
         let abilityDelegatorArguments = AbilityDelegatorRegistry.getArguments()
